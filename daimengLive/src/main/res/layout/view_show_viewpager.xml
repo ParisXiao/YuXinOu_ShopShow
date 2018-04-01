@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="wrap_content"
+
+    android:layout_height="wrap_content"
+    >
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="260dp">
+
+        <RelativeLayout
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="20dp"
+            android:id="@+id/iv_show_send_gift_lian"
+            android:background="@drawable/background_show_send_gift"
+            android:layout_height="wrap_content"
+            >
+            <LinearLayout
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <com.liren.live.widget.BlackTextView
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_10"
+                    android:text="@string/liansendgift"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <com.liren.live.widget.BlackTextView
+                    android:layout_gravity="center"
+                    android:id="@+id/tv_show_gift_outtime"
+                    android:textColor="@color/white"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <android.support.v4.view.ViewPager
+                android:background="@drawable/bg_gift"
+                android:id="@+id/vp_gift_page"
+                android:layout_height="200dp"
+                android:layout_width="wrap_content">
+
+            </android.support.v4.view.ViewPager>
+            <View
+                android:background="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="1px"/>
+
+            <RelativeLayout
+                android:background="#90000000"
+                android:id="@+id/rl_show_gift_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="60dp">
+                <LinearLayout
+                    android:layout_marginLeft="20dp"
+                    android:layout_centerVertical="true"
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <com.liren.live.widget.BlackTextView
+                        android:textSize="@dimen/text_size_15"
+                        android:textColor="@color/global"
+                        android:text="充值:"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <com.liren.live.widget.BlackTextView
+                        android:id="@+id/tv_show_select_user_coin"
+                        android:text="0"
+                        android:textColor="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <ImageView
+                        android:layout_marginLeft="5dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/me_myaccount_reddiamond"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp" />
+                    <ImageView
+
+                        android:layout_marginLeft="5dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/me_go"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <Button
+                    android:layout_centerVertical="true"
+                    android:id="@+id/btn_show_send_gift"
+                    android:textColor="@color/white"
+                    android:text="@string/sendgift"
+                    android:background="@drawable/bg_send_gift2"
+                    android:layout_alignParentRight="true"
+                    android:layout_width="80dp"
+                    android:layout_height="30dp" />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</RelativeLayout>

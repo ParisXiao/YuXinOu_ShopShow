@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rl_live_root">
+
+    <com.liren.live.widget.VideoSurfaceView
+        android:id="@+id/video_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/view_live_content">
+
+        <!--加载背景图-->
+        <com.liren.live.widget.LoadUrlImageView
+            android:scaleType="centerCrop"
+            android:id="@+id/iv_live_look_loading_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+            <!--content-->
+            <include layout="@layout/view_live_content"/>
+
+        <!--底部菜单-->
+        <FrameLayout
+            android:layout_marginBottom="10dp"
+            android:id="@+id/fl_bottom_menu"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:id="@+id/ll_bottom_menu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/iv_live_chat"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/btn_show_live_chat"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp" />
+
+                <LinearLayout
+                    android:layout_marginRight="10dp"
+                    android:layout_alignParentRight="true"
+                    android:orientation="vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/iv_live_direction"
+                        android:src="@drawable/live_icon_flip_normal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    <RelativeLayout
+                        android:layout_width="40dp"
+                        android:layout_height="wrap_content">
+                        <ImageView
+                            android:visibility="gone"
+                            android:id="@+id/iv_live_new_message"
+                            android:layout_alignParentRight="true"
+                            android:background="@drawable/icon_new"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                        <ImageView
+                            android:visibility="gone"
+                            android:id="@+id/iv_live_privatechat"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/btn_show_live_message"/>
+                    </RelativeLayout>
+                    <ImageView
+                        android:visibility="gone"
+                        android:id="@+id/iv_live_lit"
+                        android:layout_marginBottom="10dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/live_button_like"/>
+                    <ImageView
+                        android:id="@+id/iv_live_shar"
+                        android:layout_marginBottom="10dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/btn_show_live_shar"/>
+                    <ImageView
+                        android:id="@+id/iv_live_gift"
+                        android:layout_marginBottom="10dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/btn_show_live_liwu"/>
+                    <ImageView
+                        android:id="@+id/iv_live_back"
+                        android:layout_marginBottom="10dp"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/btn_show_live_back"/>
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+        </FrameLayout>
+
+
+
+        <LinearLayout
+            android:visibility="gone"
+            android:id="@+id/ll_live_chat_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:orientation="horizontal">
+
+            <com.liren.live.widget.BlackButton
+                android:visibility="gone"
+                android:layout_width="50dp"
+                android:layout_height="30dp"
+                android:id="@+id/tglbtn_danmu_setting"
+                />
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:background="@drawable/bg_live_land_edit"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="30dp"
+            android:layout_width="250dp"
+            android:layout_height="50dp">
+            <com.liren.live.widget.BlackEditText
+                android:layout_marginRight="60dp"
+                android:textColor="@color/white"
+                android:padding="5dp"
+                android:id="@+id/et_live_chat_input"
+                android:background="@null"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <TextView
+                android:id="@+id/bt_send_chat"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:text="发送"
+                android:textColor="@color/white"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <!--点赞动画-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="10dp">
+
+        <com.liren.live.ui.customviews.HeartLayout
+            android:id="@+id/heart_layout"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:focusable="true" />
+    </RelativeLayout>
+</RelativeLayout>

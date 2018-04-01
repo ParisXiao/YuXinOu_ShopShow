@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="300dp"
+    android:layout_height="150dp"
+    android:background="@drawable/dialog_background"
+    android:gravity="center"
+    android:padding="4dp"
+
+    >
+    <TextView
+        android:textSize="@dimen/text_size_15"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/black"
+        android:layout_gravity="center"
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_centerInParent="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/black"
+        android:id="@+id/tv_message_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+        <View
+            android:layout_height="1px"
+            android:layout_width="match_parent"
+            style="@style/h_line"/>
+        <LinearLayout
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:gravity="center"
+                android:textColor="@color/global"
+                android:id="@+id/btn_cancel"
+                android:text="@string/cancel"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"/>
+            <View
+                android:layout_width="1px"
+                style="@style/v_line"/>
+            <TextView
+                android:gravity="center"
+                android:layout_weight="1"
+                android:textColor="@color/global"
+                android:id="@+id/btn_confirm"
+                android:text="@string/determine"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"/>
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

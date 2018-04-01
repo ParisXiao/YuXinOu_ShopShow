@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_background"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal">
+
+    <com.liren.live.ui.customviews.ActivityTitle
+        android:id="@+id/view_title"
+        android:background="@color/white"
+        app:titleColor="@color/black"
+        app:titleText="@string/login"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
+
+
+    <LinearLayout
+        android:id="@+id/ll_content"
+        android:layout_marginTop="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <com.liren.live.widget.BlackEditText
+                android:inputType="number"
+                android:id="@+id/et_loginphone"
+                style="@style/edit_input_not_fill"
+                android:hint="@string/plase_input_phone_num"
+                android:layout_weight="5"
+                android:layout_width="0dp"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <com.liren.live.widget.BlackEditText
+                android:id="@+id/et_password"
+                style="@style/edit_input_not_fill"
+                android:hint="@string/plase_fill_in_pass"
+                android:layout_weight="5"
+                android:layout_width="0dp"
+                android:inputType="textPassword"
+                android:layout_height="match_parent" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <com.liren.live.widget.BlackButton
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/ll_content"
+        android:id="@+id/btn_dologin"
+        android:textColor="@color/white"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:background="@drawable/btn_common"
+        android:text="@string/immediate_login"
+        android:layout_width="300dp"
+        android:layout_height="40dp" />
+
+    <RelativeLayout
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/btn_dologin"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/btn_doReg"
+            android:text="@string/immediate_register"
+            android:textColor="@color/global"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="@string/find_pass"
+            android:id="@+id/tv_findPass"
+            android:textColor="@color/global"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            />
+    </RelativeLayout>
+
+    <include
+        layout="@layout/view_other_login"
+        />
+
+</RelativeLayout>

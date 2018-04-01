@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="uk.co.chrisjenx:calligraphy-2.1.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.android/build-cache/ee7ed6023164471502e27a94f7b5a38c1e569118/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/ee7ed6023164471502e27a94f7b5a38c1e569118/output/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

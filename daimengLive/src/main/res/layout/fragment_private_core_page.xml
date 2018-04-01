@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+    <!-- 导航标题栏 -->
+    <RelativeLayout
+        android:orientation="horizontal"
+        android:id="@+id/ll_title"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <TextView
+            android:textSize="@dimen/text_size_15"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:text="@string/private_chat"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/tv_ignore_message"
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            android:text="@string/ignore_read"
+            android:textColor="@color/global"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+    <View
+        android:background="@color/colorGray3"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
+
+    <ListView
+        android:id="@+id/lv_privatechat"
+        android:layout_width="match_parent"
+        android:divider="@color/transparent"
+        android:dividerHeight="1dp"
+        android:layout_height="match_parent">
+
+    </ListView>
+</LinearLayout>

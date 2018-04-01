@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+
+    >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/ll_live_game_menu"
+            android:orientation="horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <Button
+                android:visibility="gone"
+                android:textColor="@color/white"
+                android:text="@string/start_game"
+                android:background="@color/global"
+                android:id="@+id/btn_live_start_game"
+                android:layout_width="60dp"
+                android:layout_height="20dp" />
+            <Button
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/white"
+                android:text="隐藏"
+                android:background="@color/global"
+                android:id="@+id/btn_live_show_gone_game"
+                android:layout_width="60dp"
+                android:layout_height="20dp" />
+            <Button
+                android:visibility="gone"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/white"
+                android:text="@string/end"
+                android:background="@color/global"
+                android:id="@+id/btn_live_game_over"
+                android:layout_width="60dp"
+                android:layout_height="20dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:background="#50000000"
+            android:id="@+id/ll_live_game_content_view"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="170dp">
+
+            <RelativeLayout
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="120dp">
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:visibility="invisible"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:id="@+id/tv_game_count_down"
+                    android:layout_gravity="center"
+                    android:background="@mipmap/icon_bgtimepopbull"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_game_bet_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/tv_game_count_down"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rv_game_fruits"
+                        android:layout_width="190dp"
+                        android:layout_height="120dp"/>
+
+                    <ImageView
+                        android:id="@+id/iv_game_card"
+                        android:layout_centerInParent="true"
+                        android:src="@mipmap/card_bg3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+
+                </RelativeLayout>
+
+
+                <LinearLayout
+                    android:layout_toRightOf="@+id/rl_game_bet_content"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:textColor="@color/global"
+                        android:text="玩法介绍"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <ScrollView
+                        android:scrollbars="none"
+                        android:fillViewport="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:textColor="@color/white"
+                            android:text="@string/game_fruits_rule"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content" />
+                    </ScrollView>
+
+
+
+                    <android.support.v7.widget.RecyclerView
+                        android:visibility="gone"
+                        android:id="@+id/rv_game_order"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:id="@+id/ll_game_fruits_result"
+                    android:layout_centerInParent="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp">
+
+                </LinearLayout>
+
+                <TextView
+                    android:visibility="gone"
+                    android:textColor="@color/yellow"
+                    android:gravity="center"
+                    android:id="@+id/tv_game_message"
+                    android:layout_centerInParent="true"
+                    android:background="@mipmap/dt"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content" />
+            </RelativeLayout>
+
+
+            <include layout="@layout/view_game_select_bet"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</RelativeLayout>

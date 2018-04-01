@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:paddingRight="20dp"
+        android:paddingLeft="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/purple">
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:padding="3dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/iv_hot_search"
+            android:src="@drawable/search"
+             />
+        <FrameLayout
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:layout_width="270dp"
+            android:id="@+id/fl_tab_container"
+            android:layout_height="wrap_content">
+          <ImageView
+              android:visibility="gone"
+                android:id="@+id/iv_hot_select_region"
+                android:layout_marginTop="20dp"
+                android:scaleType="center"
+                android:src="@drawable/home_icn_drop_down"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+
+            <TextView
+                android:textSize="@dimen/text_size_20"
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:text="@string/app_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true">
+
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/iv_hot_private_chat"
+                android:src="@drawable/sixinchat"
+                android:layout_width="25dp"
+                android:padding="4dp"
+                android:layout_height="25dp"
+                />
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/iv_hot_new_message"
+                android:background="@drawable/icon_new"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+    <com.liren.live.widget.PagerSlidingTabStrip
+        android:background="@color/purple"
+        android:id="@+id/tabs"
+        app:pstsShouldExpand="true"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"/>
+    <View
+        android:background="@color/colorGray2"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/mviewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>

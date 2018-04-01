@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="com.ksyun.media:libksylive-arm64-2.2.7">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.android/build-cache/eefc0cb02ea7f3c67a489f1e2f4609329120d331/output/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.android/build-cache/eefc0cb02ea7f3c67a489f1e2f4609329120d331/output/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

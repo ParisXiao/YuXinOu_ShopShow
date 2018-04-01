@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@drawable/ready_live_btn_private_on" android:state_checked="true"/>
+    <item android:drawable="@drawable/ready_live_btn_private_off" android:state_checked="false"/>
+    <item android:drawable="@drawable/ready_live_btn_private_on"/>
+
+</selector>

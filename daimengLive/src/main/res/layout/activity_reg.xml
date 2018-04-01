@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_background"
+              xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.liren.live.ui.customviews.ActivityTitle
+        android:id="@+id/view_title"
+        android:background="@color/white"
+        app:titleColor="@color/black"
+        app:titleText="注册"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"/>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:inputType="number"
+                android:id="@+id/et_loginphone"
+                style="@style/edit_input_not_fill"
+                android:hint="@string/plase_input_phone_num"
+                android:layout_weight="5"
+                android:layout_width="0dp"
+                android:layout_height="40dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_logincode"
+                style="@style/edit_input_not_fill"
+                android:hint="请填写短信验证码"
+                android:layout_weight="3.2"
+                android:layout_width="0dp"
+                android:layout_height="40dp" />
+            <TextView
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:id="@+id/btn_phone_login_send_code"
+                android:textColor="@color/white"
+                android:text="发验证码"
+                android:background="@drawable/btn_common"
+                android:layout_width="100dp"
+                android:layout_height="35dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_password"
+                style="@style/edit_input_not_fill"
+                android:hint="请填写密码"
+                android:inputType="textPassword"
+                android:layout_weight="5"
+                android:layout_width="0dp"
+                android:layout_height="40dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_secondPassword"
+                style="@style/edit_input_not_fill"
+                android:hint="请再次输入密码"
+                android:inputType="textPassword"
+                android:layout_weight="5"
+                android:layout_width="0dp"
+                android:layout_height="40dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
+        style="?android:attr/borderlessButtonStyle"
+        android:id="@+id/btn_doReg"
+        android:textColor="@color/white"
+        android:layout_marginTop="20dp"
+        android:layout_gravity="center"
+        android:background="@drawable/btn_common"
+        android:text="立即注册"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        />
+
+</LinearLayout>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+            android:background="@color/main_background"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <LinearLayout
+            android:id="@+id/rootview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.liren.live.ui.customviews.ActivityTitle
+                app:canBack="false"
+                android:background="@color/graywhite"
+                app:titleColor="@color/black"
+                app:titleText="@string/me"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"/>
+            <View
+                android:background="@color/colorGray2"
+                android:layout_width="match_parent"
+                android:layout_height="1px"/>
+
+            <!--头部-->
+            <include layout="@layout/fragment_user_information_head" />
+
+            <com.liren.live.ui.customviews.LineControllerView
+                android:layout_marginTop="10dp"
+                app:canNav="true"
+                android:id="@+id/ll_contribute"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/lcv_ui_set"
+                app:name="@string/Contribute"
+                app:isBottom="true"/>
+            <View
+                android:background="@color/colorGray3"
+                android:layout_width="1px"
+                android:layout_height="match_parent"/>
+            <com.liren.live.ui.customviews.LineControllerView
+                android:layout_marginTop="10dp"
+                app:canNav="true"
+                android:id="@+id/ll_fans"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/lcv_ui_set"
+                app:name="@string/my_fans"
+                app:isBottom="true"/>
+            <View
+                android:background="@color/colorGray3"
+                android:layout_width="1px"
+                android:layout_height="match_parent"/>
+
+            <com.liren.live.ui.customviews.LineControllerView
+                app:canNav="true"
+                android:id="@+id/ll_follow"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/lcv_ui_set"
+                app:name="@string/my_follow"
+                app:isBottom="true"
+                />
+            <View
+                android:background="@color/colorGray3"
+                android:layout_width="1px"
+                android:layout_height="match_parent"/>
+
+            <com.liren.live.ui.customviews.LineControllerView
+                app:canNav="true"
+                android:id="@+id/ll_live_record"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/lcv_ui_set"
+                app:name="@string/live_record"
+                app:isBottom="true"
+                />
+            <View
+                android:layout_marginTop="10dp"
+                android:background="@color/colorGray3"
+                android:layout_width="1px"
+                android:layout_height="match_parent"/>
+
+            <com.liren.live.ui.customviews.LineControllerView
+                android:id="@+id/ll_number_id"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/lcv_ui_set"
+                app:name="@string/user_id"
+                app:isBottom="true"/>
+
+            <View
+                android:layout_marginTop="10dp"
+                android:background="@color/colorGray3"
+                android:layout_width="1px"
+                android:layout_height="match_parent"/>
+
+            <com.liren.live.ui.customviews.LineControllerView
+                app:canNav="true"
+                android:id="@+id/ll_profit"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/lcv_ui_set"
+                app:name="@string/message"
+                app:isBottom="true"/>
+
+            <View
+                android:background="@color/colorGray3"
+                android:layout_width="1px"
+                android:layout_height="match_parent"/>
+            <com.liren.live.ui.customviews.LineControllerView
+                app:canNav="true"
+                android:id="@+id/ll_diamonds"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/ll_profit"
+                app:isBottom="true"/>
+            <com.liren.live.ui.customviews.LineControllerView
+                app:canNav="true"
+                android:id="@+id/ll_vipuser"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/ll_diamonds"
+                app:name="@string/vipuser"
+                app:isBottom="true"/>
+
+            <com.liren.live.ui.customviews.LineControllerView
+                app:canNav="true"
+                android:id="@+id/ll_level"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/ll_diamonds"
+                app:name="@string/blog"
+                app:isBottom="true"/>
+            <View
+                android:background="@color/colorGray3"
+                android:layout_width="1px"
+                android:layout_height="match_parent"/>
+
+            <com.liren.live.ui.customviews.LineControllerView
+                android:layout_marginTop="10dp"
+                app:canNav="true"
+                android:id="@+id/ll_authenticate"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/lcv_ui_set"
+                app:name="@string/authenticate"
+                app:isBottom="true"/>
+
+            <com.liren.live.ui.customviews.LineControllerView
+                app:canNav="true"
+                android:id="@+id/ll_about"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/ll_authenticate"
+                app:name="关于我们"
+                app:isBottom="true"/>
+            <View
+                android:background="@color/colorGray3"
+                android:layout_width="1px"
+                android:layout_height="match_parent"/>
+            <com.liren.live.ui.customviews.LineControllerView
+                app:canNav="true"
+                android:id="@+id/ll_setting"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_below="@+id/lcv_ui_set"
+                app:name="@string/team"
+                app:isBottom="true"/>
+
+
+           <View
+               android:layout_width="match_parent"
+               android:layout_height="60dp"/>
+        </LinearLayout>
+
+</ScrollView>
