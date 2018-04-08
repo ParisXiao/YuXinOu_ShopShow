@@ -116,5 +116,7 @@ public class AppStart extends Activity {
         startActivity(intent);
         finish();
     }
-
+    /**
+     * 数据提交测试
+     */
 }
