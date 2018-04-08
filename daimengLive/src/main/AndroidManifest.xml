@@ -82,6 +82,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!-- 设计图分辨率 -->
+        <meta-data android:name="design_width" android:value="750"></meta-data>
+        <meta-data android:name="design_height" android:value="1334"></meta-data>
 
         <!-- 设置环信应用的appkey -->
         <meta-data

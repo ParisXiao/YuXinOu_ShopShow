@@ -115,6 +115,7 @@
     <orderEntry type="library" exported="" name="io.reactivex:rxandroid-1.2.1" level="project" />
     <orderEntry type="library" exported="" name="__local_jars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\daimengLive\libs\jpush-android-2.1.9.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:support-fragment-24.2.1" level="project" />
+    <orderEntry type="library" exported="" name="com.zhy:autolayout-1.4.3" level="project" />
     <orderEntry type="library" exported="" name="__local_jars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\daimengLive\libs\ShareSDK-QQ-2.7.7.jar:unspecified@jar" level="project" />
     <orderEntry type="library" exported="" name="com.android.support:recyclerview-v7-23.0.1" level="project" />
     <orderEntry type="library" exported="" name="com.ksyun.media:libksylive-armv7a-2.2.7" level="project" />
