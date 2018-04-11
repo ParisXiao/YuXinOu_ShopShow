@@ -9,6 +9,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/daimengLive" />
+            <option value="$PROJECT_DIR$/libScreenAuto" />
             <option value="$PROJECT_DIR$/libscreenstreamer" />
             <option value="$PROJECT_DIR$/live" />
           </set>

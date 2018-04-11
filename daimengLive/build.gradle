@@ -87,5 +87,4 @@ dependencies {
     compile 'com.hyphenate:hyphenate-sdk-lite:3.3.0'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.12'
     compile files('libs/alipaySingle-20170510.jar')
-    compile 'com.zhy:autolayout:1.4.3'
 }

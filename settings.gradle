@@ -1,1 +1,1 @@
-include ':daimengLive', ':live', ':libscreenstreamer'
+include ':daimengLive', ':live', ':libscreenstreamer', ':libScreenAuto'
