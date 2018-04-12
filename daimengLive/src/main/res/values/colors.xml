@@ -42,6 +42,8 @@
     <color name="list_item_background_normal">@color/white</color>
     <color name="teamlist_item_background_normal">#ffffff</color>
     <color name="list_item_background_pressed">#efefef</color>
+
+    <color name="login_text">#ef6523</color>
     
  	<color name="drawer_menu_item_background_normal">#e2e2e2</color>
     <color name="drawer_menu_item_background_pressed">#ebeceb</color>
@@ -173,4 +175,6 @@
     <color name="colorGray7">#F2F2F2</color>
 
     <color name="text_black2_color">#4C4C4C</color>
+    //登录界面
+    <color name="login_bg">#fef7ef</color>
 </resources>

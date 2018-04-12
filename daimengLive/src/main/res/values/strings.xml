@@ -215,5 +215,7 @@
     <string name="start_game">开始游戏</string>
     <string name="end">结束</string>
     <string name="charge_time">计时付费(按分钟收费)</string>
+    <string name="user_login">用户登录</string>
+    <string name="user_register">用户注册</string>
 
 </resources>

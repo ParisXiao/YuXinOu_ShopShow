@@ -27,6 +27,7 @@ android {
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
 
         buildConfigField 'String','API_SERVER_URL','"http://www.3nong.cn"'
+        multiDexEnabled true
     }
     buildTypes {
         release {
