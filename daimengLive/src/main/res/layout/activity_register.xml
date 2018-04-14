@@ -15,7 +15,7 @@
         android:background="@drawable/shape_bg"
         android:layout_height="@dimen/y888"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/y80"
+        android:layout_marginBottom="@dimen/y55"
         android:layout_centerHorizontal="true">
         <TextView
             android:id="@+id/register_titile"
