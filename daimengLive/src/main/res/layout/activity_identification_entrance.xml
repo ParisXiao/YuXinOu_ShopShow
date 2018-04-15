@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/login_bg"
+    android:layout_height="match_parent">
+    <include layout="@layout/view_title_layout"/>
+
+    <RelativeLayout
+        android:id="@+id/centrol_part"
+        android:layout_width="@dimen/x600"
+        android:background="@drawable/shape_bg"
+        android:layout_height="@dimen/y800"
+        android:layout_marginTop="@dimen/y222"
+        android:layout_centerHorizontal="true">
+        <TextView
+            android:id="@+id/alert_titile"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/y100"
+            android:textSize="@dimen/x36"
+            android:layout_centerHorizontal="true"
+            android:textColor="#f06f32"
+            android:text="亲爱的用户"
+            android:layout_height="wrap_content" />
+        <LinearLayout
+            android:id="@+id/alert_titile1"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/y60"
+            android:layout_below="@+id/alert_titile"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/x30"
+                android:layout_centerVertical="true"
+                android:textColor="#333333"
+                android:text="收到的付费礼物可领取酬劳费"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/alert_titile2"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/y30"
+            android:layout_below="@+id/alert_titile1"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/x30"
+                android:layout_centerVertical="true"
+                android:textColor="#333333"
+                android:text="为保证"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/x30"
+                android:layout_centerVertical="true"
+                android:textColor="#f06f32"
+                android:text="资金安全"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/alert_titile3"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/y30"
+            android:layout_below="@+id/alert_titile2"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/x30"
+                android:layout_centerVertical="true"
+                android:textColor="#333333"
+                android:text="开播前请通过"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/x30"
+                android:layout_centerVertical="true"
+                android:textColor="#f06f32"
+                android:text="身份认证"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/x30"
+                android:layout_centerVertical="true"
+                android:textColor="#333333"
+                android:text="绑定账户"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/alert_titile4"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/y30"
+            android:layout_below="@+id/alert_titile3"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/x30"
+                android:layout_centerVertical="true"
+                android:textColor="#333333"
+                android:text="通过认证可获得更好的体验"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <Button
+            android:id="@+id/identification_btn"
+            android:layout_below="@+id/alert_titile4"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="@dimen/x40"
+            android:layout_marginRight="@dimen/x40"
+            android:textColor="#ffffff"
+            android:layout_marginTop="@dimen/y94"
+            android:gravity="center"
+            android:textSize="@dimen/x36"
+            android:text="身份认证"
+            android:background="@drawable/button"
+            android:layout_height="@dimen/y98" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/y30"
+            android:layout_below="@+id/identification_btn"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content">
+            <CheckBox
+                android:id="@+id/agree"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:button="@null"
+                android:textColor="#999999"
+                android:drawablePadding="@dimen/x10"
+                android:textSize="@dimen/x26"
+                android:text="请同意"
+                android:background="@null"
+                android:drawableLeft="@drawable/bg_checkbox_selector"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_toRightOf="@+id/agree"
+                android:textSize="@dimen/x26"
+                android:layout_centerVertical="true"
+                android:textColor="#f06f32"
+                android:text="主播认证协议"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

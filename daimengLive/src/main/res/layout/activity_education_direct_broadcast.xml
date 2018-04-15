@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/login_bg"
+    android:layout_height="match_parent">
+   <include layout="@layout/view_title_layout"/>
+
+    <RelativeLayout
+        android:id="@+id/centrol_part"
+        android:layout_width="@dimen/x600"
+        android:background="@drawable/shape_bg"
+        android:layout_height="@dimen/y800"
+        android:layout_marginTop="@dimen/y222"
+        android:layout_centerHorizontal="true">
+        <RelativeLayout
+            android:id="@+id/namePate"
+            android:layout_width="@dimen/x480"
+            android:background="@drawable/shape_edit_bg"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/y120"
+            android:layout_height="@dimen/y98">
+            <EditText
+                android:layout_width="match_parent"
+                android:singleLine="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/x10"
+                android:background="@null"
+                android:textColor="#999999"
+                android:textSize="@dimen/x28"
+                android:textColorHint="#999999"
+                android:hint="请填写直播标题"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/passPate"
+            android:layout_width="@dimen/x480"
+            android:background="@drawable/shape_edit_bg"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/namePate"
+            android:layout_marginTop="@dimen/y79"
+            android:layout_height="@dimen/y98">
+            <EditText
+                android:layout_width="match_parent"
+                android:singleLine="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/x10"
+                android:background="@null"
+                android:textColor="#999999"
+                android:textSize="@dimen/x28"
+                android:textColorHint="#999999"
+                android:hint="请填写直播标题"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <CheckBox
+            android:id="@+id/isYideotape"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/y79"
+            android:layout_below="@+id/passPate"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/x60"
+            android:button="@null"
+            android:textColor="#999999"
+            android:drawablePadding="@dimen/x10"
+            android:textSize="@dimen/x26"
+            android:text="直播录像"
+            android:background="@null"
+            android:drawableLeft="@drawable/bg_checkbox_selector"
+            android:layout_height="wrap_content" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_below="@+id/isYideotape"
+            android:layout_marginLeft="@dimen/x40"
+            android:layout_marginRight="@dimen/x40"
+            android:textColor="#ffffff"
+            android:layout_marginTop="@dimen/y79"
+            android:gravity="center"
+            android:textSize="@dimen/x36"
+            android:text="开始直播"
+            android:background="@drawable/button"
+            android:layout_height="@dimen/y98" />
+    </RelativeLayout>
+</RelativeLayout>

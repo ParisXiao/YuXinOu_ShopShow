@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_marginTop="@dimen/y70"
             android:layout_marginLeft="@dimen/x80"
-            android:text="@string/user_register"
+            android:text="重置密码"
             android:textColor="@color/login_text"
             android:textSize="@dimen/x36"
             android:layout_height="wrap_content" />
@@ -197,7 +197,7 @@
             android:layout_marginTop="@dimen/y640"
             android:gravity="center"
             android:textSize="@dimen/x36"
-            android:text="注册"
+            android:text="重置密码"
             android:background="@drawable/button"
             android:layout_height="@dimen/y98" />
     </RelativeLayout>

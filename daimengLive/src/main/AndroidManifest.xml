@@ -256,6 +256,18 @@
         <activity
             android:name=".ui.logicactivity.RegisterActivity"
             android:configChanges="keyboardHidden|orientation">
+
+        </activity>
+        <activity android:name=".ui.logicactivity.AecommerceDirectBroadcastActivity">
+        </activity>
+        <activity android:name=".ui.logicactivity.EducationDirectBroadcastActivity">
+        </activity>
+
+        <activity android:name=".ui.logicactivity.ResetPassActivity">
+        </activity>
+        <activity android:name=".ui.logicactivity.IdentificationEntranceActivity">
+        </activity>
+        <activity android:name=".ui.logicactivity.IdentificationMessageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
