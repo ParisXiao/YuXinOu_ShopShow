@@ -56,6 +56,7 @@ public class AppContext extends BaseApplication {
         initLogin();
         UIHelper.sendBroadcastForNotice(this);
 
+
     }
 
     private void init() {

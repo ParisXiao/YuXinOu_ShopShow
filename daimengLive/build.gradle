@@ -8,8 +8,12 @@ bugly {
 }
 
 android {
+
     compileSdkVersion 23
-    buildToolsVersion '25.0.0'
+    buildToolsVersion '26.0.2'
+    aaptOptions.cruncherEnabled = false
+    aaptOptions.useNewCruncher = false
+
     signingConfigs {
         release {
             keyAlias 'kumao'
@@ -20,13 +24,13 @@ android {
     }
     defaultConfig {
         applicationId "com.liren.live"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 23
         versionCode 3
         versionName "2.3"
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
 
-        buildConfigField 'String','API_SERVER_URL','"http://www.3nong.cn"'
+        buildConfigField 'String', 'API_SERVER_URL', '"http://www.3nong.cn"'
         multiDexEnabled true
     }
     buildTypes {
@@ -34,16 +38,28 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-        }
-        debug {
-            signingConfig signingConfigs.release
+
         }
     }
     useLibrary 'org.apache.http.legacy'
+    repositories {
+        maven { url "https://jitpack.io" }
+        flatDir {
+            dirs'libs', '../videolibrary/libs'
+
+        }
+
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
 }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-   compile fileTree(include: '*/so', dir: 'libs')
+    compile fileTree(include: '*/so', dir: 'libs')
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
@@ -51,7 +67,6 @@ dependencies {
         exclude group: 'org.json', module: 'json'
     }
     compile files('libs/bottomView.jar')
-    compile files('libs/alipaySDK-20151014.jar')
     compile files('libs/libammsdk.jar')
     compile files('libs/AMap_Location_V2.4.0_20160308.jar')
     compile files('libs/MobTools-2016.0830.1940.jar')
@@ -74,7 +89,10 @@ dependencies {
     compile 'com.zhy:okhttputils:2.6.2'
     compile 'com.github.dmytrodanylyk.circular-progress-button:library:1.1.3'
     compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'com.android.support:recyclerview-v7:23.0.1'
+    compile ('com.android.support:recyclerview-v7:25.4.0')
+            {
+                exclude group: 'com.android.support' //exclude 可以解决 lib冲突的问题。
+            }
     compile 'com.github.ctiao:dfm:0.4.1'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'io.reactivex:rxjava:1.1.6'
@@ -88,4 +106,11 @@ dependencies {
     compile 'com.hyphenate:hyphenate-sdk-lite:3.3.0'
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.12'
     compile files('libs/alipaySingle-20170510.jar')
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile ('com.android.support:cardview-v7:26.0.0-alpha1')
+        {
+            exclude group: 'com.android.support' //exclude 可以解决 lib冲突的问题。
+        }
+    compile  project(path: ':videolibrary')
+
 }

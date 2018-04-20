@@ -1,11 +1,11 @@
 <component name="libraryTable">
   <library name="com.ksyun.media:libksylive-java-2.2.7">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.android/build-cache/e7977377217c3caee72d8d8697ccbba894d10963/output/jars/libs/ksylive.jar!/" />
-      <root url="jar://$USER_HOME$/.android/build-cache/e7977377217c3caee72d8d8697ccbba894d10963/output/jars/libs/libksystat.jar!/" />
-      <root url="file://$USER_HOME$/.android/build-cache/e7977377217c3caee72d8d8697ccbba894d10963/output/res" />
-      <root url="jar://$USER_HOME$/.android/build-cache/e7977377217c3caee72d8d8697ccbba894d10963/output/jars/classes.jar!/" />
-      <root url="jar://$USER_HOME$/.android/build-cache/e7977377217c3caee72d8d8697ccbba894d10963/output/jars/libs/libksyplayer.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/libksylive-java-2.2.7.aar/3baaeb3f5ec6404f4f8df94400a43b3a/jars/libs/ksylive.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/libksylive-java-2.2.7.aar/3baaeb3f5ec6404f4f8df94400a43b3a/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/libksylive-java-2.2.7.aar/3baaeb3f5ec6404f4f8df94400a43b3a/jars/libs/libksyplayer.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/libksylive-java-2.2.7.aar/3baaeb3f5ec6404f4f8df94400a43b3a/jars/libs/libksystat.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/libksylive-java-2.2.7.aar/3baaeb3f5ec6404f4f8df94400a43b3a/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

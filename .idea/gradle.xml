@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/libScreenAuto" />
             <option value="$PROJECT_DIR$/libscreenstreamer" />
             <option value="$PROJECT_DIR$/live" />
+            <option value="$PROJECT_DIR$/videolibrary" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

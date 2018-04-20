@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="com.ksyun.media:libksylive-x86-2.2.7">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.android/build-cache/42e1ed9b4355cb33260f4c2821569d0c2712b530/output/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.android/build-cache/42e1ed9b4355cb33260f4c2821569d0c2712b530/output/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/libksylive-x86-2.2.7.aar/ab758f97b5364e3c12cf78a0e990b95d/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/libksylive-x86-2.2.7.aar/ab758f97b5364e3c12cf78a0e990b95d/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

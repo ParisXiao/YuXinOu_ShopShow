@@ -1,0 +1,76 @@
+
+
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion '26.0.2'
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+        ndk {
+            abiFilters "armeabi", "armeabi-v7a"
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    dexOptions {
+        jumboMode true
+        javaMaxHeapSize "4g"
+    }
+
+    configurations {
+        all*.exclude module: 'okhttp'
+        all*.exclude module: 'okio'
+    }
+    repositories {
+        maven { url "https://jitpack.io" }
+        google()
+        flatDir {
+            dirs'libs'
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+}
+
+dependencies {
+    compile('com.android.support:appcompat-v7:24.2.1') {
+        exclude module: 'support-v4'
+    }
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(dir: 'libs', include: ['*.aar'])
+    compile fileTree(dir: 'libs/upload', include: ['*.jar'])
+
+    compile(name: 'zxing-1.8.4', ext: 'aar')
+    compile(name: 'barcodescanner-core-1.8.4', ext: 'aar')
+    compile(name: 'volley-1.0.0', ext: 'aar')
+    compile(name: 'LiteAVSDK_UGC', ext: 'aar')
+    compile(name: 'liteimsdk-release', ext: 'aar')
+//    compile 'com.facebook.fresco:fresco:0.7.0'
+//    compile 'com.github.bumptech.glide:glide:3.7.0'
+
+    compile 'com.android.support:recyclerview-v7:25.+'
+
+    compile 'com.squareup.okhttp3:logging-interceptor:3.8.1'
+    compile 'com.github.ctiao:DanmakuFlameMaster:0.5.3'
+
+
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:multidex:1.0.0'
+}

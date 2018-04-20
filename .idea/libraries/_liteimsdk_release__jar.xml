@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name=":liteimsdk-release:@jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/liteimsdk-release.aar/580ffd0ddd59c0d36bcedfb31d251a8b/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -2,11 +2,11 @@ package com.liren.live.base;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Build;
+import android.support.multidex.MultiDexApplication;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -18,7 +18,7 @@ import android.widget.Toast;
 import com.liren.live.R;
 import com.tencent.bugly.crashreport.CrashReport;
 
-public class BaseApplication extends Application {
+public class BaseApplication extends MultiDexApplication {
     private static String PREF_NAME = "creativelocker.pref";
     private static String LAST_REFRESH_TIME = "last_refresh_time.pref";
     static Context _context;
