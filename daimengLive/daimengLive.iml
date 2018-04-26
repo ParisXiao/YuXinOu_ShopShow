@@ -86,125 +86,113 @@
       <sourceFolder url="file://$MODULE_DIR$/src/androidTest/shaders" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/assets" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/blame" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/build-info" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/builds" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/check-manifest" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/classes" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental-classes" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental-runtime-classes" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental-verifier" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/instant-run-resources" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/instant-run-support" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/javaPrecompile" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jniLibs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/manifests" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/multi-dex" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/prebuild" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/reload-dex" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/res" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/rs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/shaders" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/split-apk" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/splits-support" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/symbols" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/transforms" />
       <excludeFolder url="file://$MODULE_DIR$/build/outputs" />
+      <excludeFolder url="file://$MODULE_DIR$/build/tmp" />
     </content>
-    <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
+    <orderEntry type="jdk" jdkName="Android API 26 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="com.ksyun.media:libksylive-arm64-2.2.7" level="project" />
+    <orderEntry type="library" name="com.android.support:multidex-1.0.2" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\daimengLive\libs\ShareSDK-QZone-2.7.7.jar:unspecified@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="com.android.support.test:exposed-instrumentation-api-publish-0.5" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\videolibrary\libs\upload\okhttp-3.8.1.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\videolibrary\libs\upload\fastjson-1.1.62.android.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="com.google.code.gson:gson:2.8.0@jar" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\daimengLive\libs\MobTools-2016.0830.1940.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="com.squareup.okio:okio:1.8.0@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="com.squareup:javawriter:2.1.1@jar" level="project" />
     <orderEntry type="library" name="io.reactivex:rxandroid-1.2.1" level="project" />
     <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\daimengLive\libs\ShareSDK-Core-2.7.7.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name=":LiteAVSDK_UGC:@jar" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\videolibrary\libs\umeng_social_shareview.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\videolibrary\libs\bugly_crash_release__2.1.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\videolibrary\libs\wechat-sdk-android-with-mta-1.1.6.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\daimengLive\libs\ShareSDK-Wechat-Moments-2.7.7.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" scope="TEST" name="com.google.code.findbugs:jsr305:2.0.1@jar" level="project" />
-    <orderEntry type="library" name="com.squareup.okhttp3:logging-interceptor:3.8.1@jar" level="project" />
-    <orderEntry type="library" name="com.jakewharton:butterknife-8.5.1" level="project" />
-    <orderEntry type="library" name="com.github.ctiao:dfm-0.4.1" level="project" />
-    <orderEntry type="library" name=":volley-1.0.0:@jar" level="project" />
-    <orderEntry type="library" scope="TEST" name="com.android.support.test:rules-0.5" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\daimengLive\libs\jpush-android-2.1.9.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" scope="TEST" name="org.hamcrest:hamcrest-integration:1.3@jar" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\daimengLive\libs\bottomView.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\daimengLive\libs\ShareSDK-QQ-2.7.7.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="com.android.support:support-core-utils-24.2.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="com.android.support:multidex-instrumentation-1.0.2" level="project" />
-    <orderEntry type="library" name=":barcodescanner-core-1.8.4:@jar" level="project" />
-    <orderEntry type="library" scope="TEST" name="javax.annotation:javax.annotation-api:1.2@jar" level="project" />
-    <orderEntry type="library" name="com.android.support:appcompat-v7-24.2.1" level="project" />
-    <orderEntry type="library" name="__local_aars__:C.\Users\Administrator\.gradle\caches\transforms-1\files-1.1\LiteAVSDK_UGC.aar\f119c5a1f5e750467748d40de3ba787e\jars\classes.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\videolibrary\libs\upload\qcloud-foundation.1.3.0.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="com.ksyun.media:libksylive-java-2.2.7" level="project" />
-    <orderEntry type="library" name="com.android.support:cardview-v7-26.0.0-alpha1" level="project" />
-    <orderEntry type="library" name="io.reactivex:rxjava:1.1.6@jar" level="project" />
-    <orderEntry type="library" name="com.android.support:support-core-ui-25.4.0" level="project" />
-    <orderEntry type="library" name="com.jakewharton:butterknife-annotations:8.5.1@jar" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\videolibrary\libs\zxing-core-3.2.1.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="com.tencent.bugly:crashreport-2.2.2" level="project" />
-    <orderEntry type="library" name="com.android.support:support-annotations:25.4.0@jar" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\daimengLive\libs\libammsdk.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="__local_aars__:C.\Users\Administrator\.gradle\caches\transforms-1\files-1.1\volley-1.0.0.aar\c1b249ffe1d540faa69a72ac878b2d71\jars\classes.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\videolibrary\libs\glide-3.7.0.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\videolibrary\libs\upload\cos-android-sdk-V5.4.3.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name=":zxing-1.8.4:@jar" level="project" />
-    <orderEntry type="library" name="__local_aars__:C.\Users\Administrator\.gradle\caches\transforms-1\files-1.1\barcodescanner-core-1.8.4.aar\deb7d58aa2972e588f67880d3740915e\jars\classes.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" scope="TEST" name="org.hamcrest:hamcrest-library:1.3@jar" level="project" />
-    <orderEntry type="library" name="com.github.CymChad:BaseRecyclerViewAdapterHelper-2.9.12" level="project" />
-    <orderEntry type="library" scope="TEST" name="com.android.support.test:runner-0.5" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\videolibrary\libs\SocialSDK_Sina_Simplify.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="com.android.support:support-vector-drawable-24.2.1" level="project" />
-    <orderEntry type="library" name="io.socket:engine.io-client:0.7.0@jar" level="project" />
-    <orderEntry type="library" name="com.android.support:multidex-1.0.2" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\daimengLive\libs\ShareSDK-QZone-2.7.7.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="com.google.code.gson:gson:2.8.0@jar" level="project" />
-    <orderEntry type="library" scope="TEST" name="com.android.support:multidex-1.0.0" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\daimengLive\libs\MobTools-2016.0830.1940.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="com.squareup.okio:okio:1.8.0@jar" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\videolibrary\libs\SocialSDK_QQ_Simplify.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\videolibrary\libs\open_sdk_r5781.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="com.android.support:support-fragment-24.2.1" level="project" />
     <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\daimengLive\libs\nineoldandroids-2.4.0.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\videolibrary\libs\SocialSDK_WeChat_Simplify.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="com.android.support.constraint:constraint-layout-solver:1.0.2@jar" level="project" />
     <orderEntry type="library" name="com.android.support.constraint:constraint-layout-1.0.2" level="project" />
     <orderEntry type="library" name="com.ksyun.media:libksylive-armv7a-2.2.7" level="project" />
-    <orderEntry type="library" name="__local_aars__:C.\Users\Administrator\.gradle\caches\transforms-1\files-1.1\zxing-1.8.4.aar\986a372e98cf9ca429c6c6ce8bf76361\jars\classes.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\daimengLive\libs\ShareSDK-Wechat-Moments-2.7.7.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="com.google.code.findbugs:jsr305:2.0.1@jar" level="project" />
     <orderEntry type="library" name="com.squareup.okhttp3:okhttp:3.3.1@jar" level="project" />
     <orderEntry type="library" name="com.zhy:okhttputils-2.6.2" level="project" />
-    <orderEntry type="library" name="com.github.ctiao:DanmakuFlameMaster-0.5.3" level="project" />
     <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\daimengLive\libs\MobCommons-2016.0830.1940.jar:unspecified@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="org.hamcrest:hamcrest-core:1.3@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="com.android.support.test.espresso:espresso-core-2.2.2" level="project" />
+    <orderEntry type="library" name="liteimsdk-release:@aar" level="project" />
+    <orderEntry type="library" name="com.github.ctiao:dfm-0.4.1" level="project" />
+    <orderEntry type="library" name="com.jakewharton:butterknife-8.5.1" level="project" />
     <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\daimengLive\libs\ShareSDK-Wechat-Favorite-2.7.7.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\live\libs\clink210.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="com.android.support.test:rules-0.5" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\daimengLive\libs\jpush-android-2.1.9.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="com.github.dmytrodanylyk.circular-progress-button:library-1.1.3" level="project" />
+    <orderEntry type="library" scope="TEST" name="org.hamcrest:hamcrest-integration:1.3@jar" level="project" />
+    <orderEntry type="library" name="com.android.support:support-compat-25.1.0" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\daimengLive\libs\bottomView.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\daimengLive\libs\ShareSDK-QQ-2.7.7.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\daimengLive\libs\ShareSDK-Wechat-2.7.7.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\videolibrary\libs\gson-2.3.1.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="com.android.support:support-core-utils-24.2.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="com.android.support:multidex-instrumentation-1.0.2" level="project" />
     <orderEntry type="library" name="com.hyphenate:hyphenate-sdk-lite-3.3.0" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\videolibrary\libs\umeng_social_net.jar:unspecified@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="com.android.support.test.espresso:espresso-idling-resource-2.2.2" level="project" />
     <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\daimengLive\libs\ShareSDK-SinaWeibo-2.7.7.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="javax.annotation:javax.annotation-api:1.2@jar" level="project" />
     <orderEntry type="library" name="org.greenrobot:eventbus:3.0.0@jar" level="project" />
     <orderEntry type="library" name="com.squareup.okhttp3:okhttp-ws:3.0.1@jar" level="project" />
     <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\daimengLive\libs\alipaySingle-20170510.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="com.android.support:appcompat-v7-24.2.1" level="project" />
     <orderEntry type="library" name="uk.co.chrisjenx:calligraphy-2.1.0" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\videolibrary\libs\upload\okio-1.13.0.jar:unspecified@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="junit:junit:4.12@jar" level="project" />
+    <orderEntry type="library" name="com.ksyun.media:libksylive-java-2.2.7" level="project" />
+    <orderEntry type="library" name="com.android.support:cardview-v7-26.0.0-alpha1" level="project" />
+    <orderEntry type="library" name="io.reactivex:rxjava:1.1.6@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="javax.inject:javax.inject:1@jar" level="project" />
     <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\daimengLive\libs\ShareSDK-Wechat-Core-2.7.7.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="com.android.support:support-compat-25.4.0" level="project" />
     <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\daimengLive\libs\AMap_Location_V2.4.0_20160308.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="com.google.zxing:core:3.2.0@jar" level="project" />
     <orderEntry type="library" name="com.android.support:support-v4-24.2.1" level="project" />
+    <orderEntry type="library" name="com.jakewharton:butterknife-annotations:8.5.1@jar" level="project" />
+    <orderEntry type="library" name="com.tencent.bugly:crashreport-2.2.2" level="project" />
     <orderEntry type="library" name="io.socket:socket.io-client:0.7.0@jar" level="project" />
     <orderEntry type="library" name="com.android.support:animated-vector-drawable-24.2.1" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\videolibrary\libs\umeng_social_api.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\videolibrary\libs\upload\xstream-1.4.7.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name=":liteimsdk-release:@jar" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\daimengLive\libs\libammsdk.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="com.android.support:support-annotations:25.1.0@jar" level="project" />
+    <orderEntry type="library" name="zxing-1.8.4:@aar" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\daimengLive\libs\qcloud-foundation.1.3.0.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" scope="TEST" name="org.hamcrest:hamcrest-library:1.3@jar" level="project" />
+    <orderEntry type="library" name="com.github.CymChad:BaseRecyclerViewAdapterHelper-2.9.12" level="project" />
     <orderEntry type="library" name="com.android.support:support-media-compat-24.2.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="com.android.support.test:runner-0.5" level="project" />
+    <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\daimengLive\libs\cos-android-sdk-V5.4.3.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="com.android.support:support-vector-drawable-24.2.1" level="project" />
     <orderEntry type="library" name="com.ksyun.media:libksylive-x86-2.2.7" level="project" />
-    <orderEntry type="library" name="__local_aars__:C.\Users\Administrator\.gradle\caches\transforms-1\files-1.1\liteimsdk-release.aar\580ffd0ddd59c0d36bcedfb31d251a8b\jars\classes.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="barcodescanner-core-1.8.4:@aar" level="project" />
+    <orderEntry type="library" name="io.socket:engine.io-client:0.7.0@jar" level="project" />
     <orderEntry type="library" name="com.android.support:recyclerview-v7-25.4.0" level="project" />
+    <orderEntry type="library" name="LiteAVSDK_UGC:@aar" level="project" />
+    <orderEntry type="library" name="com.android.support:support-core-ui-24.2.1" level="project" />
     <orderEntry type="library" name="com.github.bumptech.glide:glide:3.7.0@jar" level="project" />
     <orderEntry type="module" module-name="live" />
-    <orderEntry type="module" module-name="videolibrary" />
     <orderEntry type="module" module-name="libscreenstreamer" />
-    <orderEntry type="library" name="org.apache.http.legacy-android-23" level="project" />
+    <orderEntry type="library" name="org.apache.http.legacy-android-26" level="project" />
   </component>
 </module>

@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import butterknife.ButterKnife;
+
 /**
  * Created by xiaoli on 2018/4/11.
  */
@@ -33,6 +35,7 @@ public abstract class MyBaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
+        ButterKnife.bind(this);
         TranslucentFlag();
         initView();
         initData();

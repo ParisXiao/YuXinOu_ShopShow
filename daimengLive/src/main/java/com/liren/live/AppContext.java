@@ -4,13 +4,6 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 
-import com.liren.live.base.BaseApplication;
-import com.liren.live.bean.UserBean;
-import com.liren.live.cache.DataCleanManager;
-import com.liren.live.event.Event;
-import com.liren.live.utils.StringUtils;
-import com.liren.live.utils.TLog;
-import com.liren.live.utils.UIHelper;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
 import com.hyphenate.EMMessageListener;
@@ -18,7 +11,16 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMOptions;
 import com.hyphenate.util.NetUtils;
+import com.liren.live.base.BaseApplication;
+import com.liren.live.bean.UserBean;
+import com.liren.live.cache.DataCleanManager;
+import com.liren.live.event.Event;
 import com.liren.live.utils.MethodsCompat;
+import com.liren.live.utils.StringUtils;
+import com.liren.live.utils.TLog;
+import com.liren.live.utils.UIHelper;
+import com.tencent.bugly.crashreport.CrashReport;
+import com.tencent.rtmp.TXLiveBase;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.cookie.CookieJarImpl;
 import com.zhy.http.okhttp.cookie.store.PersistentCookieStore;
@@ -87,6 +89,12 @@ public class AppContext extends BaseApplication {
                 .build();
 
         OkHttpUtils.initClient(okHttpClient);
+        //短视频初始化
+
+        TXLiveBase.setConsoleEnabled(true);
+        CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(getApplicationContext());
+        strategy.setAppVersion(TXLiveBase.getSDKVersionStr());
+        CrashReport.initCrashReport(getApplicationContext(),strategy);
 
     }
 

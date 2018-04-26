@@ -35,10 +35,10 @@ public class LineControllerView extends LinearLayout {
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.LineView, 0, 0);
         try {
             name = ta.getString(R.styleable.LineView_name);
-            content = ta.getString(R.styleable.LineView_content);
-            isBottom = ta.getBoolean(R.styleable.LineView_isBottom, false);
-            canNav = ta.getBoolean(R.styleable.LineView_canNav,false);
-            isSwitch = ta.getBoolean(R.styleable.LineView_isSwitch,false);
+            content = ta.getString(R.styleable.LineView_contents);
+            isBottom = ta.getBoolean(R.styleable.LineView_isBottoms, false);
+            canNav = ta.getBoolean(R.styleable.LineView_canNavs,false);
+            isSwitch = ta.getBoolean(R.styleable.LineView_isSwitchs,false);
             maxLength = ta.getInteger(R.styleable.LineView_maxLength,-1);
             icon = ta.getResourceId(R.styleable.LineView_iconRes,-1);
             setUpView(context);

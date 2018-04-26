@@ -7,7 +7,6 @@
       <module fileurl="file://$PROJECT_DIR$/libScreenAuto/libScreenAuto.iml" filepath="$PROJECT_DIR$/libScreenAuto/libScreenAuto.iml" />
       <module fileurl="file://$PROJECT_DIR$/libscreenstreamer/libscreenstreamer.iml" filepath="$PROJECT_DIR$/libscreenstreamer/libscreenstreamer.iml" />
       <module fileurl="file://$PROJECT_DIR$/live/live.iml" filepath="$PROJECT_DIR$/live/live.iml" />
-      <module fileurl="file://$PROJECT_DIR$/videolibrary/videolibrary.iml" filepath="$PROJECT_DIR$/videolibrary/videolibrary.iml" />
     </modules>
   </component>
 </project>

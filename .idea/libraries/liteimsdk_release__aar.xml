@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="liteimsdk-release:@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/liteimsdk-release.aar/d5c872d0ef7fd62e2b230fd8a0e9a14a/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/liteimsdk-release.aar/d5c872d0ef7fd62e2b230fd8a0e9a14a/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
