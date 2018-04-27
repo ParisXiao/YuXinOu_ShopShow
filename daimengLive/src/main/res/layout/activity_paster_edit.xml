@@ -78,7 +78,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical" />
 
-            <com.tencent.liteav.demo.shortvideo.editor.common.widget.layer.TCLayerViewGroup
+            <com.liren.live.video.shortvideo.editor.common.widget.layer.TCLayerViewGroup
                 android:id="@+id/paster_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -93,7 +93,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="70dp">
-                <com.tencent.liteav.demo.shortvideo.editor.common.widget.videotimeline.VideoProgressView
+                <com.liren.live.video.shortvideo.editor.common.widget.videotimeline.VideoProgressView
                     android:id="@+id/video_progress_view"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -156,7 +156,7 @@
                             android:textColor="#777777"
                             android:textSize="@dimen/h6" />
 
-                        <com.tencent.liteav.demo.shortvideo.editor.common.widget.RangeSeekBar
+                        <com.liren.live.video.shortvideo.editor.common.widget.RangeSeekBar
                             android:id="@+id/paster_sb_bar"
                             android:layout_width="match_parent"
                             android:layout_height="15dp"
@@ -168,7 +168,7 @@
 
                     </LinearLayout>
 
-                    <com.tencent.liteav.demo.shortvideo.editor.common.widget.progress.FloatTextProgressBar
+                    <com.liren.live.video.shortvideo.editor.common.widget.progress.FloatTextProgressBar
                         android:id="@+id/pb_player"
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
@@ -205,8 +205,8 @@
                 android:paddingTop="17.5dp">
                 <Button
                     android:id="@+id/paster_btn_add"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_centerInParent="true"
                     android:background="@drawable/selector_add"/>
 
@@ -214,7 +214,7 @@
         </LinearLayout>
     </LinearLayout>
 
-    <com.tencent.liteav.demo.shortvideo.editor.paster.view.TCPasterSelectView
+    <com.liren.live.video.shortvideo.editor.paster.view.TCPasterSelectView
         android:id="@+id/tcpaster_select_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

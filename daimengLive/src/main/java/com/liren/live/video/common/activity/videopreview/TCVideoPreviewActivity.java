@@ -133,7 +133,7 @@ public class TCVideoPreviewActivity extends Activity implements View.OnClickList
         });
         mProgressTime = (TextView) findViewById(R.id.progress_time);
 
-        mIvPublish.setVisibility(View.GONE);
+//        mIvPublish.setVisibility(View.GONE);
 
         if (mVideoSource == TCConstants.VIDEO_RECORD_TYPE_UGC_RECORD) {
             mIvToEdit.setVisibility(View.VISIBLE);

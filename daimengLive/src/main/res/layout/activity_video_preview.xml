@@ -6,7 +6,7 @@
                 android:layout_height="match_parent"
                 tools:ignore="contentDescription">
 
-    <com.tencent.liteav.demo.common.activity.videopreview.TCVideoView
+    <com.liren.live.video.common.activity.videopreview.TCVideoView
         android:id="@+id/video_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -95,7 +95,7 @@
                 android:paddingRight="10dp"
                 android:src="@drawable/bgm_wave_voice" />
 
-            <com.tencent.liteav.demo.shortvideo.view.RangeSlider
+            <com.liren.live.video.shortvideo.view.RangeSlider
                 android:id="@+id/bgm_range_slider"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -122,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/bgm_icon_mic" />
 
-            <com.tencent.liteav.demo.shortvideo.editor.bgm.view.TCReversalSeekBar
+            <com.liren.live.video.shortvideo.editor.bgm.view.TCReversalSeekBar
                 android:id="@+id/bgm_sb_voice"
                 android:layout_width="0dp"
                 android:layout_height="15dp"

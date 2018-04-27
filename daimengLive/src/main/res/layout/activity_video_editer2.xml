@@ -86,7 +86,7 @@
             android:layout_width="match_parent"
             android:layout_height="60dp">
 
-            <com.tencent.liteav.demo.shortvideo.editor.common.widget.videotimeline.VideoProgressView
+            <com.liren.live.video.shortvideo.editor.common.widget.videotimeline.VideoProgressView
                 android:id="@+id/editer_video_progress_view"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
@@ -104,7 +104,7 @@
             android:layout_width="match_parent"
             android:layout_height="150dp" />
 
-        <com.tencent.liteav.demo.shortvideo.editor.common.TCToolsView
+        <com.liren.live.video.shortvideo.editor.common.TCToolsView
             android:id="@+id/editer_tools_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
