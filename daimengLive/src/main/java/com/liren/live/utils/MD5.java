@@ -1,15 +1,16 @@
 package com.liren.live.utils;
 
+import android.text.TextUtils;
+
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.MessageDigest;
-
-import android.text.TextUtils;
+import java.security.NoSuchAlgorithmException;
 
 public class MD5 {
     private static final char HEX_DIGITS[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-            'A', 'B', 'C', 'D', 'E', 'F' };
+            'A', 'B', 'C', 'D', 'E', 'F'};
 
     public static void main(String[] args) {
         System.out.println(md5sum("/init.rc"));
@@ -43,6 +44,7 @@ public class MD5 {
             return "";
         }
     }
+
     /**
      * 对字符串md5加密
      *
@@ -62,4 +64,35 @@ public class MD5 {
             return "";
         }
     }
+
+    /**
+     * 15.     * 32位MD5加密方法
+     * 16.     * 16位小写加密只需getMd5Value("xxx").substring(8, 24);即可
+     * 17.     *
+     * 18.     * @param sSecret
+     * 19.     * @return
+     * 20.
+     */
+    public static String getMd5Value(String sSecret) {
+        try {
+            MessageDigest bmd5 = MessageDigest.getInstance("MD5");
+            bmd5.update(sSecret.getBytes());
+            int i;
+            StringBuffer buf = new StringBuffer();
+            byte[] b = bmd5.digest();// 加密
+            for (int offset = 0; offset < b.length; offset++) {
+                i = b[offset];
+                if (i < 0)
+                    i += 256;
+                if (i < 16)
+                    buf.append("0");
+                buf.append(Integer.toHexString(i));
+            }
+            return buf.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
 }

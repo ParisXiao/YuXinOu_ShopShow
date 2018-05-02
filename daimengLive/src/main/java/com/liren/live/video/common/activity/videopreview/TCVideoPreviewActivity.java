@@ -25,10 +25,15 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.liren.live.R;
+import com.liren.live.base.UrlConfig;
 import com.liren.live.video.common.utils.FileUtils;
 import com.liren.live.video.common.utils.TCConstants;
 import com.liren.live.video.videoupload.TXUGCPublish;
 import com.liren.live.video.videoupload.TXUGCPublishTypeDef;
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.convert.StringConvert;
+import com.lzy.okgo.model.Response;
+import com.lzy.okrx2.adapter.ObservableResponse;
 import com.tencent.rtmp.ITXLivePlayListener;
 import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePlayConfig;
@@ -36,8 +41,15 @@ import com.tencent.rtmp.TXLivePlayer;
 import com.tencent.rtmp.TXLog;
 import com.tencent.rtmp.ui.TXCloudVideoView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.Locale;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 录制完成后的预览界面
@@ -72,6 +84,7 @@ public class TCVideoPreviewActivity extends Activity implements View.OnClickList
     private long mVideoDuration;
     //录制界面传过来的视频分辨率
     private int mVideoResolution;
+    private String sign="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,6 +151,8 @@ public class TCVideoPreviewActivity extends Activity implements View.OnClickList
         if (mVideoSource == TCConstants.VIDEO_RECORD_TYPE_UGC_RECORD) {
             mIvToEdit.setVisibility(View.VISIBLE);
         }
+        //获取sign
+        getSignCode();
     }
 
     @Override
@@ -196,7 +211,11 @@ public class TCVideoPreviewActivity extends Activity implements View.OnClickList
             finish();
         }
     }
+    private void getSignCode(){
 
+
+
+    }
 //    private void publish() {
 //        stopPlay(false);
 //        Intent intent = new Intent(getApplicationContext(), TCVideoPublisherActivity.class);

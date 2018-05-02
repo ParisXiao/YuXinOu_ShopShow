@@ -5,9 +5,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import butterknife.ButterKnife;
 
@@ -63,5 +65,8 @@ public abstract class MyBaseActivity extends AppCompatActivity {
         }
 
     }
-
+    public void showToast(String s){
+        if (!TextUtils.isEmpty(s))
+        Toast.makeText(this,s,Toast.LENGTH_SHORT).show();
+    }
 }

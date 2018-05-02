@@ -126,6 +126,8 @@
     <string name="plase_fill_in_vaildate_code">请填写短信验证码</string>
     <string name="pass">密码</string>
     <string name="plase_fill_in_pass">请填写密码</string>
+    <string name="plase_fill_in_phone">请填写手机号码</string>
+    <string name="plase_error_in_phone">请填写正确的手机号码</string>
     <string name="confirm_pass">确认密码</string>
     <string name="again_fill_in_pass">请再次输入密码</string>
     <string name="reset_pass">重置密码</string>
