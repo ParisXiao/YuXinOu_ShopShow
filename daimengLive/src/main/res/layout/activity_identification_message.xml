@@ -21,7 +21,7 @@
                 android:layout_marginLeft="@dimen/x31"
                 android:textColor="#333333"
                 android:textSize="@dimen/x32"
-                android:text="真实姓名"
+                android:text="@string/truename"
                 android:layout_height="wrap_content" />
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -30,8 +30,9 @@
                 android:gravity="center_vertical"
                 android:layout_height="match_parent">
                 <EditText
+                    android:id="@+id/name"
                     android:layout_width="match_parent"
-                    android:hint="请输入你的真实姓名"
+                    android:hint="@string/puttruename"
                     android:textColor="#999999"
                     android:textColorHint="#999999"
                     android:singleLine="true"
@@ -51,7 +52,7 @@
                 android:layout_marginLeft="@dimen/x31"
                 android:textColor="#333333"
                 android:textSize="@dimen/x32"
-                android:text="手机号码"
+                android:text="@string/phone_number"
                 android:layout_height="wrap_content" />
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -60,8 +61,9 @@
                 android:gravity="center_vertical"
                 android:layout_height="match_parent">
                 <EditText
+                    android:id="@+id/number"
                     android:layout_width="match_parent"
-                    android:hint="请输入你的手机号码"
+                    android:hint="@string/put_phonenumber"
                     android:textColor="#999999"
                     android:textColorHint="#999999"
                     android:singleLine="true"
@@ -81,7 +83,7 @@
                 android:layout_marginLeft="@dimen/x31"
                 android:textColor="#333333"
                 android:textSize="@dimen/x32"
-                android:text="银行卡号"
+                android:text="@string/bank_number"
                 android:layout_height="wrap_content" />
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -90,8 +92,9 @@
                 android:gravity="center_vertical"
                 android:layout_height="match_parent">
                 <EditText
+                    android:id="@+id/carnumber"
                     android:layout_width="match_parent"
-                    android:hint="请输入你的银行卡号"
+                    android:hint="@string/put_banke_number"
                     android:textColor="#999999"
                     android:textColorHint="#999999"
                     android:singleLine="true"
@@ -111,8 +114,9 @@
                 android:layout_marginLeft="@dimen/x31"
                 android:textColor="#333333"
                 android:textSize="@dimen/x32"
-                android:text="开户银行"
+                android:text="@string/open_bank"
                 android:layout_height="wrap_content" />
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_marginLeft="@dimen/x31"
@@ -127,8 +131,9 @@
                     android:layout_marginRight="@dimen/x31"
                     android:layout_height="wrap_content" />
                 <EditText
+                    android:id="@+id/banktylp"
                     android:layout_width="match_parent"
-                    android:hint="请输入你的开户银行"
+                    android:hint="@string/put_open_bank"
                     android:textColor="#999999"
                     android:textColorHint="#999999"
                     android:layout_toLeftOf="@+id/bank"
@@ -151,7 +156,7 @@
                 android:layout_marginLeft="@dimen/x31"
                 android:textColor="#333333"
                 android:textSize="@dimen/x32"
-                android:text="开户地址"
+                android:text="@string/open_bank_address"
                 android:layout_height="wrap_content" />
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -167,8 +172,9 @@
                     android:layout_marginRight="@dimen/x31"
                     android:layout_height="wrap_content" />
                 <EditText
+                    android:id="@+id/bankAddress"
                     android:layout_width="match_parent"
-                    android:hint="请输入你的开户地址"
+                    android:hint="@string/put_bank_adress"
                     android:textColor="#999999"
                     android:textColorHint="#999999"
                     android:layout_toLeftOf="@+id/bank_address"
@@ -190,7 +196,7 @@
                 android:layout_marginLeft="@dimen/x31"
                 android:textColor="#333333"
                 android:textSize="@dimen/x32"
-                android:text="支行名字"
+                android:text="@string/bank_name"
                 android:layout_height="wrap_content" />
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -199,8 +205,9 @@
                 android:gravity="center_vertical"
                 android:layout_height="match_parent">
                 <EditText
+                    android:id="@+id/bankName"
                     android:layout_width="match_parent"
-                    android:hint="请输入你的支行名字"
+                    android:hint="@string/put_bank_name"
                     android:textColor="#999999"
                     android:textColorHint="#999999"
                     android:background="@null"
@@ -210,6 +217,7 @@
             </RelativeLayout>
         </LinearLayout>
     </LinearLayout>
+
     <Button
         android:id="@+id/next_btn"
         android:layout_width="match_parent"
@@ -220,7 +228,7 @@
         android:layout_marginTop="@dimen/y120"
         android:gravity="center"
         android:textSize="@dimen/x36"
-        android:text="下一步"
+        android:text="@string/next"
         android:background="@drawable/button"
         android:layout_height="@dimen/y98" />
 </LinearLayout>
