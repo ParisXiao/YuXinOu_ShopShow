@@ -483,6 +483,7 @@
             android:name="com.ksyun.media.diversity.screenstreamer.capture.ScreenCapture$ScreenCaptureAssistantActivity"
             android:theme="@android:style/Theme.Translucent">
         </activity>
+        <activity android:name=".ui.logicactivity.ChooseSellerActivity" />
 
     </application>
 

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <include layout="@layout/view_title_layout" />
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        >
+        <com.liren.live.ui.empty.MyEmptyLayout
+            android:id="@+id/myEmpty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/y148"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                >
+                <EditText
+                    android:id="@+id/edit_seller"
+                    android:layout_width="@dimen/x612"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/y20"
+                    android:layout_marginBottom="@dimen/y20"
+                    android:layout_marginLeft="@dimen/x20"
+                    android:background="@drawable/shape_edit_search"
+                    android:hint="请输入商家名称"
+                    android:paddingLeft="20dp"
+                    />
+                <ImageView
+                    android:id="@+id/img_search_seller"
+                    android:layout_width="@dimen/x55"
+                    android:layout_height="@dimen/y55"
+                    android:src="@drawable/merchants_sousuo"
+                    android:layout_marginLeft="@dimen/y20"
+                    />
+            </LinearLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                ></android.support.v7.widget.RecyclerView>
+            </LinearLayout>
+        </com.liren.live.ui.empty.MyEmptyLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+
+</android.support.constraint.ConstraintLayout>

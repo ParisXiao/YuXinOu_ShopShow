@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.liren.live.R;
 import com.liren.live.base.MyBaseActivity;
 import com.liren.live.base.UrlConfig;
-import com.liren.live.utils.MD5;
+import com.liren.live.utils.DesUtil;
 import com.liren.live.utils.OKHttpUtils;
 import com.liren.live.utils.PhoneUtils;
 
@@ -107,10 +107,10 @@ public class NewLoginActivity extends MyBaseActivity {
                     Map<String, String> map = new HashMap<String, String>();
                     map.put("code", phone);
                     map.put("pwd", passward);
-
-                    String sign = "code" + phone + "pwd" + passward;
-                    String signMD5 = MD5.getMd5Value(sign);
-                    String result = OKHttpUtils.initHttpData(NewLoginActivity.this, UrlConfig.MLogin, signMD5, key, map);
+                   String Key = "rj.bQ{]naqPZt}g,O!fE";
+                    String pwd= DesUtil.encode(Key,passward);
+                    String sign = "code" + phone + "pwd" + pwd;
+                    String result = OKHttpUtils.initHttpData(NewLoginActivity.this, UrlConfig.MLogin, sign, key, map);
                     if (!TextUtils.isEmpty(result)) {
                         JSONObject jsonObject;
                         try {

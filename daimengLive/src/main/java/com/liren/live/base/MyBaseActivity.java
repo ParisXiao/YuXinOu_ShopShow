@@ -12,12 +12,14 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import butterknife.ButterKnife;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * Created by xiaoli on 2018/4/11.
  */
 
 public abstract class MyBaseActivity extends AppCompatActivity {
+    private SweetAlertDialog mDialog;
     /**
      * 初始化layout
      * @return
@@ -41,6 +43,27 @@ public abstract class MyBaseActivity extends AppCompatActivity {
         TranslucentFlag();
         initView();
         initData();
+    }
+    public void showLoadDialog(String text){
+        if(mDialog==null){
+            mDialog = new SweetAlertDialog(this, SweetAlertDialog.PROGRESS_TYPE);
+            mDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+            mDialog.setTitleText(text);
+            mDialog.setCancelable(false);
+        }
+        if(!mDialog.isShowing()){
+            mDialog.show();
+            mDialog.setCanceledOnTouchOutside(true);
+        }
+
+
+    }
+
+    public void dismisDialog(){
+        if(mDialog!=null){
+            mDialog.dismiss();
+        }
+
     }
     /**
      * 沉浸式适配

@@ -45,9 +45,9 @@ public class OKHttpUtils {
             Log.d(TAG, "Data : " + Data);
             JSONObject mJson = new JSONObject();
             mJson.put("platform", "APP");
-            mJson.put("sign",Key+sign+Key);
+            mJson.put("sign",DesUtil.encode(Key,Key+sign+Key));
+            Log.d(TAG, "sign:" + DesUtil.encode(Key,Key+sign+Key));
             mJson.put("data", mJsonData);
-
             OkHttpClient client = new OkHttpClient();
             client.newBuilder().connectTimeout(10, TimeUnit.SECONDS).writeTimeout(10, TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS);
             try {

@@ -3,6 +3,7 @@ package com.liren.live.utils;
 import android.util.Base64;
 
 import java.security.Key;
+import java.security.Provider;
 import java.security.SecureRandom;
 
 import javax.crypto.Cipher;
@@ -21,6 +22,7 @@ public class DesUtil {
     private final static String IVPARAMETERSPEC = "01020304";////初始化向量参数，AES 为16bytes. DES 为8bytes.
     private final static String ALGORITHM = "DES";//DES是加密方式
     private static final String SHA1PRNG = "SHA1PRNG";//// SHA1PRNG 强随机种子算法, 要区别4.2以上版本的调用方法
+
     /**
      * DES算法，加密
      *
@@ -51,6 +53,7 @@ public class DesUtil {
             return null;
         }
     }
+
     // 对密钥进行处理
     private static Key getRawKey(String key) throws Exception {
         KeyGenerator kgen = KeyGenerator.getInstance(ALGORITHM);
@@ -58,7 +61,7 @@ public class DesUtil {
         SecureRandom sr = null;
         // 在4.2以上版本中，SecureRandom获取方式发生了改变
         if (android.os.Build.VERSION.SDK_INT >= 17) {
-            sr = SecureRandom.getInstance(SHA1PRNG, "Crypto");
+            sr = SecureRandom.getInstance(SHA1PRNG, new CryptoProvider());
         } else {
             sr = SecureRandom.getInstance(SHA1PRNG);
         }
@@ -70,4 +73,18 @@ public class DesUtil {
         byte[] raw = skey.getEncoded();
         return new SecretKeySpec(raw, ALGORITHM);
     }
+
+    public  static final class CryptoProvider extends Provider {
+        /**
+         * * Creates a Provider and puts parameters
+         *
+         */
+        public CryptoProvider() {
+            super("Crypto", 1.0, "HARMONY (SHA1 digest; SecureRandom; SHA1withDSA signature)");
+            put("SecureRandom.SHA1PRNG",
+                    "org.apache.harmony.security.provider.crypto.SHA1PRNG_SecureRandomImpl");
+            put("SecureRandom.SHA1PRNG ImplementedIn", "Software");
+        }
+    }
+
 }
