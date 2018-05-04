@@ -20,6 +20,7 @@
             android:layout_marginTop="@dimen/y120"
             android:layout_height="@dimen/y98">
             <EditText
+                android:id="@+id/className"
                 android:layout_width="match_parent"
                 android:singleLine="true"
                 android:layout_centerVertical="true"
@@ -28,7 +29,7 @@
                 android:textColor="#999999"
                 android:textSize="@dimen/x28"
                 android:textColorHint="#999999"
-                android:hint="请填写直播标题"
+                android:hint="@string/classname"
                 android:layout_height="wrap_content" />
         </RelativeLayout>
         <RelativeLayout
@@ -40,6 +41,7 @@
             android:layout_marginTop="@dimen/y79"
             android:layout_height="@dimen/y98">
             <EditText
+                android:id="@+id/classPass"
                 android:layout_width="match_parent"
                 android:singleLine="true"
                 android:layout_centerVertical="true"
@@ -48,7 +50,7 @@
                 android:textColor="#999999"
                 android:textSize="@dimen/x28"
                 android:textColorHint="#999999"
-                android:hint="请填写直播标题"
+                android:hint="@string/class_password"
                 android:layout_height="wrap_content" />
         </RelativeLayout>
         <CheckBox
@@ -62,11 +64,12 @@
             android:textColor="#999999"
             android:drawablePadding="@dimen/x10"
             android:textSize="@dimen/x26"
-            android:text="直播录像"
+            android:text="@string/paly_copy"
             android:background="@null"
             android:drawableLeft="@drawable/bg_checkbox_selector"
             android:layout_height="wrap_content" />
         <Button
+            android:id="@+id/startPlay"
             android:layout_width="match_parent"
             android:layout_below="@+id/isYideotape"
             android:layout_marginLeft="@dimen/x40"
@@ -75,7 +78,7 @@
             android:layout_marginTop="@dimen/y79"
             android:gravity="center"
             android:textSize="@dimen/x36"
-            android:text="开始直播"
+            android:text="@string/start_play"
             android:background="@drawable/button"
             android:layout_height="@dimen/y98" />
     </RelativeLayout>
