@@ -79,7 +79,7 @@ public class NewLoginActivity extends MyBaseActivity {
                     showToast(getResources().getString(R.string.plase_fill_in_phone));
                     return;
                 }else {
-                    if (PhoneUtils.isMobile(phone)) {
+                    if (!PhoneUtils.isMobile(phone)) {
                         showToast(getResources().getString(R.string.plase_error_in_phone));
                         return;
                     }
@@ -108,7 +108,7 @@ public class NewLoginActivity extends MyBaseActivity {
                     map.put("code", phone);
                     map.put("pwd", passward);
 
-                    String sign = "code+" + phone + "pwd+" + passward;
+                    String sign = "code" + phone + "pwd" + passward;
                     String signMD5 = MD5.getMd5Value(sign);
                     String result = OKHttpUtils.initHttpData(NewLoginActivity.this, UrlConfig.MLogin, signMD5, key, map);
                     if (!TextUtils.isEmpty(result)) {

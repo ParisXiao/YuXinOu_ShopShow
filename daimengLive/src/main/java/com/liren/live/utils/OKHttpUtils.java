@@ -51,22 +51,22 @@ public class OKHttpUtils {
             OkHttpClient client = new OkHttpClient();
             client.newBuilder().connectTimeout(10, TimeUnit.SECONDS).writeTimeout(10, TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS);
             try {
-                RequestBody body = RequestBody.create(JSON, new String( Base64Utils.getBase64(mJson.toString())));
+                RequestBody body = RequestBody.create(JSON, new String( mJson.toString()));
                 Request request = new Request.Builder()
                         .url(Url)
                         .post(body)
                         .build();
                 Response response = client.newCall(request).execute();
                 Log.d(TAG, "json:" + mJson.toString());
-                Log.d(TAG, "body:" + new String(Base64Utils.getBase64(mJson.toString()) ));
+                Log.d(TAG, "body:" + new String(mJson.toString()) );
                 Log.d(TAG, "response:" + response);
 
                 if (response.isSuccessful()) {
                     String result= response.body().string();
-                    String resultBase64 = Base64Utils.getFromBase64(result);
+//                    String resultBase64 = Base64Utils.getFromBase64(result);
                     Log.d(TAG, "result:" + result);
-                    Log.d(TAG, "resultBase64:" +resultBase64);
-                    return resultBase64;
+//                    Log.d(TAG, "resultBase64:" +resultBase64);
+                    return result;
                 }
             } catch (Exception e) {
                 Log.d(TAG, e.toString());

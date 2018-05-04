@@ -25,15 +25,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.liren.live.R;
-import com.liren.live.base.UrlConfig;
 import com.liren.live.video.common.utils.FileUtils;
 import com.liren.live.video.common.utils.TCConstants;
 import com.liren.live.video.videoupload.TXUGCPublish;
 import com.liren.live.video.videoupload.TXUGCPublishTypeDef;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.convert.StringConvert;
-import com.lzy.okgo.model.Response;
-import com.lzy.okrx2.adapter.ObservableResponse;
 import com.tencent.rtmp.ITXLivePlayListener;
 import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXLivePlayConfig;
@@ -41,15 +36,8 @@ import com.tencent.rtmp.TXLivePlayer;
 import com.tencent.rtmp.TXLog;
 import com.tencent.rtmp.ui.TXCloudVideoView;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
 import java.util.Locale;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * 录制完成后的预览界面

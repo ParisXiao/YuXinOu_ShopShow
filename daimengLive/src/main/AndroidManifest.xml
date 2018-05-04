@@ -310,7 +310,7 @@
         <!-- 改版后 Activty -->
 
         <activity
-            android:name=".ui.logicactivity.ChooseLiveActivity"
+            android:name=".ui.logicactivity.NewLoginActivity"
             android:configChanges="keyboardHidden|orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

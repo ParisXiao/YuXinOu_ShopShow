@@ -7,9 +7,9 @@ package com.liren.live.base;
 public class UrlConfig {
     public static String POST="http://183.230.180.239:58085/";
     //获取上传小视频的code
-    public static String GetSignature="api/TencentSDK/GetSignature";
+    public static String GetSignature=POST+"api/TencentSDK/GetSignature";
     //登录
-    public static String MLogin="api/Member/MLogin";
+    public static String MLogin=POST+"api/Member/MLogin";
 
 
 
