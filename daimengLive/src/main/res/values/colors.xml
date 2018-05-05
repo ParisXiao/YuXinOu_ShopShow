@@ -3,6 +3,7 @@
 
 
     <!-- 常用颜色值 -->
+    <color name="textcolor">#333333</color>
     <color name="comment_backgroud">#F7F7F7</color>
     <color name="maintone">#FFD350</color>
     <color name="violet">#A891E2</color>
@@ -45,7 +46,8 @@
     <color name="list_item_background_pressed">#efefef</color>
 
     <color name="login_text">#ef6523</color>
-    
+    <color name="text_gray">#999999</color>
+
  	<color name="drawer_menu_item_background_normal">#e2e2e2</color>
     <color name="drawer_menu_item_background_pressed">#ebeceb</color>
     
@@ -124,6 +126,11 @@
     <color name="text_gray1">#777777</color>
     <color name="text_gray2">#767676</color>
     <color name="text_gray3">#aaaaaa</color>
+
+
+    <color name="pro_start">#6BD3FF</color>
+    <color name="pro_center">#ffffff</color>
+    <color name="pro_end">#FF3333</color>
 
 
     <!--app主色调，背景色-->

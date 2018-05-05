@@ -11,10 +11,24 @@ import android.widget.TextView;
 
 import com.liren.live.R;
 import com.liren.live.base.MyBaseActivity;
+import com.liren.live.config.UrlConfig;
+import com.liren.live.config.UserConfig;
+import com.liren.live.utils.OKHttpUtils;
+import com.liren.live.utils.PreferenceUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by JJC on 2018/4/12.
@@ -60,7 +74,7 @@ public class RegisterActivity extends MyBaseActivity {
         String phone=registerPhone.getText().toString().trim();
         String code=registerCode.getText().toString().trim();
         String pwd=registerPwd.getText().toString().trim();
-        String pwdAgain=registerPhone.getText().toString().trim();
+        String pwdAgain=registerPwdAgain.getText().toString().trim();
         switch (v.getId()){
             case R.id.register_send_code:
                 if (TextUtils.isEmpty(phone)) {
@@ -82,6 +96,10 @@ public class RegisterActivity extends MyBaseActivity {
                     showToast("请输入密码");
                     return;
                 }
+                if (pwd.length()<6&&pwd.length()>12){
+                    showToast("请输入6至12位长度密码");
+                    return;
+                }
                 if (TextUtils.isEmpty(pwdAgain)) {
                     showToast("请再次输入密码");
                     return;
@@ -90,11 +108,89 @@ public class RegisterActivity extends MyBaseActivity {
                     showToast("两次输入密码不同");
                     return;
                 }
+                registerPost(phone,pwd);
                 break;
         }
 
     }
+    private String msg;
+    private void registerPost(final String phone, final String passward){
+        showLoadDialog("正在注册...");
+        Observable.create(new Observable.OnSubscribe<Integer>() {
 
+            @Override
+            public void call(Subscriber<? super Integer> subscriber) {
+                if (OKHttpUtils.isConllection(RegisterActivity.this)) {
+                    String[] key = new String[]{"code", "pwd"};
+                    Map<String, String> map = new HashMap<String, String>();
+                    map.put("code", phone);
+                    map.put("pwd", passward);
+                    String sign = "code" + phone + "pwd" + passward;
+                    String result = OKHttpUtils.initHttpData(RegisterActivity.this, UrlConfig.MRegister, sign, key, map);
+                    if (!TextUtils.isEmpty(result)) {
+                        JSONObject jsonObject;
+                        try {
+                            jsonObject = new JSONObject(result);
+                            String code = jsonObject.getString("code");
+                            msg = jsonObject.getString("desc");
+                            if (code.equals("0")) {
+                                dismisDialog();
+                                subscriber.onNext(0);
+                                PreferenceUtils.getInstance(RegisterActivity.this).saveString(UserConfig.UserPhone,phone);
+                                PreferenceUtils.getInstance(RegisterActivity.this).saveString(UserConfig.UserPwd,passward);
+//                                成功
+
+                            } else {
+                                dismisDialog();
+                                subscriber.onNext(1);
+//                                离线
+
+                            }
+
+                        } catch (JSONException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        }
+                    }else {
+                        dismisDialog();
+                        subscriber.onNext(3);
+                    }
+                } else {
+                    dismisDialog();
+                    subscriber.onNext(2);
+                }
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Integer>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Integer integer) {
+                switch (integer) {
+                    case 0:
+                        finish();
+                        showToast("注册成功");
+                        break;
+                    case 1:
+                        showToast(msg);
+                        break;
+                    case 2:
+                        showToast("网络异常，请检查网络设置");
+                        break;
+                    case 3:
+                        showToast("服务器异常");
+                        break;
+                }
+            }
+        });
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

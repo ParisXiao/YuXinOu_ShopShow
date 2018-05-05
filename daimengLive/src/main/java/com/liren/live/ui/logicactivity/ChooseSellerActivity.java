@@ -1,6 +1,7 @@
 package com.liren.live.ui.logicactivity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -61,7 +62,7 @@ public class ChooseSellerActivity extends MyBaseActivity {
 
     @Override
     protected void initData() {
-
+        initLoad();
     }
     @OnClick({R.id.toolbar_back})
     public void chooseClick(View v){
@@ -70,6 +71,52 @@ public class ChooseSellerActivity extends MyBaseActivity {
                 finish();
                 break;
         }
+    }
+    private void initLoad() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getData();
+            }
+        }, 1000);
+        //绑定
+        refreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                refreshLayout.setRefreshing(true);
+            }
+        });
+        myEmpty.showLoading(this);
+        myEmpty.bindView(recycler);
+        myEmpty.setOnButtonClick(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myEmpty.showLoading(ChooseSellerActivity.this);
+                //重新加载数据
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getData();
+                    }
+                }, 1000);
+            }
+        });
+        refreshLayout.setColorSchemeResources(R.color.pro_start, R.color.pro_center,R.color.pro_end);
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                myEmpty.showLoading(ChooseSellerActivity.this);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getData();
+                    }
+                }, 1000);
+            }
+        });
+    }
+
+    private void getData() {
     }
 
     @Override

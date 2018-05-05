@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -25,6 +26,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.liren.live.R;
+import com.liren.live.config.UrlConfig;
+import com.liren.live.utils.OKHttpUtils;
 import com.liren.live.video.common.utils.FileUtils;
 import com.liren.live.video.common.utils.TCConstants;
 import com.liren.live.video.videoupload.TXUGCPublish;
@@ -36,8 +39,18 @@ import com.tencent.rtmp.TXLivePlayer;
 import com.tencent.rtmp.TXLog;
 import com.tencent.rtmp.ui.TXCloudVideoView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
+
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * 录制完成后的预览界面
@@ -72,7 +85,7 @@ public class TCVideoPreviewActivity extends Activity implements View.OnClickList
     private long mVideoDuration;
     //录制界面传过来的视频分辨率
     private int mVideoResolution;
-    private String sign="";
+    private String Signature="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -200,7 +213,66 @@ public class TCVideoPreviewActivity extends Activity implements View.OnClickList
         }
     }
     private void getSignCode(){
+        Observable.create(new Observable.OnSubscribe<Integer>() {
 
+            @Override
+            public void call(Subscriber<? super Integer> subscriber) {
+                if (OKHttpUtils.isConllection(TCVideoPreviewActivity.this)) {
+                    String[] key = new String[]{};
+                    Map<String, String> map = new HashMap<String, String>();
+                    String result = OKHttpUtils.initHttpData(TCVideoPreviewActivity.this, UrlConfig.GetSignature, "", key, map);
+                    if (!TextUtils.isEmpty(result)) {
+                        JSONObject jsonObject;
+                        try {
+                            jsonObject = new JSONObject(result);
+                            String code = jsonObject.getString("code");
+                            if (code.equals("0")) {
+                                subscriber.onNext(0);
+
+//                                成功
+                            } else {
+                                subscriber.onNext(1);
+//                                离线
+
+                            }
+
+                        } catch (JSONException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                        }
+                    }else {
+
+                    }
+                } else {
+                    subscriber.onNext(2);
+
+                }
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Integer>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Integer integer) {
+                switch (integer) {
+                    case 0:
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                }
+            }
+        });
 
 
     }

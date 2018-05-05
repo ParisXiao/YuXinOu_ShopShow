@@ -1,90 +1,111 @@
 package com.liren.live.utils;
 
-import android.util.Base64;
-
 import java.security.Key;
-import java.security.Provider;
-import java.security.SecureRandom;
+import java.security.spec.AlgorithmParameterSpec;
+import java.util.Locale;
 
 import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESKeySpec;
 import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
 
 /**
  * Created by Administrator on 2018/5/3 0003.
  */
 
 public class DesUtil {
-    private final static String HEX = "0123456789ABCDEF";
-    private final static String TRANSFORMATION = "DES/CBC/PKCS5Padding";//DES是加密方式 CBC是工作模式 PKCS5Padding是填充模式
-    private final static String IVPARAMETERSPEC = "01020304";////初始化向量参数，AES 为16bytes. DES 为8bytes.
-    private final static String ALGORITHM = "DES";//DES是加密方式
-    private static final String SHA1PRNG = "SHA1PRNG";//// SHA1PRNG 强随机种子算法, 要区别4.2以上版本的调用方法
+    public static final String ALGORITHM_DES = "DES/CBC/PKCS5Padding";
+    private static byte[] iv = {1, 2, 3, 4, 5, 6, 7, 8};
 
     /**
      * DES算法，加密
      *
      * @param data 待加密字符串
-     * @param key  加密私钥，长度不能够小于8位
+     * @param key  需要加密的业务类型
      * @return 加密后的字节数组，一般结合Base64编码使用
+     * @throws Exception
      */
     public static String encode(String key, String data) {
-        return encode(key, data.getBytes());
+        if (data == null)
+            return null;
+        try {
+            Cipher cipher = Cipher.getInstance("DES/CBC/PKCS5Padding");
+            DESKeySpec desKeySpec = new DESKeySpec(key.getBytes("UTF-8"));
+            SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
+            SecretKey secretKey = keyFactory.generateSecret(desKeySpec);
+            IvParameterSpec iv = new IvParameterSpec(key.getBytes("UTF-8"));
+            cipher.init(Cipher.ENCRYPT_MODE, secretKey, iv);
+            byte[] encryptbyte = cipher.doFinal(data.getBytes());
+            return byte2String(encryptbyte);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return data;
+        }
     }
-
 
     /**
-     * DES算法，加密
+     * DES算法，解密
      *
-     * @param data 待加密字符串
-     * @param key  加密私钥，长度不能够小于8位
-     * @return 加密后的字节数组，一般结合Base64编码使用
+     * @param data 待解密字符串
+     * @param key  需要解密的业务类型
+     * @return 解密后的字节数组
+     * @throws Exception 异常
      */
-    public static String encode(String key, byte[] data) {
-        try {
-            Cipher cipher = Cipher.getInstance(TRANSFORMATION);
-            IvParameterSpec iv = new IvParameterSpec(IVPARAMETERSPEC.getBytes());
-            cipher.init(Cipher.ENCRYPT_MODE, getRawKey(key), iv);
-            byte[] bytes = cipher.doFinal(data);
-            return Base64.encodeToString(bytes, Base64.DEFAULT);
-        } catch (Exception e) {
+    public static String decode(String key, String data) {
+        if (data == null)
             return null;
+        try {
+            DESKeySpec dks = new DESKeySpec(key.getBytes());
+            SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
+            // key的长度不能够小于8位字节
+            Key secretKey = keyFactory.generateSecret(dks);
+            Cipher cipher = Cipher.getInstance(ALGORITHM_DES);
+            IvParameterSpec iv = new IvParameterSpec("12345678".getBytes());
+            AlgorithmParameterSpec paramSpec = iv;
+            cipher.init(Cipher.DECRYPT_MODE, secretKey, paramSpec);
+            return new String(cipher.doFinal(byte2hex(data.getBytes())));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return data;
         }
     }
 
-    // 对密钥进行处理
-    private static Key getRawKey(String key) throws Exception {
-        KeyGenerator kgen = KeyGenerator.getInstance(ALGORITHM);
-        //for android
-        SecureRandom sr = null;
-        // 在4.2以上版本中，SecureRandom获取方式发生了改变
-        if (android.os.Build.VERSION.SDK_INT >= 17) {
-            sr = SecureRandom.getInstance(SHA1PRNG, new CryptoProvider());
-        } else {
-            sr = SecureRandom.getInstance(SHA1PRNG);
+    /**
+     * 二行制转字符串
+     *
+     * @param b
+     * @return String
+     */
+    private static String byte2String(byte[] b) {
+        StringBuilder hs = new StringBuilder();
+        String stmp;
+        for (int n = 0; b != null && n < b.length; n++) {
+            stmp = Integer.toHexString(b[n] & 0XFF);
+            if (stmp.length() == 1)
+                hs.append('0');
+            hs.append(stmp);
         }
-        // for Java
-        // secureRandom = SecureRandom.getInstance(SHA1PRNG);
-        sr.setSeed(key.getBytes());
-        kgen.init(64, sr); //DES固定格式为64bits，即8bytes。
-        SecretKey skey = kgen.generateKey();
-        byte[] raw = skey.getEncoded();
-        return new SecretKeySpec(raw, ALGORITHM);
+        return hs.toString().toUpperCase(Locale.CHINA);
     }
 
-    public  static final class CryptoProvider extends Provider {
-        /**
-         * * Creates a Provider and puts parameters
-         *
-         */
-        public CryptoProvider() {
-            super("Crypto", 1.0, "HARMONY (SHA1 digest; SecureRandom; SHA1withDSA signature)");
-            put("SecureRandom.SHA1PRNG",
-                    "org.apache.harmony.security.provider.crypto.SHA1PRNG_SecureRandomImpl");
-            put("SecureRandom.SHA1PRNG ImplementedIn", "Software");
+    /**
+     * 二进制转化成16进制
+     *
+     * @param b
+     * @return byte
+     */
+    private static byte[] byte2hex(byte[] b) {
+        if ((b.length % 2) != 0)
+            throw new IllegalArgumentException();
+        byte[] b2 = new byte[b.length / 2];
+        for (int n = 0; n < b.length; n += 2) {
+            String item = new String(b, n, 2);
+            b2[n / 2] = (byte) Integer.parseInt(item, 16);
         }
+        return b2;
     }
+
 
 }
+

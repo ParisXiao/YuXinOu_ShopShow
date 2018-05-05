@@ -52,8 +52,13 @@ public abstract class MyBaseActivity extends AppCompatActivity {
             mDialog.setCancelable(false);
         }
         if(!mDialog.isShowing()){
-            mDialog.show();
-            mDialog.setCanceledOnTouchOutside(true);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mDialog.show();
+                }
+            });
+            mDialog.setCanceledOnTouchOutside(false);
         }
 
 
@@ -61,9 +66,14 @@ public abstract class MyBaseActivity extends AppCompatActivity {
 
     public void dismisDialog(){
         if(mDialog!=null){
-            mDialog.dismiss();
-        }
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mDialog.dismiss();
+                }
+            });
 
+        }
     }
     /**
      * 沉浸式适配

@@ -42,11 +42,11 @@ public class OKHttpUtils {
             }
             String Key = "rj.bQ{]naqPZt}g,O!fE";
             String Data = mJsonData.toString();
-            Log.d(TAG, "Data : " + Data);
             JSONObject mJson = new JSONObject();
             mJson.put("platform", "APP");
-            mJson.put("sign",DesUtil.encode(Key,Key+sign+Key));
-            Log.d(TAG, "sign:" + DesUtil.encode(Key,Key+sign+Key));
+            mJson.put("sign",MD5Util.getMD5(Key+sign+Key));
+            Log.d(TAG, "sign1:" + sign);
+            Log.d(TAG, "sign:" + MD5Util.getMD5(Key+sign+Key));
             mJson.put("data", mJsonData);
             OkHttpClient client = new OkHttpClient();
             client.newBuilder().connectTimeout(10, TimeUnit.SECONDS).writeTimeout(10, TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS);
@@ -57,7 +57,6 @@ public class OKHttpUtils {
                         .post(body)
                         .build();
                 Response response = client.newCall(request).execute();
-                Log.d(TAG, "json:" + mJson.toString());
                 Log.d(TAG, "body:" + new String(mJson.toString()) );
                 Log.d(TAG, "response:" + response);
 
@@ -70,6 +69,7 @@ public class OKHttpUtils {
                 }
             } catch (Exception e) {
                 Log.d(TAG, e.toString());
+                return "";
             }
         } catch (Exception e) {
 
@@ -82,7 +82,7 @@ public class OKHttpUtils {
      * @param key     参数 key集合
      * @param vally   参数key对应数据
      */
-    public static String postData(Context context, String Url,String sign, String[] key, Map<String, String> vally) {
+    public static String postData(Context context, String Url,String token,String sign, String[] key, Map<String, String> vally) {
         try {
             JSONObject mJsonData = new JSONObject();
             String json = "{";
@@ -94,31 +94,33 @@ public class OKHttpUtils {
             Log.d(TAG, "Data : " + Data);
             JSONObject mJson = new JSONObject();
             mJson.put("platform", "APP");
-            mJson.put("sign", Key+sign+Key);
+            mJson.put("token", token);
+            mJson.put("sign",MD5Util.getMD5(Key+sign+Key));
+            Log.d(TAG, "sign1:" + sign);
+            Log.d(TAG, "sign:" + MD5Util.getMD5(Key+sign+Key));
             mJson.put("data", mJsonData);
 
             OkHttpClient client = new OkHttpClient();
             client.newBuilder().connectTimeout(10, TimeUnit.SECONDS).writeTimeout(10, TimeUnit.SECONDS).readTimeout(30, TimeUnit.SECONDS);
             try {
-                RequestBody body = RequestBody.create(JSON, new String( Base64Utils.getBase64(mJson.toString())));
+                RequestBody body = RequestBody.create(JSON, new String( mJson.toString()));
                 Request request = new Request.Builder()
                         .url(Url)
                         .post(body)
                         .build();
                 Response response = client.newCall(request).execute();
-                Log.d(TAG, "json:" + mJson.toString());
-                Log.d(TAG, "body:" + new String(Base64Utils.getBase64(mJson.toString()) ));
+                Log.d(TAG, "body:" + new String(mJson.toString() ));
                 Log.d(TAG, "response:" + response);
 
                 if (response.isSuccessful()) {
                     String result= response.body().string();
-                    String resultBase64 = Base64Utils.getFromBase64(result);
+//                    String resultBase64 = Base64Utils.getFromBase64(result);
                     Log.d(TAG, "result:" + result);
-                    Log.d(TAG, "resultBase64:" +resultBase64);
-                    return resultBase64;
+                    return result;
                 }
             } catch (Exception e) {
                 Log.d(TAG, e.toString());
+                return "";
             }
         } catch (Exception e) {
 
