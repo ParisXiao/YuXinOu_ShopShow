@@ -52,6 +52,7 @@ public class MyMainActivity extends MyBaseActivity {
     @BindView(R.id.main_daohang)
     RadioGroup mainDaohang;
     Fragment currentFragment;
+    RadioButton[] radioButtons=new RadioButton[]{home,live,shop,teach,travel};
 
     @Override
     protected int getLayoutId() {
@@ -60,30 +61,63 @@ public class MyMainActivity extends MyBaseActivity {
 
     @Override
     protected void initView() {
-        toolbarBack.setVisibility(View.VISIBLE);
+        toolbarBack.setVisibility(View.GONE);
+        toolbarTitle.setText("首页");
+        mainDaohang.check(R.id.home);
+        home. setTextColor(getResources().getColor(R.color.login_text));
     }
 
     @Override
     protected void initData() {
-        add(new HomeFragment(),R.id.container_fragment,"HOME");
+        add(new HomeFragment(), R.id.container_fragment, "HOME");
         mainDaohang.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.home:
-                        add(new HomeFragment(),R.id.container_fragment,"HOME");
+                        add(new HomeFragment(), R.id.container_fragment, "HOME");
+                        toolbarTitle.setText("首页");
+                       home. setTextColor(getResources().getColor(R.color.login_text));
+                       live. setTextColor(getResources().getColor(R.color.text_gray));
+                       shop. setTextColor(getResources().getColor(R.color.text_gray));
+                       teach. setTextColor(getResources().getColor(R.color.text_gray));
+                       travel. setTextColor(getResources().getColor(R.color.text_gray));
                         break;
                     case R.id.live:
-                        add(new LiveFragment(),R.id.container_fragment,"LIVE");
+                        add(new LiveFragment(), R.id.container_fragment, "LIVE");
+                        toolbarTitle.setText("直播特卖");
+                        home. setTextColor(getResources().getColor(R.color.text_gray));
+                        live. setTextColor(getResources().getColor(R.color.login_text));
+                        shop. setTextColor(getResources().getColor(R.color.text_gray));
+                        teach. setTextColor(getResources().getColor(R.color.text_gray));
+                        travel. setTextColor(getResources().getColor(R.color.text_gray));
                         break;
                     case R.id.shop:
-                        add(new ShopFragment(),R.id.container_fragment,"SHOP");
+                        add(new ShopFragment(), R.id.container_fragment, "SHOP");
+                        toolbarTitle.setText("跨境商城");
+                        home. setTextColor(getResources().getColor(R.color.text_gray));
+                        live. setTextColor(getResources().getColor(R.color.text_gray));
+                        shop. setTextColor(getResources().getColor(R.color.login_text));
+                        teach. setTextColor(getResources().getColor(R.color.text_gray));
+                        travel. setTextColor(getResources().getColor(R.color.text_gray));
                         break;
                     case R.id.teach:
-                        add(new TeachFragment(),R.id.container_fragment,"TEACH");
+                        add(new TeachFragment(), R.id.container_fragment, "TEACH");
+                        toolbarTitle.setText("课程教育");
+                        home. setTextColor(getResources().getColor(R.color.text_gray));
+                        live. setTextColor(getResources().getColor(R.color.text_gray));
+                        shop. setTextColor(getResources().getColor(R.color.text_gray));
+                        teach. setTextColor(getResources().getColor(R.color.login_text));
+                        travel. setTextColor(getResources().getColor(R.color.text_gray));
                         break;
                     case R.id.travel:
-                        add(new TravelFragment(),R.id.container_fragment,"TRAVEL");
+                        add(new TravelFragment(), R.id.container_fragment, "TRAVEL");
+                        toolbarTitle.setText("旅游路线");
+                        home. setTextColor(getResources().getColor(R.color.text_gray));
+                        live. setTextColor(getResources().getColor(R.color.text_gray));
+                        shop. setTextColor(getResources().getColor(R.color.text_gray));
+                        teach. setTextColor(getResources().getColor(R.color.text_gray));
+                        travel. setTextColor(getResources().getColor(R.color.login_text));
                         break;
 
                 }

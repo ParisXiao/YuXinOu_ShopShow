@@ -85,6 +85,9 @@ public class LiveFragment extends MyBaseFragment {
         adapter = new TabFragmentPagerAdapter(getActivity().getSupportFragmentManager(), list);
         viewpagerLive.setAdapter(adapter);
         viewpagerLive.setCurrentItem(0);  //初始化显示第一个页面
+        liveHot.setTextColor(getActivity().getResources().getColor(R.color.login_text));
+        liveNew.setTextColor(getActivity().getResources().getColor(R.color.text_gray));
+        liveLike.setTextColor(getActivity().getResources().getColor(R.color.text_gray));
     }
 
     @OnClick({R.id.live_hot, R.id.live_new, R.id.live_like})

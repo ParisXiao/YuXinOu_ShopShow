@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 <android.support.v7.widget.CardView
     android:layout_width="0dp"
@@ -11,8 +11,8 @@
     app:cardCornerRadius="@dimen/x8"
     android:elevation="10dp"
     android:background="#ffffff"
-    android:layout_marginLeft="@dimen/x40"
-    android:layout_marginRight="@dimen/x40"
+    android:layout_marginLeft="@dimen/x20"
+    android:layout_marginRight="@dimen/x20"
     android:layout_marginTop="@dimen/y20"
     >
     <LinearLayout
@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_above="@+id/jianshu"
+                android:layout_above="@+id/remark"
                 android:layout_marginRight="@dimen/x20"
                 android:text="110人"
                 />
@@ -56,7 +56,7 @@
                 android:layout_width="@dimen/x24"
                 android:layout_height="@dimen/y24"
                 android:src="@mipmap/renshu"
-                android:layout_above="@+id/jianshu"
+                android:layout_above="@+id/remark"
                 android:layout_toLeftOf="@+id/live_watch"
                 android:layout_marginRight="@dimen/x10"
                 android:layout_marginBottom="3dp"

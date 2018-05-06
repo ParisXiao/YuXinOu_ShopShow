@@ -17,6 +17,7 @@
                 android:id="@+id/recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/comment_backgroud"
                 ></android.support.v7.widget.RecyclerView>
         </com.liren.live.ui.empty.MyEmptyLayout>
     </android.support.v4.widget.SwipeRefreshLayout>

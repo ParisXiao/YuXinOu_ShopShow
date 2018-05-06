@@ -22,7 +22,7 @@
         android:orientation="horizontal"
         android:background="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:gravity="center_vertical"
+        android:gravity="center"
        >
         <RadioButton
             android:id="@+id/home"
@@ -31,7 +31,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:button="@null"
-            android:drawableTop="@mipmap/ic_launcher"
+            android:drawableTop="@drawable/tab_home_d"
             android:text="首页"
             />
         <RadioButton
@@ -41,7 +41,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:button="@null"
-            android:drawableTop="@mipmap/ic_launcher"
+            android:drawableTop="@drawable/tab_live_d"
             android:text="直播特卖"
             />
         <RadioButton
@@ -51,7 +51,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:button="@null"
-            android:drawableTop="@mipmap/ic_launcher"
+            android:drawableTop="@drawable/tab_shop_d"
             android:text="跨境商城"
             />
         <RadioButton
@@ -61,7 +61,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:button="@null"
-            android:drawableTop="@mipmap/ic_launcher"
+            android:drawableTop="@drawable/tab_teach_d"
             android:text="课程教育"
             />
         <RadioButton
@@ -71,7 +71,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:button="@null"
-            android:drawableTop="@mipmap/ic_launcher"
+            android:drawableTop="@drawable/tab_travel_d"
             android:text="旅游路线"
             />
 

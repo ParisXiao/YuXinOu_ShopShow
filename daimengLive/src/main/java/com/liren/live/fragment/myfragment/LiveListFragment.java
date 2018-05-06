@@ -22,7 +22,9 @@ import com.liren.live.entity.LiveListEntity;
 import com.liren.live.ui.empty.MyEmptyLayout;
 import com.liren.live.utils.OKHttpUtils;
 import com.liren.live.utils.PreferenceUtils;
+import com.liren.live.utils.SpacesItemDecoration;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -51,10 +53,10 @@ public class LiveListFragment extends MyBaseFragment {
     @BindView(R.id.refreshLayout)
     SwipeRefreshLayout refreshLayout;
     Unbinder unbinder;
-    private String Type="0";//0热门 1最新 2关注
-    private int pageindex=1;
+    private String Type = "0";//0热门 1最新 2关注
+    private int pageindex = 1;
     private LiveListAdapter adapter;
-    private List<LiveListEntity> list=null;
+    private List<LiveListEntity> list = null;
 
     public static LiveListFragment newInstance(String Type) {
         Bundle args = new Bundle();
@@ -87,9 +89,10 @@ public class LiveListFragment extends MyBaseFragment {
 
     @Override
     protected void initData() {
-        list=new ArrayList<>();
+        list = new ArrayList<>();
         initLoad();
         recycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        recycler.addItemDecoration(new SpacesItemDecoration(20));
         recycler.setAdapter(adapter = new LiveListAdapter(getActivity(), list));
         initLoadMoreListener();
         adapter.setOnItemClickListener(new LiveListAdapter.OnRecyclerViewItemClickListener() {
@@ -99,11 +102,12 @@ public class LiveListFragment extends MyBaseFragment {
             }
         });
     }
+
     private void initLoad() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                getData(list,Type);
+                getData(list, Type);
             }
         }, 1000);
         //绑定
@@ -113,58 +117,70 @@ public class LiveListFragment extends MyBaseFragment {
                 refreshLayout.setRefreshing(true);
             }
         });
-        myEmpty.showLoading(getActivity());
         myEmpty.bindView(recycler);
         myEmpty.setOnButtonClick(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myEmpty.showLoading(getActivity());
                 //重新加载数据
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        getData(list,Type);
+                        getData(list, Type);
                     }
                 }, 1000);
             }
         });
-        refreshLayout.setColorSchemeResources(R.color.pro_start, R.color.pro_center,R.color.pro_end);
+        refreshLayout.setColorSchemeResources(R.color.pro_start, R.color.pro_center, R.color.pro_end);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                myEmpty.showLoading(getActivity());
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        getData(list,Type);
+                        pageindex=1;
+                        getData(list, Type);
+
                     }
                 }, 1000);
             }
         });
     }
 
-    private void getData(List<LiveListEntity> list, String Type) {
+    private void getData(final List<LiveListEntity> list, String Type) {
         list.clear();
-        if (Type.equals("0")){
+        if (Type.equals("0")) {
             Observable.create(new Observable.OnSubscribe<Integer>() {
                 @Override
                 public void call(Subscriber<? super Integer> subscriber) {
                     if (OKHttpUtils.isConllection(getActivity())) {
                         String[] key = new String[]{"pageindex", "pagerows"};
                         Map<String, String> map = new HashMap<String, String>();
-                        map.put("pageindex", pageindex+"");
+                        map.put("pageindex", pageindex + "");
                         map.put("pagerows", "20");
                         String sign = "pageindex" + pageindex + "pagerows" + "20";
-                        String token= PreferenceUtils.getInstance(getActivity()).getString(UserConfig.DToken);
-                        String result = OKHttpUtils.postData(getActivity(), UrlConfig.SelHotRoom,token, sign, key, map);
+                        String token = PreferenceUtils.getInstance(getActivity()).getString(UserConfig.DToken);
+                        String result = OKHttpUtils.postData(getActivity(), UrlConfig.SelHotRoom, token, sign, key, map);
                         if (!TextUtils.isEmpty(result)) {
                             JSONObject jsonObject;
                             try {
                                 jsonObject = new JSONObject(result);
                                 String code = jsonObject.getString("code");
                                 if (code.equals("0")) {
-                                  dismisDialog();
-//                                JSONObject jsonObject1=new JSONObject(jsonObject.getString("result"));
+                                    dismisDialog();
+                                    JSONObject jsonObject1 = new JSONObject(jsonObject.getString("result"));
+                                    JSONArray jsonArray = new JSONArray(jsonObject1.getString("data"));
+                                    if (jsonArray.length() > 0) {
+                                        for (int i = 0; i < jsonArray.length(); i++) {
+                                            LiveListEntity listEntity = new LiveListEntity();
+                                            listEntity.setIcon(jsonArray.getJSONObject(i).getString("avatar"));
+                                            listEntity.setAvatar(jsonArray.getJSONObject(i).getString("pull"));
+                                            listEntity.setName(jsonArray.getJSONObject(i).getString("user_nicename"));
+                                            listEntity.setRemark(jsonArray.getJSONObject(i).getString("type_val"));
+                                            listEntity.setUid(jsonArray.getJSONObject(i).getString("uid"));
+                                            listEntity.setWatch(jsonArray.getJSONObject(i).getString("nums"));
+                                            list.add(listEntity);
+                                        }
+                                    }
                                     subscriber.onNext(0);
 
 //                                成功
@@ -179,7 +195,7 @@ public class LiveListFragment extends MyBaseFragment {
                                 // TODO Auto-generated catch block
                                 e1.printStackTrace();
                             }
-                        }else {
+                        } else {
                             dismisDialog();
                             subscriber.onNext(3);
                         }
@@ -204,15 +220,21 @@ public class LiveListFragment extends MyBaseFragment {
                 public void onNext(Integer integer) {
                     switch (integer) {
                         case 0:
-                            showToast("登录成功");
+                            adapter.notifyDataSetChanged();
+                            refreshLayout.setRefreshing(false);
                             break;
                         case 1:
-                            showToast("账号或密码错误");
+                            refreshLayout.setRefreshing(false);
+
+                            adapter.notifyDataSetChanged();
+                            showToast("获取数据失败");
                             break;
                         case 2:
+                            refreshLayout.setRefreshing(false);
                             showToast("网络异常，请检查网络设置");
                             break;
                         case 3:
+                            refreshLayout.setRefreshing(false);
                             showToast("服务器异常");
                             break;
                     }
@@ -220,8 +242,10 @@ public class LiveListFragment extends MyBaseFragment {
             });
         }
     }
+
     private void initLoadMoreListener() {
         adapter.changeMoreStatus(adapter.NO_LOAD_MORE);
+
         recycler.setOnScrollListener(new RecyclerView.OnScrollListener() {
             int lastVisibleItem;
 
@@ -238,12 +262,13 @@ public class LiveListFragment extends MyBaseFragment {
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            List<LiveListEntity>  list= new ArrayList<LiveListEntity>();
-                            getData(list,Type);
+                            List<LiveListEntity> list = new ArrayList<LiveListEntity>();
+                            pageindex += 1;
+                            getData(list, Type);
                             adapter.AddFooterItem(list);
                             //设置回到上拉加载更多
-                            adapter.changeMoreStatus(adapter.PULLUP_LOAD_MORE);
                             Toast.makeText(getActivity(), "更新了 " + list.size() + " 条数据", Toast.LENGTH_SHORT).show();
+                            adapter.changeMoreStatus(adapter.NO_LOAD_MORE);
                         }
                     }, 1000);
 
@@ -263,6 +288,7 @@ public class LiveListFragment extends MyBaseFragment {
         });
 
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view

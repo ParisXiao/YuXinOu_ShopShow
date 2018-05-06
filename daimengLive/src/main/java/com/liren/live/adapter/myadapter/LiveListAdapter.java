@@ -87,24 +87,28 @@ public class LiveListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             ((MyViewHolder) holder).liveName.setText(list.get(position).getName());
             ((MyViewHolder) holder).remark.setText(list.get(position).getRemark());
             ((MyViewHolder) holder).liveSpNum.setText(list.get(position).getNums()+"件");
-            if (Integer.valueOf(list.get(position).getWatch())>10000) {
-                ((MyViewHolder) holder).liveWatch.setText((Integer.valueOf(list.get(position).getWatch())/10000)+"万人");
-            }else {
-                ((MyViewHolder) holder).liveWatch.setText(list.get(position).getWatch()+"人");
+            if (list.get(position).getWatch()!=null) {
+                if (Integer.valueOf(list.get(position).getWatch())>10000) {
+                    ((MyViewHolder) holder).liveWatch.setText((Integer.valueOf(list.get(position).getWatch())/10000)+"万人");
+                }else {
+                    ((MyViewHolder) holder).liveWatch.setText(list.get(position).getWatch()+"人");
+                }
             }
-            if (list.get(position).getImgs().size()>0){
-                if (list.get(position).getImgs().size()==1){
-                    ImageUtils.load(context,list.get(position).getImgs().get(0),  ((MyViewHolder) holder).liveSp1);
-                    ((MyViewHolder) holder).liveSp2.setVisibility(View.GONE);
-                    ((MyViewHolder) holder).liveSp3.setVisibility(View.GONE);
-                }else  if (list.get(position).getImgs().size()==2){
-                    ImageUtils.load(context,list.get(position).getImgs().get(0),  ((MyViewHolder) holder).liveSp1);
-                    ImageUtils.load(context,list.get(position).getImgs().get(1),  ((MyViewHolder) holder).liveSp2);
-                    ((MyViewHolder) holder).liveSp3.setVisibility(View.GONE);
-                }else  if (list.get(position).getImgs().size()>=3){
-                    ImageUtils.load(context,list.get(position).getImgs().get(0),  ((MyViewHolder) holder).liveSp1);
-                    ImageUtils.load(context,list.get(position).getImgs().get(1),  ((MyViewHolder) holder).liveSp2);
-                    ImageUtils.load(context,list.get(position).getImgs().get(2),  ((MyViewHolder) holder).liveSp3);
+            if (list.get(position).getImgs()!=null) {
+                if (list.get(position).getImgs().size()>0){
+                    if (list.get(position).getImgs().size()==1){
+                        ImageUtils.load(context,list.get(position).getImgs().get(0),  ((MyViewHolder) holder).liveSp1);
+                        ((MyViewHolder) holder).liveSp2.setVisibility(View.GONE);
+                        ((MyViewHolder) holder).liveSp3.setVisibility(View.GONE);
+                    }else  if (list.get(position).getImgs().size()==2){
+                        ImageUtils.load(context,list.get(position).getImgs().get(0),  ((MyViewHolder) holder).liveSp1);
+                        ImageUtils.load(context,list.get(position).getImgs().get(1),  ((MyViewHolder) holder).liveSp2);
+                        ((MyViewHolder) holder).liveSp3.setVisibility(View.GONE);
+                    }else  if (list.get(position).getImgs().size()>=3){
+                        ImageUtils.load(context,list.get(position).getImgs().get(0),  ((MyViewHolder) holder).liveSp1);
+                        ImageUtils.load(context,list.get(position).getImgs().get(1),  ((MyViewHolder) holder).liveSp2);
+                        ImageUtils.load(context,list.get(position).getImgs().get(2),  ((MyViewHolder) holder).liveSp3);
+                    }
                 }
             }
 
