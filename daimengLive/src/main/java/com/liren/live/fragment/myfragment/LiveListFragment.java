@@ -78,6 +78,11 @@ public class LiveListFragment extends MyBaseFragment {
     }
 
     @Override
+    public boolean onBackPressed() {
+        return false;
+    }
+
+    @Override
     protected int getLayoutId() {
         return R.layout.fragment_livelist;
     }

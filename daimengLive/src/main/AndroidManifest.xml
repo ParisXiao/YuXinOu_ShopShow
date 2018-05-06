@@ -76,7 +76,7 @@
         tools:replace="android:name,android:icon"
         >
         <activity
-            android:name=".ui.logicactivity.MyMainActivity"
+            android:name=".ui.logicactivity.NewLoginActivity"
             android:configChanges="keyboardHidden|orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -485,7 +485,7 @@
             android:theme="@android:style/Theme.Translucent">
         </activity>
         <activity android:name=".ui.logicactivity.ChooseSellerActivity" />
-        <!--<activity android:name=".ui.logicactivity.MyMainActivity" />-->
+        <activity android:name=".ui.logicactivity.MyMainActivity" />
 
     </application>
 

@@ -45,6 +45,16 @@
             android:text="直播特卖"
             />
         <RadioButton
+            android:id="@+id/video"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:button="@null"
+            android:drawableTop="@drawable/tab_video_d"
+            android:text="小视频"
+            />
+        <RadioButton
             android:id="@+id/shop"
             android:layout_width="0dp"
             android:layout_height="match_parent"

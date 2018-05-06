@@ -1,6 +1,7 @@
 package com.liren.live.ui.logicactivity;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -61,6 +62,8 @@ public class NewLoginActivity extends MyBaseActivity {
     TextView register;
     @BindView(R.id.back_pwd)
     TextView backPwd;
+    @BindView(R.id.appname)
+    TextView appname;
 
     @Override
     protected int getLayoutId() {
@@ -69,6 +72,10 @@ public class NewLoginActivity extends MyBaseActivity {
 
     @Override
     protected void initView() {
+//        FZFontsUtils.setOcticons(appname);
+        Typeface fontFace = Typeface.createFromAsset(getAssets(),
+                "fonts/FZCQJT.TTF");
+        appname.setTypeface(fontFace);
     }
 
     @OnClick({R.id.btn_login, R.id.register, R.id.back_pwd})
@@ -139,13 +146,12 @@ public class NewLoginActivity extends MyBaseActivity {
                                 //获取H5地址
 //                                ReturnHome();
                                 dismisDialog();
-                                JSONObject jsonObject1=new JSONObject(jsonObject.getString("result"));
-                                PreferenceUtils.getInstance(NewLoginActivity.this).saveString(UserConfig.DToken,jsonObject.getString("d_token"));
-                                PreferenceUtils.getInstance(NewLoginActivity.this).saveString(UserConfig.ZToken,jsonObject.getString("z_token"));
-                                PreferenceUtils.getInstance(NewLoginActivity.this).saveString(UserConfig.UserPhone,phone);
-                                PreferenceUtils.getInstance(NewLoginActivity.this).saveString(UserConfig.UserPwd,passward);
+                                JSONObject jsonObject1 = new JSONObject(jsonObject.getString("result"));
+                                PreferenceUtils.getInstance(NewLoginActivity.this).saveString(UserConfig.DToken, jsonObject1.getString("d_token"));
+                                PreferenceUtils.getInstance(NewLoginActivity.this).saveString(UserConfig.ZToken, jsonObject1.getString("z_token"));
+                                PreferenceUtils.getInstance(NewLoginActivity.this).saveString(UserConfig.UserPhone, phone);
+                                PreferenceUtils.getInstance(NewLoginActivity.this).saveString(UserConfig.UserPwd, passward);
                                 subscriber.onNext(0);
-
 //                                成功
                             } else {
                                 dismisDialog();
@@ -157,8 +163,9 @@ public class NewLoginActivity extends MyBaseActivity {
                         } catch (JSONException e1) {
                             // TODO Auto-generated catch block
                             e1.printStackTrace();
+                            subscriber.onNext(4);
                         }
-                    }else {
+                    } else {
                         dismisDialog();
                         subscriber.onNext(3);
                     }
@@ -183,11 +190,10 @@ public class NewLoginActivity extends MyBaseActivity {
             public void onNext(Integer integer) {
                 switch (integer) {
                     case 0:
-                        Intent intent=new Intent(NewLoginActivity.this,MyMainActivity.class);
+                        showToast("登录成功");
+                        Intent intent = new Intent(NewLoginActivity.this, MyMainActivity.class);
                         startActivity(intent);
                         finish();
-                        showToast("登录成功");
-
                         break;
                     case 1:
                         showToast("账号或密码错误");
@@ -198,11 +204,15 @@ public class NewLoginActivity extends MyBaseActivity {
                     case 3:
                         showToast("服务器异常");
                         break;
+                    case 4:
+                        showToast("数据解析错误");
+                        break;
                 }
             }
         });
     }
-    private void ReturnHome(){
+
+    private void ReturnHome() {
         Observable.create(new Observable.OnSubscribe<Integer>() {
 
             @Override
@@ -210,8 +220,8 @@ public class NewLoginActivity extends MyBaseActivity {
                 if (OKHttpUtils.isConllection(NewLoginActivity.this)) {
                     String[] key = new String[]{"code", "pwd"};
                     Map<String, String> map = new HashMap<String, String>();
-                    String token=PreferenceUtils.getInstance(NewLoginActivity.this).getString(UserConfig.DToken);
-                    String result = OKHttpUtils.postData(NewLoginActivity.this, UrlConfig.SelPagesForPC,token, "", key, map);
+                    String token = PreferenceUtils.getInstance(NewLoginActivity.this).getString(UserConfig.DToken);
+                    String result = OKHttpUtils.postData(NewLoginActivity.this, UrlConfig.SelPagesForPC, token, "", key, map);
                     if (!TextUtils.isEmpty(result)) {
                         JSONObject jsonObject;
                         try {
@@ -234,7 +244,7 @@ public class NewLoginActivity extends MyBaseActivity {
                             // TODO Auto-generated catch block
                             e1.printStackTrace();
                         }
-                    }else {
+                    } else {
                         dismisDialog();
                         subscriber.onNext(3);
                     }
@@ -274,6 +284,7 @@ public class NewLoginActivity extends MyBaseActivity {
             }
         });
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

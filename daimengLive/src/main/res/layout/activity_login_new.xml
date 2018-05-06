@@ -3,11 +3,28 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:background="@color/login_bg"
     android:layout_height="match_parent">
-    <ImageView
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:src="@mipmap/bg"
-        android:scaleType="centerCrop"
-        android:layout_height="@dimen/y450" />
+        android:layout_height="@dimen/y450">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@mipmap/bg"
+            android:scaleType="centerCrop"
+            />
+        <TextView
+            android:id="@+id/appname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="渝新欧商城"
+            android:textColor="@color/white"
+            android:textSize="36sp"
+            android:layout_marginTop="@dimen/y120"
+            android:layout_centerHorizontal="true"
+            />
+    </RelativeLayout>
+
 
     <RelativeLayout
         android:id="@+id/centrol_part"

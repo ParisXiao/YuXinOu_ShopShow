@@ -16,6 +16,8 @@ public class UrlConfig {
     public static String SelPagesForPC=POST+"api/Member/SelPagesForPC";
      //获取热门直播地址
     public static String SelHotRoom=POST+"api/LiveRoom/SelHotRoom";
+    //获取热门小视频
+    public static String SelHotVideo=POST+"api/Video/SelHotVideo";
 
 
 

@@ -18,7 +18,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
  * Created by xiaoli on 2018/4/11.
  */
 
-public abstract class MyBaseActivity extends AppCompatActivity {
+public abstract class MyBaseActivity extends AppCompatActivity  {
     private SweetAlertDialog mDialog;
     /**
      * 初始化layout
@@ -35,6 +35,8 @@ public abstract class MyBaseActivity extends AppCompatActivity {
      * 参数设置
      */
     protected abstract void initData();
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

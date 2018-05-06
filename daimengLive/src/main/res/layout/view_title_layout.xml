@@ -18,9 +18,10 @@
                 android:layout_width="@dimen/x20"
                 android:layout_height="match_parent" />
             <com.liren.live.widget.BlackTextView
-                android:textSize="@dimen/x36"
+                android:textSize="22sp"
                 android:id="@+id/toolbar_title"
                 android:layout_centerInParent="true"
+                android:textColor="@color/text_color"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <TextView
