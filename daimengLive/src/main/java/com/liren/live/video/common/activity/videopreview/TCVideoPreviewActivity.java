@@ -23,6 +23,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.liren.live.R;
@@ -230,24 +231,21 @@ public class TCVideoPreviewActivity extends Activity implements View.OnClickList
                             jsonObject = new JSONObject(result);
                             String code = jsonObject.getString("code");
                             if (code.equals("0")) {
-                                subscriber.onNext(0);
-
-//                                成功
+                                Signature=jsonObject.getString("result");
                             } else {
-                                subscriber.onNext(1);
-//                                离线
-
+                                subscriber.onNext(0);
                             }
 
                         } catch (JSONException e1) {
                             // TODO Auto-generated catch block
                             e1.printStackTrace();
+                            subscriber.onNext(0);
                         }
                     }else {
-
+                        subscriber.onNext(0);
                     }
                 } else {
-                    subscriber.onNext(2);
+                    subscriber.onNext(0);
 
                 }
             }
@@ -266,13 +264,10 @@ public class TCVideoPreviewActivity extends Activity implements View.OnClickList
             public void onNext(Integer integer) {
                 switch (integer) {
                     case 0:
+                        mIvPublish.setVisibility(View.INVISIBLE);
                         break;
-                    case 1:
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
+
+
                 }
             }
         });
@@ -291,7 +286,7 @@ public class TCVideoPreviewActivity extends Activity implements View.OnClickList
 
     private void publish() {
         stopPlay(false);
-        TXUGCPublish txugcPublish = new TXUGCPublish(this.getApplicationContext(), "customID");
+        TXUGCPublish txugcPublish = new TXUGCPublish(this.getApplicationContext(), PreferenceUtils.getInstance(TCVideoPreviewActivity.this).getString(UserConfig.UserPhone));
         txugcPublish.setListener(new TXUGCPublishTypeDef.ITXVideoPublishListener() {
             @Override
             public void onPublishProgress(long uploadBytes, long totalBytes) {
@@ -301,17 +296,18 @@ public class TCVideoPreviewActivity extends Activity implements View.OnClickList
             @Override
             public void onPublishComplete(TXUGCPublishTypeDef.TXPublishResult result) {
                 TXLog.d(TAG, "onPublishComplete [" + result.retCode + "/" + (result.retCode == 0? result.videoURL: result.descMsg) +"]");
-
+                Toast.makeText(TCVideoPreviewActivity.this,"上传成功",Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
 
         TXUGCPublishTypeDef.TXPublishParam param = new TXUGCPublishTypeDef.TXPublishParam();
         // signature计算规则可参考 https://www.qcloud.com/document/product/266/9221
-        param.signature = "";
+        param.signature = Signature;
         param.videoPath = mVideoPath;
         param.coverPath = mCoverImagePath;
         txugcPublish.publishVideo(param);
-        finish();
+
     }
 
     private boolean startPlay() {
@@ -350,9 +346,10 @@ public class TCVideoPreviewActivity extends Activity implements View.OnClickList
 
     private void downloadRecord() {
         File file = new File(mVideoPath);
+        File newFile=null;
         if (file.exists()) {
             try {
-                File newFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath() + File.separator + file.getName());
+                newFile= new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath() + File.separator + file.getName());
 //                if (!newFile.exists()) {
 //                    newFile = new File(getExternalFilesDir(Environment.DIRECTORY_DCIM).getPath() + File.separator + file.getName());
 //                }
@@ -367,10 +364,12 @@ public class TCVideoPreviewActivity extends Activity implements View.OnClickList
                 this.getContentResolver().insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, values);
 
                 insertVideoThumb(newFile.getPath(), mCoverImagePath);
+
             } catch (Exception e) {
                 e.printStackTrace();
+                return;
             }
-            finish();
+            Toast.makeText(TCVideoPreviewActivity.this,"已保存在"+newFile.getPath(),Toast.LENGTH_LONG).show();
         }
     }
 

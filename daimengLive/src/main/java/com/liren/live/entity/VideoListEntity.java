@@ -1,10 +1,13 @@
 package com.liren.live.entity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Administrator on 2018/5/6 0006.
  */
 
-public class VideoListEntity {
+public class VideoListEntity  implements Parcelable{
     private String ID;
     private String releaseid;
     private String whetherhot;
@@ -17,6 +20,33 @@ public class VideoListEntity {
     private String clicknum;
     private String forwardingnum;
     private String releasetime;
+    public VideoListEntity(){}
+    public VideoListEntity(Parcel in) {
+        ID = in.readString();
+        releaseid = in.readString();
+        whetherhot = in.readString();
+        releaseaddress = in.readString();
+        VideoImagePath = in.readString();
+        VideoPath = in.readString();
+        VideoName = in.readString();
+        CommentsNum = in.readString();
+        ClickLikeNum = in.readString();
+        clicknum = in.readString();
+        forwardingnum = in.readString();
+        releasetime = in.readString();
+    }
+
+    public static final Creator<VideoListEntity> CREATOR = new Creator<VideoListEntity>() {
+        @Override
+        public VideoListEntity createFromParcel(Parcel in) {
+            return new VideoListEntity(in);
+        }
+
+        @Override
+        public VideoListEntity[] newArray(int size) {
+            return new VideoListEntity[size];
+        }
+    };
 
     public String getID() {
         return ID;
@@ -113,5 +143,26 @@ public class VideoListEntity {
 
     public void setReleasetime(String releasetime) {
         this.releasetime = releasetime;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(ID);
+        dest.writeString(releaseid);
+        dest.writeString(whetherhot);
+        dest.writeString(releaseaddress);
+        dest.writeString(VideoImagePath);
+        dest.writeString(VideoPath);
+        dest.writeString(VideoName);
+        dest.writeString(CommentsNum);
+        dest.writeString(ClickLikeNum);
+        dest.writeString(clicknum);
+        dest.writeString(forwardingnum);
+        dest.writeString(releasetime);
     }
 }

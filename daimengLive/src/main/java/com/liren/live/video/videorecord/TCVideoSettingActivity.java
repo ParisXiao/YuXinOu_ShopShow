@@ -332,6 +332,7 @@ public class TCVideoSettingActivity extends Activity implements View.OnClickList
             case R.id.btn_ok:
                 getConfigData();
                 startVideoRecordActivity();
+
                 break;
         }
     }
@@ -416,6 +417,7 @@ public class TCVideoSettingActivity extends Activity implements View.OnClickList
         intent.putExtra(RECORD_CONFIG_HOME_ORIENTATION, TXLiveConstants.VIDEO_ANGLE_HOME_DOWN); // 竖屏录制
         intent.putExtra(RECORD_CONFIG_NEED_EDITER, cbEdit.isChecked());
         startActivity(intent);
+        finish();
     }
 
 }

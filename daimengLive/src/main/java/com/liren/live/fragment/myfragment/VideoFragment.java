@@ -1,7 +1,9 @@
 package com.liren.live.fragment.myfragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +21,7 @@ import com.liren.live.config.UrlConfig;
 import com.liren.live.config.UserConfig;
 import com.liren.live.entity.VideoListEntity;
 import com.liren.live.ui.empty.MyEmptyLayout;
+import com.liren.live.ui.logicactivity.VoiceActivity;
 import com.liren.live.utils.GridSpacingItemDecoration;
 import com.liren.live.utils.OKHttpUtils;
 import com.liren.live.utils.PreferenceUtils;
@@ -84,6 +87,13 @@ public class VideoFragment extends MyBaseFragment {
             public void onClick(View view, VideoListAdapter.ViewName viewName, int position) {
                 if (viewName== VideoListAdapter.ViewName.ITEM){
 //                    跳转
+                    Bundle bundle=new Bundle();
+                    bundle.putParcelableArrayList("VideoList", (ArrayList<? extends Parcelable>) list);
+                    bundle.putInt("index", position);
+
+                    Intent intent=new Intent(getActivity(), VoiceActivity.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                 }
             }
         });

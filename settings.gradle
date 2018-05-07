@@ -1,1 +1,1 @@
-include ':daimengLive', ':live', ':libscreenstreamer', ':libScreenAuto'
+include ':daimengLive', ':live', ':libscreenstreamer', ':libScreenAuto',':superplayerlibrary',':ijkplayerlibrary'

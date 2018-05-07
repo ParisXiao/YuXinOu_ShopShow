@@ -75,7 +75,7 @@
         android:theme="@style/AppTheme"
         tools:replace="android:name,android:icon">
         <activity
-            android:name=".ui.logicactivity.NewLoginActivity"
+            android:name=".ui.logicactivity.ChooseLiveActivity"
             android:configChanges="keyboardHidden|orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

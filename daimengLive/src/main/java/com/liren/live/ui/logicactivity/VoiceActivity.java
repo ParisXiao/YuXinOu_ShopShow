@@ -1,18 +1,38 @@
 package com.liren.live.ui.logicactivity;
 
-import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.liren.live.R;
 import com.liren.live.base.MyBaseActivity;
+import com.liren.live.config.UrlConfig;
+import com.liren.live.config.UserConfig;
+import com.liren.live.entity.VideoListEntity;
+import com.liren.live.utils.OKHttpUtils;
+import com.liren.live.utils.PreferenceUtils;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 import com.superplayer.library.SuperPlayer;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class VoiceActivity extends MyBaseActivity implements SuperPlayer.OnNetChangeListener {
 
@@ -20,6 +40,13 @@ public class VoiceActivity extends MyBaseActivity implements SuperPlayer.OnNetCh
     SuperPlayer movieSuperPlayer;
     @BindView(R.id.movie_refresh)
     SwipyRefreshLayout movieRefresh;
+    @BindView(R.id.video_img)
+    ImageView videoImg;
+    @BindView(R.id.activity_voice)
+    RelativeLayout activityVoice;
+    List<VideoListEntity> list = new ArrayList<>();
+    int index = 0;
+    int pageindex = 1;
 
     @Override
     protected int getLayoutId() {
@@ -28,12 +55,16 @@ public class VoiceActivity extends MyBaseActivity implements SuperPlayer.OnNetCh
 
     @Override
     protected void initView() {
-        initEvent();
+        Bundle bundle = getIntent().getExtras();
+        list = bundle.getParcelableArrayList("VideoList");
+        index = bundle.getInt("index");
     }
 
     @Override
     protected void initData() {
 
+        initEvent();
+        startPlay();
     }
 
     @Override
@@ -42,14 +73,29 @@ public class VoiceActivity extends MyBaseActivity implements SuperPlayer.OnNetCh
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
+
     private void initEvent() {
         movieRefresh.setOnRefreshListener(new SwipyRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh(SwipyRefreshLayoutDirection direction) {
-                if(direction == SwipyRefreshLayoutDirection.TOP){
+                if (direction == SwipyRefreshLayoutDirection.TOP) {
                     movieRefresh.setRefreshing(false);
-                    startPlay();
-                }else {
+                    index-=1;
+                    if (index == 0) {
+                        pageindex = 1;
+                        getData(list);
+                    } else {
+                        startPlay();
+                    }
+                } else {
+                    movieRefresh.setRefreshing(false);
+                    index+=1;
+                    if (index > list.size() - 1) {
+                        pageindex += 1;
+                        getData(list);
+                    } else {
+                        startPlay();
+                    }
 
                 }
             }
@@ -62,7 +108,7 @@ public class VoiceActivity extends MyBaseActivity implements SuperPlayer.OnNetCh
                         /**
                          * 监听视频是否已经准备完成开始播放。（可以在这里处理视频封面的显示跟隐藏）
                          */
-                        Log.d("JYD","监听视频是否已经准备完成开始播放。（可以在这里处理视频封面的显示跟隐藏）");
+                        Log.d("JYD", "监听视频是否已经准备完成开始播放。（可以在这里处理视频封面的显示跟隐藏）");
                     }
                 }).onComplete(new Runnable() {
             @Override
@@ -80,7 +126,7 @@ public class VoiceActivity extends MyBaseActivity implements SuperPlayer.OnNetCh
                 /**
                  * 监听视频的相关信息。
                  */
-                Log.d("JYD","监听视频的相关信息");
+                Log.d("JYD", "监听视频的相关信息");
             }
         }).onError(new SuperPlayer.OnErrorListener() {
             @Override
@@ -88,16 +134,121 @@ public class VoiceActivity extends MyBaseActivity implements SuperPlayer.OnNetCh
                 /**
                  * 监听视频播放失败的回调
                  */
-                Log.d("JYD","监听视频播放失败的回调");
+                Log.d("JYD", "监听视频播放失败的回调");
             }
         });//开始播放视频
-        movieSuperPlayer.setScaleType(SuperPlayer.SCALETYPE_FITXY);
+        movieSuperPlayer.setScaleType(SuperPlayer.SCALETYPE_FITPARENT);
         movieSuperPlayer.setPlayerWH(0, movieSuperPlayer.getMeasuredHeight());//设置竖屏的时候屏幕的高度，如果不设置会切换后按照16:9的高度重置
     }
 
-    private void startPlay(){
-        movieSuperPlayer.play("http://ws.stream.qqmusic.qq.com/1913719.m4a?fromtag=46");//开始播放视频
+    private void startPlay() {
+        movieSuperPlayer.play(list.get(index).getVideoPath());
+//        movieSuperPlayer.play("http://ws.stream.qqmusic.qq.com/1913719.m4a?fromtag=46");//开始播放视频
     }
+
+    private void getData(final List<VideoListEntity> list) {
+        Observable.create(new Observable.OnSubscribe<Integer>() {
+            @Override
+            public void call(Subscriber<? super Integer> subscriber) {
+                if (OKHttpUtils.isConllection(VoiceActivity.this)) {
+                    String[] key = new String[]{"pageindex", "pagerows"};
+                    Map<String, String> map = new HashMap<String, String>();
+                    map.put("pageindex", pageindex + "");
+                    map.put("pagerows", "20");
+                    String sign = "pageindex" + pageindex + "pagerows" + "20";
+                    String token = PreferenceUtils.getInstance(VoiceActivity.this).getString(UserConfig.DToken);
+                    String result = OKHttpUtils.postData(VoiceActivity.this, UrlConfig.SelHotVideo, token, sign, key, map);
+                    if (!TextUtils.isEmpty(result)) {
+                        JSONObject jsonObject;
+                        try {
+                            jsonObject = new JSONObject(result);
+                            String code = jsonObject.getString("code");
+                            if (code.equals("0")) {
+                                dismisDialog();
+                                JSONObject jsonObject1 = new JSONObject(jsonObject.getString("result"));
+                                JSONArray jsonArray = new JSONArray(jsonObject1.getString("data"));
+                                if (jsonArray.length() > 0) {
+                                    for (int i = 0; i < jsonArray.length(); i++) {
+                                        VideoListEntity listEntity = new VideoListEntity();
+                                        listEntity.setID(jsonArray.getJSONObject(i).getString("id"));
+                                        listEntity.setClickLikeNum(jsonArray.getJSONObject(i).getString("clicklikenum"));
+                                        listEntity.setClicknum(jsonArray.getJSONObject(i).getString("clicknum"));
+                                        listEntity.setCommentsNum(jsonArray.getJSONObject(i).getString("commentsnum"));
+                                        listEntity.setReleaseaddress(jsonArray.getJSONObject(i).getString("releaseaddress"));
+                                        listEntity.setReleaseid(jsonArray.getJSONObject(i).getString("releaseid"));
+                                        listEntity.setVideoName(jsonArray.getJSONObject(i).getString("videoname"));
+                                        listEntity.setVideoImagePath(jsonArray.getJSONObject(i).getString("videoimagepath"));
+                                        listEntity.setVideoPath(jsonArray.getJSONObject(i).getString("videopath"));
+                                        listEntity.setWhetherhot(jsonArray.getJSONObject(i).getString("whetherhot"));
+                                        listEntity.setReleasetime(jsonArray.getJSONObject(i).getString("releasetime"));
+                                        list.add(listEntity);
+                                    }
+                                }
+                                subscriber.onNext(0);
+
+//                                成功
+                            } else {
+                                dismisDialog();
+                                subscriber.onNext(1);
+//                                离线
+
+                            }
+
+                        } catch (JSONException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                            subscriber.onNext(4);
+                        }
+                    } else {
+                        dismisDialog();
+                        subscriber.onNext(3);
+                    }
+                } else {
+                    dismisDialog();
+                    subscriber.onNext(2);
+
+                }
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Integer>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Integer integer) {
+                switch (integer) {
+                    case 0:
+                        startPlay();
+                        break;
+                    case 1:
+//                        refreshLayout.setRefreshing(false);
+//
+//                        adapter.notifyDataSetChanged();
+                        showToast("获取数据失败");
+                        break;
+                    case 2:
+//                        refreshLayout.setRefreshing(false);
+                        showToast("网络异常，请检查网络设置");
+                        break;
+                    case 3:
+//                        refreshLayout.setRefreshing(false);
+                        showToast("服务器异常");
+                        break;
+                    case 4:
+//                        refreshLayout.setRefreshing(false);
+                        showToast("数据解析异常");
+                        break;
+                }
+            }
+        });
+    }
+
     /**
      * 网络链接监听类
      */
