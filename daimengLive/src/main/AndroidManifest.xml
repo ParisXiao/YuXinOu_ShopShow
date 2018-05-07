@@ -68,13 +68,12 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name="com.liren.live.AppContext"
+        android:name=".AppContext"
         android:allowBackup="true"
         android:icon="@drawable/zhibo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
-        tools:replace="android:name,android:icon"
-        >
+        tools:replace="android:name,android:icon">
         <activity
             android:name=".ui.logicactivity.NewLoginActivity"
             android:configChanges="keyboardHidden|orientation">
@@ -85,12 +84,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.liren.live.AppStart"
-            android:label="@string/app_name">
-        </activity>
+            android:name=".AppStart"
+            android:label="@string/app_name"></activity>
         <!-- 设计图分辨率 -->
-        <meta-data android:name="design_width" android:value="750"  tools:replace="android:value" ></meta-data>
-        <meta-data android:name="design_height" android:value="1334"  tools:replace="android:value" ></meta-data>
+        <meta-data
+            android:name="design_width"
+            android:value="750"
+            tools:replace="android:value" />
+        <meta-data
+            android:name="design_height"
+            android:value="1334"
+            tools:replace="android:value" />
 
         <!-- 设置环信应用的appkey -->
         <meta-data
@@ -114,7 +118,7 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
-    //*****************小视频****************//
+        //*****************小视频****************//
         <activity
             android:name=".video.common.activity.QRCodeScanActivity"
             android:screenOrientation="portrait" />
@@ -127,8 +131,7 @@
         <activity
             android:name=".video.videorecord.TCVideoSettingActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".video.common.activity.videopreview.TCVideoPreviewActivity"
             android:screenOrientation="portrait" />
@@ -154,129 +157,130 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".video.shortvideo.editor.bubble.TCWordEditActivity"
-            android:windowSoftInputMode="adjustResize|adjustPan"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|adjustPan" />
         <activity
             android:name=".video.play.NewVodPlayerActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
-            android:windowSoftInputMode="stateHidden"
-            android:screenOrientation="portrait"/>
-        <!--<meta-data-->
-            <!--android:name="BUGLY_APPID"-->
-            <!--android:value="928c8ef035" />-->
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <!-- <meta-data -->
+        <!-- android:name="BUGLY_APPID" -->
+        <!-- android:value="928c8ef035" /> -->
 
-        <!--&lt;!&ndash; 配置bugly组件的APP渠道号 &ndash;&gt;-->
-        <!--<meta-data-->
-            <!--android:name="BUGLY_APP_CHANNEL"-->
-            <!--android:value="RDM版本" />-->
+
+        <!-- &lt;!&ndash; 配置bugly组件的APP渠道号 &ndash;&gt; -->
+        <!-- <meta-data -->
+        <!-- android:name="BUGLY_APP_CHANNEL" -->
+        <!-- android:value="RDM版本" /> -->
+
 
         <!-- 配置bugly组件的调试模式（true或者false） -->
-        <!--<meta-data-->
-            <!--android:name="BUGLY_ENABLE_DEBUG"-->
-            <!--android:value="true" />-->
+        <!-- <meta-data -->
+        <!-- android:name="BUGLY_ENABLE_DEBUG" -->
+        <!-- android:value="true" /> -->
         //*****************小视频****************//
-
         <activity
-            android:name="com.liren.live.ui.MainActivity"
+            android:name=".ui.MainActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.liren.live.ui.MobileLoginActivity"
+            android:name=".ui.MobileLoginActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.liren.live.ui.MobileRegActivity"
+            android:name=".ui.MobileRegActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.liren.live.ui.MobileFindPassActivity"
+            android:name=".ui.MobileFindPassActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.liren.live.ui.SelectLoginActivity"
+            android:name=".ui.SelectLoginActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.liren.live.ui.UserInfoDetailActivity"
+            android:name=".ui.UserInfoDetailActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.liren.live.ui.EditInfoActivity"
+            android:name=".ui.EditInfoActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.liren.live.ui.UserSelectAvatarActivity"
+            android:name=".ui.UserSelectAvatarActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.liren.live.ui.UserLevelActivity"
+            android:name=".ui.UserLevelActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.liren.live.ui.UserDiamondsActivity"
+            android:name=".ui.UserDiamondsActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.liren.live.ui.UserProfitActivity"
+            android:name=".ui.UserProfitActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.liren.live.ui.SettingActivity"
+            android:name=".ui.SettingActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.liren.live.ui.WebViewActivity"
+            android:name=".ui.WebViewActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name="com.liren.live.ui.RtmpPushActivity"
+            android:name=".ui.RtmpPushActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.liren.live.ui.RtmpPlayerActivity"
+            android:name=".ui.RtmpPlayerActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.liren.live.ui.HomePageActivity"
+            android:name=".ui.HomePageActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.liren.live.ui.SimpleUserInfoListActivity"
+            android:name=".ui.SimpleUserInfoListActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.liren.live.ui.DedicateOrderActivity"
+            android:name=".ui.DedicateOrderActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.liren.live.ui.LiveRecordActivity"
+            android:name=".ui.LiveRecordActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.liren.live.ui.UserChangeSexActivity"
+            android:name=".ui.UserChangeSexActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
-        <activity android:name="com.liren.live.ui.LiveRecordPlayerActivity" />
-        <activity android:name="com.liren.live.ui.SettingPushLiveActivity" />
-        <activity android:name="com.liren.live.ui.SplashActivity" />
-        <activity android:name="com.liren.live.ui.ChangePassActivity" />
-        <activity android:name="com.liren.live.ui.RequestCashActivity" />
+        <activity android:name=".ui.LiveRecordPlayerActivity" />
+        <activity android:name=".ui.SettingPushLiveActivity" />
+        <activity android:name=".ui.SplashActivity" />
+        <activity android:name=".ui.ChangePassActivity" />
+        <activity android:name=".ui.RequestCashActivity" />
         <activity
-            android:name="com.liren.live.ui.SimpleBackActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name="com.liren.live.ui.ActionBarSimpleBackActivity"
+            android:name=".ui.SimpleBackActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.liren.live.ui.AlipayResultActivity"
+            android:name=".ui.ActionBarSimpleBackActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.AlipayResultActivity"
             android:configChanges="orientation|screenSize"
             android:windowSoftInputMode="adjustResize|adjustPan" />
         <activity
@@ -312,27 +316,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.liren.live.wxapi.WXEntryActivity"
+            android:name=".wxapi.WXEntryActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.Light.NoTitleBar" />
         <!-- 改版后 Activty -->
 
-
         <activity
             android:name=".ui.logicactivity.RegisterActivity"
-            android:configChanges="keyboardHidden|orientation">
-
-        </activity>
-        <activity android:name=".ui.logicactivity.AecommerceDirectBroadcastActivity">
-        </activity>
-        <activity android:name=".ui.logicactivity.EducationDirectBroadcastActivity">
-        </activity>
-
-        <activity android:name=".ui.logicactivity.ResetPassActivity">
-        </activity>
-        <activity android:name=".ui.logicactivity.IdentificationEntranceActivity">
-        </activity>
+            android:configChanges="keyboardHidden|orientation"></activity>
+        <activity android:name=".ui.logicactivity.AecommerceDirectBroadcastActivity"></activity>
+        <activity android:name=".ui.logicactivity.EducationDirectBroadcastActivity"></activity>
+        <activity android:name=".ui.logicactivity.ResetPassActivity"></activity>
+        <activity android:name=".ui.logicactivity.IdentificationEntranceActivity"></activity>
         <!-- jupsh -->
         <!-- Required SDK 核心功能 -->
         <!-- option since 2.0.5 可配置PushService，DaemonService,PushReceiver,AlarmReceiver的android:process参数 将JPush相关组件设置为一个独立进程 -->
@@ -405,7 +401,7 @@
 
         <!-- User defined. 用户自定义的广播接收器 -->
         <receiver
-            android:name="com.liren.live.broadcast.PushReceiver"
+            android:name=".broadcast.PushReceiver"
             android:enabled="true">
             <intent-filter>
 
@@ -449,7 +445,7 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="@string/amp_val"
-            tools:replace="android:value" >
+            tools:replace="android:value">
             //开发者申请的key
         </meta-data>
 
@@ -479,14 +475,13 @@
             android:value="true"
             tools:replace="android:value" />
 
-        <activity android:name="com.liren.live.ui.OrderWebViewActivity"/>
+        <activity android:name=".ui.OrderWebViewActivity" />
         <activity
             android:name="com.ksyun.media.diversity.screenstreamer.capture.ScreenCapture$ScreenCaptureAssistantActivity"
-            android:theme="@android:style/Theme.Translucent">
-        </activity>
+            android:theme="@android:style/Theme.Translucent"></activity>
         <activity android:name=".ui.logicactivity.ChooseSellerActivity" />
         <activity android:name=".ui.logicactivity.MyMainActivity" />
-
+        <activity android:name=".ui.logicactivity.VoiceActivity"></activity>
     </application>
 
 </manifest>

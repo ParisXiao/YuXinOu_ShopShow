@@ -243,7 +243,6 @@
     <dimen name="toolbar_margin">15dp</dimen>
 
 
-
     <!-- AVSDK *******************************************************************************************************************************-->
     <dimen name="qav_title_margin_top">3dp</dimen>
     <dimen name="qav_title_bar_height">50dp</dimen>
