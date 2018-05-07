@@ -127,6 +127,7 @@ public class LiveListFragment extends MyBaseFragment {
             @Override
             public void onClick(View v) {
                 //重新加载数据
+                pageindex=1;
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
