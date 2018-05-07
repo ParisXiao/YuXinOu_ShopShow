@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.liren.live.R;
 import com.liren.live.base.BackHandledInterface;
@@ -71,13 +70,13 @@ public class MyMainActivity extends MyBaseActivity implements BackHandledInterfa
     public void onBackPressed() {
         if (mBackHandedFragment == null || !mBackHandedFragment.onBackPressed()) {
             if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
-                if ((System.currentTimeMillis() - exitTime) > 2000) {
-                    //弹出提示，可以有多种方式
-                    Toast.makeText(getApplicationContext(), "再按一次退出", Toast.LENGTH_SHORT).show();
-                    exitTime = System.currentTimeMillis();
-                } else {
+//                if ((System.currentTimeMillis() - exitTime) > 2000) {
+//                    //弹出提示，可以有多种方式
+//                    Toast.makeText(getApplicationContext(), "再按一次退出", Toast.LENGTH_SHORT).show();
+//                    exitTime = System.currentTimeMillis();
+//                } else {
                     super.onBackPressed(); //退出
-                }
+//                }
 
             } else {
                 getSupportFragmentManager().popBackStack(); //fragment 出栈

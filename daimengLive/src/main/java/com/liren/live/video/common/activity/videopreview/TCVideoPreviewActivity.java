@@ -27,7 +27,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.liren.live.R;
 import com.liren.live.config.UrlConfig;
+import com.liren.live.config.UserConfig;
 import com.liren.live.utils.OKHttpUtils;
+import com.liren.live.utils.PreferenceUtils;
 import com.liren.live.video.common.utils.FileUtils;
 import com.liren.live.video.common.utils.TCConstants;
 import com.liren.live.video.videoupload.TXUGCPublish;
@@ -220,7 +222,8 @@ public class TCVideoPreviewActivity extends Activity implements View.OnClickList
                 if (OKHttpUtils.isConllection(TCVideoPreviewActivity.this)) {
                     String[] key = new String[]{};
                     Map<String, String> map = new HashMap<String, String>();
-                    String result = OKHttpUtils.initHttpData(TCVideoPreviewActivity.this, UrlConfig.GetSignature, "", key, map);
+                    String token= PreferenceUtils.getInstance(TCVideoPreviewActivity.this).getString(UserConfig.DToken);
+                    String result = OKHttpUtils.postData(TCVideoPreviewActivity.this, UrlConfig.GetSignature, token,"", key, map);
                     if (!TextUtils.isEmpty(result)) {
                         JSONObject jsonObject;
                         try {
