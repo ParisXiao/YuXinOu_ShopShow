@@ -77,11 +77,7 @@
         <activity
             android:name=".ui.logicactivity.ChooseLiveActivity"
             android:configChanges="keyboardHidden|orientation">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".AppStart"
@@ -480,7 +476,13 @@
             android:name="com.ksyun.media.diversity.screenstreamer.capture.ScreenCapture$ScreenCaptureAssistantActivity"
             android:theme="@android:style/Theme.Translucent"></activity>
         <activity android:name=".ui.logicactivity.ChooseSellerActivity" />
-        <activity android:name=".ui.logicactivity.MyMainActivity" />
+        <activity android:name=".ui.logicactivity.MyMainActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.logicactivity.VoiceActivity"></activity>
     </application>
 

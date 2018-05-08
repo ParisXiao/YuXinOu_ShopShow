@@ -3,7 +3,9 @@ package com.liren.live.ui.logicactivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -17,6 +19,7 @@ import com.liren.live.utils.PreferenceUtils;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 import com.superplayer.library.SuperPlayer;
+import com.superplayer.library.mediaplayer.ControlbarShowHideInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,7 +37,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class VoiceActivity extends MyBaseActivity implements SuperPlayer.OnNetChangeListener {
+public class VoiceActivity extends MyBaseActivity implements SuperPlayer.OnNetChangeListener, ControlbarShowHideInterface {
 
     @BindView(R.id.movie_super_player)
     SuperPlayer movieSuperPlayer;
@@ -47,6 +50,8 @@ public class VoiceActivity extends MyBaseActivity implements SuperPlayer.OnNetCh
     List<VideoListEntity> list = new ArrayList<>();
     int index = 0;
     int pageindex = 1;
+    @BindView(R.id.bottomTolk)
+    LinearLayout bottomTolk;
 
     @Override
     protected int getLayoutId() {
@@ -80,7 +85,7 @@ public class VoiceActivity extends MyBaseActivity implements SuperPlayer.OnNetCh
             public void onRefresh(SwipyRefreshLayoutDirection direction) {
                 if (direction == SwipyRefreshLayoutDirection.TOP) {
                     movieRefresh.setRefreshing(false);
-                    index-=1;
+                    index -= 1;
                     if (index == 0) {
                         pageindex = 1;
                         getData(list);
@@ -89,7 +94,7 @@ public class VoiceActivity extends MyBaseActivity implements SuperPlayer.OnNetCh
                     }
                 } else {
                     movieRefresh.setRefreshing(false);
-                    index+=1;
+                    index += 1;
                     if (index > list.size() - 1) {
                         pageindex += 1;
                         getData(list);
@@ -139,6 +144,7 @@ public class VoiceActivity extends MyBaseActivity implements SuperPlayer.OnNetCh
         });//开始播放视频
         movieSuperPlayer.setScaleType(SuperPlayer.SCALETYPE_FITPARENT);
         movieSuperPlayer.setPlayerWH(0, movieSuperPlayer.getMeasuredHeight());//设置竖屏的时候屏幕的高度，如果不设置会切换后按照16:9的高度重置
+        movieSuperPlayer.setControlbarInterface(this);
     }
 
     private void startPlay() {
@@ -297,6 +303,15 @@ public class VoiceActivity extends MyBaseActivity implements SuperPlayer.OnNetCh
         super.onDestroy();
         if (movieSuperPlayer != null) {
             movieSuperPlayer.onDestroy();
+        }
+    }
+
+    @Override
+    public void controlbarShowHide(boolean isShow) {
+        if (isShow) {
+            bottomTolk.setVisibility(View.VISIBLE);
+        } else {
+            bottomTolk.setVisibility(View.GONE);
         }
     }
 }

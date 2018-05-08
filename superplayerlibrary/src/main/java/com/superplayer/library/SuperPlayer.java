@@ -29,6 +29,7 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.superplayer.library.mediaplayer.ControlbarShowHideInterface;
 import com.superplayer.library.mediaplayer.IRenderView;
 import com.superplayer.library.mediaplayer.IjkVideoView;
 import com.superplayer.library.mediaplayer.SeekListener;
@@ -118,6 +119,7 @@ public class SuperPlayer extends RelativeLayout {
     private NetChangeReceiver netChangeReceiver;
     private OnNetChangeListener onNetChangeListener;
     private SeekListener seekListener;
+    private ControlbarShowHideInterface showHideInterface;
 
     private OrientationEventListener orientationEventListener;
     private int defaultTimeout = 3000;
@@ -276,6 +278,8 @@ public class SuperPlayer extends RelativeLayout {
      * @param show true ： 显示 false ： 隐藏
      */
     public void showBottomControl(boolean show) {
+        if(showHideInterface!=null)
+            showHideInterface.controlbarShowHide(!show);
         $.id(R.id.app_video_bottom_box).visibility(
                 show ? View.VISIBLE : View.GONE);
         if (isLive) {// 直播需要隐藏和显示一些底部的一些控件
@@ -724,6 +728,9 @@ public class SuperPlayer extends RelativeLayout {
         orientationEventListener.disable();
         handler.removeCallbacksAndMessages(null);
         videoView.stopPlayback();
+        if(showHideInterface!=null)
+            showHideInterface = null;
+
     }
 
     /**
@@ -1573,4 +1580,9 @@ public class SuperPlayer extends RelativeLayout {
         $.id(R.id.view_jky_player_style).view.setOnClickListener(clickListener);
 
     }
+
+    public void setControlbarInterface(ControlbarShowHideInterface controlbarInterface){
+        this.showHideInterface = controlbarInterface;
+    }
+
 }

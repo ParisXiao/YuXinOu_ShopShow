@@ -26,5 +26,64 @@
             android:layout_height="match_parent">
         </com.superplayer.library.SuperPlayer>
     </com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout>
-
+    <LinearLayout
+        android:id="@+id/bottomTolk"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/y20"
+        android:layout_height="@dimen/y80">
+        <RelativeLayout
+            android:layout_width="@dimen/x287"
+            android:layout_marginLeft="@dimen/y24"
+            android:background="@drawable/shape_edit_bg"
+            android:layout_height="match_parent">
+            <EditText
+                android:layout_width="wrap_content"
+                android:singleLine="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/x32"
+                android:text="说点什么"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+        <ImageView
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/x24"
+        android:src="@mipmap/shoucang"
+        android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="1230"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/x15"
+            android:textColor="@color/white"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/x24"
+            android:src="@mipmap/shoucang"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="1230"
+            android:gravity="center_vertical"
+            android:textColor="@color/white"
+            android:layout_marginLeft="@dimen/x15"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/x24"
+            android:src="@mipmap/fenxiang"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:text="1230"
+            android:gravity="center_vertical"
+            android:textColor="@color/white"
+            android:layout_marginLeft="@dimen/x15"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 </RelativeLayout>
