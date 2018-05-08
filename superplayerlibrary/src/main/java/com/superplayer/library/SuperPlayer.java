@@ -215,10 +215,12 @@ public class SuperPlayer extends RelativeLayout {
         } else if (videoView.isPlaying()) {
             statusChange(STATUS_PAUSE);
             videoView.pause();
+            updatePausePlay();
         } else {
             videoView.start();
+
         }
-        updatePausePlay();
+
     }
 
     /**
@@ -259,7 +261,7 @@ public class SuperPlayer extends RelativeLayout {
             }
             showBottomControl(true);
             if (!fullScreenOnly) {
-                $.id(R.id.view_jky_player_fullscreen).visible();
+//                $.id(R.id.view_jky_player_fullscreen).visible();
             }
             isShowing = true;
         }

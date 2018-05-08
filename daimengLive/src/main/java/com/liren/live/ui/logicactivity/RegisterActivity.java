@@ -9,13 +9,20 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.hyphenate.util.NetUtils;
+import com.liren.live.AppContext;
 import com.liren.live.R;
+import com.liren.live.api.remote.ApiUtils;
+import com.liren.live.api.remote.PhoneLiveApi;
 import com.liren.live.base.MyBaseActivity;
 import com.liren.live.config.UrlConfig;
 import com.liren.live.config.UserConfig;
 import com.liren.live.utils.OKHttpUtils;
+import com.liren.live.utils.PhoneUtils;
 import com.liren.live.utils.PreferenceUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,6 +32,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Call;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -81,11 +89,24 @@ public class RegisterActivity extends MyBaseActivity {
                     showToast("请输入手机号码");
                     return;
                 }
+                if (!PhoneUtils.isMobile(phone)) {
+                    showToast(getResources().getString(R.string.plase_error_in_phone));
+                    return;
+                }
+                if(!NetUtils.hasNetwork(RegisterActivity.this)){
+                    AppContext.showToast("请检查网络设置",0);
+                    return;
+                }
                 time.start();
+                requestGetMessageCode();
                 break;
             case R.id.register:
                 if (TextUtils.isEmpty(code)) {
                     showToast("请输入手机号码");
+                    return;
+                }
+                if (!PhoneUtils.isMobile(phone)) {
+                    showToast(getResources().getString(R.string.plase_error_in_phone));
                     return;
                 }
                 if (TextUtils.isEmpty(phone)) {
@@ -112,6 +133,24 @@ public class RegisterActivity extends MyBaseActivity {
                 break;
         }
 
+    }
+    //获取验证码
+    private void requestGetMessageCode() {
+        PhoneLiveApi.getMessageCode(registerPhone.getText().toString().trim(), "Login.getCode", new StringCallback() {
+            @Override
+            public void onError(Call call, Exception e, int id) {
+
+            }
+
+            @Override
+            public void onResponse(String response, int id) {
+                JSONArray res = ApiUtils.checkIsSuccess(response);
+                if(res != null){
+
+                    AppContext.showToast(getString(R.string.codehasbeensend),0);
+                }
+            }
+        });
     }
     private String msg;
     private void registerPost(final String phone, final String passward){
@@ -205,7 +244,7 @@ public class RegisterActivity extends MyBaseActivity {
 
         @Override
         public void onFinish() {// 计时完毕
-            registerSendCode.setText("重新获取验证码");
+            registerSendCode.setText("重新获取");
             registerSendCode.setClickable(true);
             registerSendCode.setTextColor(getResources().getColor(R.color.login_text));
         }

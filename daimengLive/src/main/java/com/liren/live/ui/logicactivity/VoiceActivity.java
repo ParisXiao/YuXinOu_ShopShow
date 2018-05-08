@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.liren.live.R;
@@ -16,6 +17,7 @@ import com.liren.live.config.UserConfig;
 import com.liren.live.entity.VideoListEntity;
 import com.liren.live.utils.OKHttpUtils;
 import com.liren.live.utils.PreferenceUtils;
+import com.liren.live.widget.CircleImageView;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
 import com.superplayer.library.SuperPlayer;
@@ -32,6 +34,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -43,8 +46,6 @@ public class VoiceActivity extends MyBaseActivity implements SuperPlayer.OnNetCh
     SuperPlayer movieSuperPlayer;
     @BindView(R.id.movie_refresh)
     SwipyRefreshLayout movieRefresh;
-    @BindView(R.id.video_img)
-    ImageView videoImg;
     @BindView(R.id.activity_voice)
     RelativeLayout activityVoice;
     List<VideoListEntity> list = new ArrayList<>();
@@ -52,6 +53,30 @@ public class VoiceActivity extends MyBaseActivity implements SuperPlayer.OnNetCh
     int pageindex = 1;
     @BindView(R.id.bottomTolk)
     LinearLayout bottomTolk;
+    @BindView(R.id.open_pinlun)
+    LinearLayout openPinlun;
+    @BindView(R.id.po)
+    ImageView po;
+    @BindView(R.id.num_pinlun)
+    TextView numPinlun;
+    @BindView(R.id.pinlun)
+    LinearLayout pinlun;
+    @BindView(R.id.num_dianzan)
+    TextView numDianzan;
+    @BindView(R.id.dianzan)
+    LinearLayout dianzan;
+    @BindView(R.id.num_zhuanfa)
+    TextView numZhuanfa;
+    @BindView(R.id.zhuanfa)
+    LinearLayout zhuanfa;
+    @BindView(R.id.author_icon)
+    CircleImageView authorIcon;
+    @BindView(R.id.author_name)
+    TextView authorName;
+    @BindView(R.id.num_dianji)
+    TextView numDianji;
+    @BindView(R.id.stop_exit)
+    ImageView stopExit;
 
     @Override
     protected int getLayoutId() {
@@ -87,6 +112,7 @@ public class VoiceActivity extends MyBaseActivity implements SuperPlayer.OnNetCh
                     movieRefresh.setRefreshing(false);
                     index -= 1;
                     if (index == 0) {
+                        index = 0;
                         pageindex = 1;
                         getData(list);
                     } else {
@@ -96,6 +122,7 @@ public class VoiceActivity extends MyBaseActivity implements SuperPlayer.OnNetCh
                     movieRefresh.setRefreshing(false);
                     index += 1;
                     if (index > list.size() - 1) {
+                        index = list.size() - 1;
                         pageindex += 1;
                         getData(list);
                     } else {
@@ -142,13 +169,59 @@ public class VoiceActivity extends MyBaseActivity implements SuperPlayer.OnNetCh
                 Log.d("JYD", "监听视频播放失败的回调");
             }
         });//开始播放视频
-        movieSuperPlayer.setScaleType(SuperPlayer.SCALETYPE_FITPARENT);
+        movieSuperPlayer.setScaleType(SuperPlayer.SCALETYPE_16_9);
         movieSuperPlayer.setPlayerWH(0, movieSuperPlayer.getMeasuredHeight());//设置竖屏的时候屏幕的高度，如果不设置会切换后按照16:9的高度重置
         movieSuperPlayer.setControlbarInterface(this);
     }
 
     private void startPlay() {
         movieSuperPlayer.play(list.get(index).getVideoPath());
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (!TextUtils.isEmpty(list.get(index).getCommentsNum())) {
+                    if (Integer.valueOf(list.get(index).getCommentsNum()) > 10000) {
+                        numPinlun.setText(Integer.valueOf(list.get(index).getCommentsNum()) / 10000 + "万");
+                    } else {
+                        numPinlun.setText(list.get(index).getCommentsNum());
+                    }
+                } else {
+                    numPinlun.setText("0");
+                }
+                if (!TextUtils.isEmpty(list.get(index).getClickLikeNum())) {
+                    if (Integer.valueOf(list.get(index).getClickLikeNum()) > 10000) {
+                        numDianzan.setText(Integer.valueOf(list.get(index).getClickLikeNum()) / 10000 + "万");
+                    } else {
+                        numDianzan.setText(list.get(index).getClickLikeNum());
+                    }
+                } else {
+                    numDianzan.setText("0");
+                }
+                if (!TextUtils.isEmpty(list.get(index).getForwardingnum())) {
+                    if (Integer.valueOf(list.get(index).getForwardingnum()) > 10000) {
+                        numZhuanfa.setText(Integer.valueOf(list.get(index).getForwardingnum()) / 10000 + "万");
+                    } else {
+                        numZhuanfa.setText(list.get(index).getForwardingnum());
+                    }
+                } else {
+                    numZhuanfa.setText("0");
+                }
+                if (!TextUtils.isEmpty(list.get(index).getClicknum())) {
+                    if (Integer.valueOf(list.get(index).getClicknum()) > 10000) {
+                        numDianji.setText("播放量:"+Integer.valueOf(list.get(index).getClicknum()) / 10000 + "万");
+                    } else {
+                        numDianji.setText("播放量:"+list.get(index).getClicknum());
+                    }
+                } else {
+                    numDianji.setText("播放量:"+"1");
+                }
+                if (!TextUtils.isEmpty(list.get(index).getReleaseaddress())) {
+                    authorName.setText(list.get(index).getReleaseaddress());
+                }else {
+                    authorName.setText("未知");
+                }
+            }
+        });
 //        movieSuperPlayer.play("http://ws.stream.qqmusic.qq.com/1913719.m4a?fromtag=46");//开始播放视频
     }
 
@@ -308,10 +381,25 @@ public class VoiceActivity extends MyBaseActivity implements SuperPlayer.OnNetCh
 
     @Override
     public void controlbarShowHide(boolean isShow) {
-        if (isShow) {
-            bottomTolk.setVisibility(View.VISIBLE);
-        } else {
-            bottomTolk.setVisibility(View.GONE);
+    }
+
+    @OnClick({R.id.open_pinlun, R.id.pinlun, R.id.dianzan, R.id.zhuanfa})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.open_pinlun:
+                break;
+            case R.id.pinlun:
+                break;
+            case R.id.dianzan:
+                break;
+            case R.id.zhuanfa:
+                break;
         }
+    }
+
+    @OnClick(R.id.stop_exit)
+    public void onViewClicked() {
+        movieSuperPlayer.stop();
+        finish();
     }
 }

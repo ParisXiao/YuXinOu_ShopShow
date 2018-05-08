@@ -127,19 +127,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/iv_live_share_weibo"
                     android:src="@drawable/room_weibo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/iv_live_share_timeline"
                     android:src="@drawable/room_timeline"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <ImageView
-                    android:visibility="gone"
                     android:id="@+id/iv_live_share_wechat"
                     android:src="@drawable/room_wechat"
                     android:layout_width="wrap_content"

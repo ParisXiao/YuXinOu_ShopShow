@@ -8,14 +8,22 @@
         android:src="@mipmap/bg"
         android:scaleType="centerCrop"
         android:layout_height="@dimen/y450" />
-
+    <TextView
+        android:id="@+id/appname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="渝新欧商城"
+        android:textColor="@color/white"
+        android:textSize="36sp"
+        android:layout_marginTop="@dimen/y120"
+        android:layout_centerHorizontal="true"
+        />
     <RelativeLayout
         android:id="@+id/centrol_part"
         android:layout_width="@dimen/x640"
         android:background="@drawable/shape_bg"
-        android:layout_height="@dimen/y888"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/y55"
+        android:layout_height="@dimen/y800"
+        android:layout_marginTop="@dimen/y320"
         android:layout_centerHorizontal="true">
         <TextView
             android:id="@+id/register_titile"
@@ -149,6 +157,7 @@
                 android:gravity="center_vertical"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/x110"
+                android:inputType="textPassword"
                 android:layout_marginRight="@dimen/x40"
                 android:hint="请输入密码"
                 android:layout_height="match_parent" />
@@ -183,6 +192,7 @@
                 android:layout_marginLeft="@dimen/x110"
                 android:layout_marginRight="@dimen/x40"
                 android:hint="请再次输入密码"
+                android:inputType="textPassword"
                 android:layout_height="match_parent" />
 
 

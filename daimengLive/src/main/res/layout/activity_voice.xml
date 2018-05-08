@@ -1,89 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_voice"
     android:layout_width="match_parent"
-
     android:layout_height="match_parent"
     tools:context="com.liren.live.ui.logicactivity.VoiceActivity">
-    <ImageView
-        android:id="@+id/video_img"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@mipmap/ic_launcher"
-        android:fitsSystemWindows="true"
-        />
+
     <com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout
         android:id="@+id/movie_refresh"
         android:layout_width="match_parent"
-        app:srl_direction="both"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:srl_direction="both">
+
         <com.superplayer.library.SuperPlayer
             android:id="@+id/movie_super_player"
             android:layout_width="match_parent"
-            android:fitsSystemWindows="true"
-            android:layout_height="match_parent">
-        </com.superplayer.library.SuperPlayer>
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"></com.superplayer.library.SuperPlayer>
     </com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout>
+    <RelativeLayout
+        android:layout_marginTop="@dimen/y80"
+        android:layout_width="match_parent"
+
+        android:layout_height="@dimen/y100">
+        <LinearLayout
+            android:layout_width="@dimen/x300"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:background="@drawable/video_saybtn_bg"
+            android:layout_marginLeft="@dimen/x20"
+            android:gravity="center_vertical"
+            >
+            <com.liren.live.widget.CircleImageView
+                android:layout_width="@dimen/x80"
+                android:layout_height="@dimen/y80"
+                android:id="@+id/author_icon"
+                android:src="@mipmap/ic_launcher"
+                android:layout_marginLeft="@dimen/x20"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/author_name"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:text="死胖子"
+                    android:maxLength="5"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/num_dianji"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:text="死胖子"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/guanbi_pinglun"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/x40"
+            android:id="@+id/stop_exit"
+            />
+    </RelativeLayout>
     <LinearLayout
         android:id="@+id/bottomTolk"
         android:layout_width="match_parent"
+        android:layout_height="@dimen/y80"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
         android:layout_marginBottom="@dimen/y20"
-        android:layout_height="@dimen/y80">
-        <RelativeLayout
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/open_pinlun"
             android:layout_width="@dimen/x287"
-            android:layout_marginLeft="@dimen/y24"
-            android:background="@drawable/shape_edit_bg"
-            android:layout_height="match_parent">
-            <EditText
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/x20"
+            android:background="@drawable/video_saybtn_bg"
+            android:gravity="center_vertical">
+
+            <TextView
                 android:layout_width="wrap_content"
-                android:singleLine="true"
-                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/x32"
-                android:text="说点什么"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
-        <ImageView
-        android:layout_width="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="@dimen/x24"
-        android:src="@mipmap/shoucang"
-        android:layout_height="wrap_content" />
-        <TextView
+                android:text="聊点什么"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/pinlun"
             android:layout_width="wrap_content"
-            android:text="1230"
+            android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:layout_marginLeft="@dimen/x15"
-            android:textColor="@color/white"
-            android:layout_height="wrap_content" />
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_marginLeft="@dimen/x24"
-            android:src="@mipmap/shoucang"
-            android:layout_height="wrap_content" />
-        <TextView
+            >
+
+            <ImageView
+                android:id="@+id/po"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/shoucang" />
+
+            <TextView
+                android:id="@+id/num_pinlun"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x15"
+                android:text="1230"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dianzan"
             android:layout_width="wrap_content"
-            android:text="1230"
-            android:gravity="center_vertical"
-            android:textColor="@color/white"
-            android:layout_marginLeft="@dimen/x15"
-            android:layout_height="wrap_content" />
-        <ImageView
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/x20"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/shoucang" />
+
+            <TextView
+                android:id="@+id/num_dianzan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x15"
+
+                android:text="1230"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/zhuanfa"
             android:layout_width="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/x24"
-            android:src="@mipmap/fenxiang"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:text="1230"
-            android:gravity="center_vertical"
-            android:textColor="@color/white"
-            android:layout_marginLeft="@dimen/x15"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/x20"
+            android:gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/fenxiang" />
+
+            <TextView
+                android:id="@+id/num_zhuanfa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x15"
+                android:gravity="center_vertical"
+                android:text="1230"
+                android:textColor="@color/white" />
+        </LinearLayout>
     </LinearLayout>
+
 </RelativeLayout>
