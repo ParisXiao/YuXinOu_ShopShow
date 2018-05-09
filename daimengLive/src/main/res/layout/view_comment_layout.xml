@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/white"
+    android:layout_height="@dimen/y875">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y88">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/x24"
+            android:text="全部评论(2973)"
+            android:textColor="#999999"
+            android:textSize="@dimen/x28"
+            android:layout_height="match_parent" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/guanbi_pinglun"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/x24"
+            android:id="@+id/close_comment"
+            />
+        <ImageView
+            android:layout_width="match_parent"
+            android:background="#999999"
+            android:layout_height="0.5dp" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/commentRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y707">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="@dimen/y78">
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_marginLeft="@dimen/x15"
+            android:layout_marginRight="@dimen/x15"
+            android:background="@drawable/shape_edit_bg"
+            android:layout_centerHorizontal="true"
+            android:layout_height="match_parent">
+            <EditText
+                android:id="@+id/commentEdit"
+                android:layout_width="match_parent"
+                android:singleLine="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/x10"
+                android:background="@null"
+                android:textColor="#999999"
+                android:textSize="@dimen/x28"
+                android:gravity="center_vertical"
+                android:textColorHint="#999999"
+                android:hint="说点什么"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
+        <Button
+            android:id="@+id/commentSend"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:textColor="#ffffff"
+            android:gravity="center"
+            android:textSize="@dimen/x36"
+            android:text="发送"
+            android:background="@drawable/button"
+            android:layout_marginLeft="@dimen/x15"
+            android:layout_marginRight="@dimen/x15"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+</LinearLayout>

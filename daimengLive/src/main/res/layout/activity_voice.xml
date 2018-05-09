@@ -172,5 +172,13 @@
                 android:textColor="@color/white" />
         </LinearLayout>
     </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/comment"
+        android:visibility="gone"
+        android:layout_height="wrap_content">
+        <include layout="@layout/view_comment_layout" />
+    </RelativeLayout>
 
 </RelativeLayout>

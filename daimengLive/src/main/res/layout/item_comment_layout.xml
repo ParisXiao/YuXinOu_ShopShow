@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="@dimen/y224">
+    <com.liren.live.widget.CircleImageView
+        android:layout_width="@dimen/x55"
+        android:id="@+id/headImag"
+        android:layout_marginLeft="@dimen/x24"
+        android:layout_marginTop="@dimen/y30"
+        android:src="@mipmap/ic_launcher"
+        android:layout_height="@dimen/y55" />
+    <TextView
+        android:layout_toRightOf="@+id/headImag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/author_name"
+        android:textColor="#999999"
+        android:layout_marginTop="@dimen/y20"
+        android:layout_marginLeft="@dimen/x20"
+        android:textSize="12sp"
+        android:text="小小宇宙"
+        android:maxLength="5"
+        android:singleLine="true"
+        android:ellipsize="end"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/num_dianji"
+        android:textColor="#999999"
+        android:layout_toRightOf="@+id/headImag"
+        android:layout_below="@+id/author_name"
+        android:layout_marginLeft="@dimen/x20"
+        android:textSize="10sp"
+        android:text="2018-1-12"
+        android:layout_marginTop="@dimen/x15"
+        android:singleLine="true"
+        android:ellipsize="end"
+        />
+    <ImageView
+        android:id="@+id/zan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/y45"
+        android:layout_marginRight="@dimen/x24"
+        android:layout_gravity="center_vertical"
+        android:src="@mipmap/shoucang" />
+
+    <TextView
+        android:id="@+id/zanText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3526"
+        android:textColor="#999999"
+        android:textSize="14sp"
+        android:layout_marginTop="@dimen/y50"
+        android:layout_marginRight="@dimen/x10"
+        android:layout_gravity="center_vertical"
+        android:layout_toLeftOf="@+id/zan"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_below="@+id/num_dianji"
+        android:layout_marginBottom="@dimen/y30"
+        android:layout_marginTop="@dimen/y40"
+        android:layout_marginRight="@dimen/y24"
+        android:text="该框架于2016年4月10号发布的第1个版本到现在已经一年多了，经历了800多次代码提交，140多次版本打包，修复了1000多个问题，获得了9000多star，非常感谢大家的使用以及反馈。"
+        android:layout_toRightOf="@+id/headImag"
+        android:layout_marginLeft="@dimen/x20"
+        android:textColor="#999999"
+        android:textSize="10sp"
+        android:maxLines="2"
+        android:layout_height="match_parent" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="0.5dp" />
+</RelativeLayout>

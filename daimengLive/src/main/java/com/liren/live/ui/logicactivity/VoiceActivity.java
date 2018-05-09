@@ -1,9 +1,13 @@
 package com.liren.live.ui.logicactivity;
 
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -11,7 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.liren.live.R;
+import com.liren.live.adapter.CommentAdapter;
 import com.liren.live.base.MyBaseActivity;
+import com.liren.live.bean.AreaBean;
 import com.liren.live.config.UrlConfig;
 import com.liren.live.config.UserConfig;
 import com.liren.live.entity.VideoListEntity;
@@ -77,6 +83,16 @@ public class VoiceActivity extends MyBaseActivity implements SuperPlayer.OnNetCh
     TextView numDianji;
     @BindView(R.id.stop_exit)
     ImageView stopExit;
+    @BindView(R.id.close_comment)
+    ImageView closeComment;
+    @BindView(R.id.commentRecycler)
+    RecyclerView commentRecycler;
+    @BindView(R.id.commentEdit)
+    EditText commentEdit;
+    @BindView(R.id.commentSend)
+    Button commentSend;
+    @BindView(R.id.comment)
+    RelativeLayout comment;
 
     @Override
     protected int getLayoutId() {
@@ -208,16 +224,16 @@ public class VoiceActivity extends MyBaseActivity implements SuperPlayer.OnNetCh
                 }
                 if (!TextUtils.isEmpty(list.get(index).getClicknum())) {
                     if (Integer.valueOf(list.get(index).getClicknum()) > 10000) {
-                        numDianji.setText("播放量:"+Integer.valueOf(list.get(index).getClicknum()) / 10000 + "万");
+                        numDianji.setText("播放量:" + Integer.valueOf(list.get(index).getClicknum()) / 10000 + "万");
                     } else {
-                        numDianji.setText("播放量:"+list.get(index).getClicknum());
+                        numDianji.setText("播放量:" + list.get(index).getClicknum());
                     }
                 } else {
-                    numDianji.setText("播放量:"+"1");
+                    numDianji.setText("播放量:" + "1");
                 }
                 if (!TextUtils.isEmpty(list.get(index).getReleaseaddress())) {
                     authorName.setText(list.get(index).getReleaseaddress());
-                }else {
+                } else {
                     authorName.setText("未知");
                 }
             }
@@ -383,16 +399,29 @@ public class VoiceActivity extends MyBaseActivity implements SuperPlayer.OnNetCh
     public void controlbarShowHide(boolean isShow) {
     }
 
-    @OnClick({R.id.open_pinlun, R.id.pinlun, R.id.dianzan, R.id.zhuanfa})
+    @OnClick({R.id.open_pinlun, R.id.pinlun, R.id.dianzan, R.id.zhuanfa,R.id.close_comment,R.id.commentSend})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.open_pinlun:
+                comment.setVisibility(View.VISIBLE);
+                List<AreaBean> list = new ArrayList<>();
+                for (int i = 0; i < 10; i++) {
+                    list.add(new AreaBean());
+                }
+                commentRecycler.setLayoutManager(new GridLayoutManager(this, 1));
+                commentRecycler.setAdapter(new CommentAdapter(list));
                 break;
             case R.id.pinlun:
                 break;
             case R.id.dianzan:
                 break;
             case R.id.zhuanfa:
+                break;
+            case R.id.close_comment:
+                comment.setVisibility(View.GONE);
+                break;
+            case R.id.commentSend:
+                comment.setVisibility(View.GONE);
                 break;
         }
     }
