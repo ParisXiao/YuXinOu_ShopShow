@@ -5,12 +5,13 @@ import android.view.View;
 import com.liren.live.api.remote.ApiUtils;
 import com.liren.live.api.remote.PhoneLiveApi;
 import com.liren.live.base.ListBaseFragment;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import okhttp3.Call;
+import okhttp3.Response;
 
 
 public class NearbyFragment extends ListBaseFragment {
@@ -20,16 +21,9 @@ public class NearbyFragment extends ListBaseFragment {
         PhoneLiveApi.requestGetGameLive(new StringCallback(){
 
             @Override
-            public void onError(Call call, Exception e, int id) {
+            public void onSuccess(String s, Call call, Response response) {
                 mSwipeRefresh.setRefreshing(false);
-                mLlLoadingDataEmpty.setVisibility(View.GONE);
-                mLlLoadingDataError.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onResponse(String response, int id) {
-                mSwipeRefresh.setRefreshing(false);
-                JSONArray data = ApiUtils.checkIsSuccess(response);
+                JSONArray data = ApiUtils.checkIsSuccess(response.body().toString());
                 if(data != null){
                     try {
 
@@ -37,8 +31,13 @@ public class NearbyFragment extends ListBaseFragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                }else {
+                    mSwipeRefresh.setRefreshing(false);
+                    mLlLoadingDataEmpty.setVisibility(View.GONE);
+                    mLlLoadingDataError.setVisibility(View.VISIBLE);
                 }
             }
+
         });
     }
 }

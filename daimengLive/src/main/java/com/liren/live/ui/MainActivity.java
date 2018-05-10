@@ -18,26 +18,26 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
 
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 import com.liren.live.AppConfig;
+import com.liren.live.AppContext;
+import com.liren.live.AppManager;
+import com.liren.live.R;
+import com.liren.live.api.remote.ApiUtils;
 import com.liren.live.api.remote.PhoneLiveApi;
+import com.liren.live.base.BaseActivity;
+import com.liren.live.em.MainTab;
 import com.liren.live.interf.BaseViewInterface;
+import com.liren.live.utils.LoginUtils;
 import com.liren.live.utils.SharedPreUtil;
 import com.liren.live.utils.TDevice;
 import com.liren.live.utils.TLog;
 import com.liren.live.utils.UIHelper;
 import com.liren.live.utils.UpdateManager;
-import com.hyphenate.EMCallBack;
-import com.hyphenate.chat.EMClient;
-import com.liren.live.AppContext;
-import com.liren.live.AppManager;
-import com.liren.live.R;
-import com.liren.live.api.remote.ApiUtils;
-import com.liren.live.base.BaseActivity;
-import com.liren.live.em.MainTab;
-import com.liren.live.utils.LoginUtils;
 import com.liren.live.widget.BlackTextView;
 import com.liren.live.widget.MyFragmentTabHost;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,6 +49,7 @@ import butterknife.BindView;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
 import okhttp3.Call;
+import okhttp3.Response;
 
 
 //主页面
@@ -163,13 +164,8 @@ public class MainActivity extends BaseActivity implements
         }
         PhoneLiveApi.getConfig(new StringCallback() {
             @Override
-            public void onError(Call call, Exception e, int id) {
-
-            }
-
-            @Override
-            public void onResponse(String response, int id) {
-                JSONArray res = ApiUtils.checkIsSuccess(response);
+            public void onSuccess(String s, Call call, Response response) {
+                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
                 if(res != null){
                     try {
 
@@ -180,6 +176,8 @@ public class MainActivity extends BaseActivity implements
                     }
                 }
             }
+
+
         });
     }
 

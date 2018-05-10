@@ -8,15 +8,15 @@ import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.liren.live.AppConfig;
+import com.liren.live.R;
 import com.liren.live.adapter.LiveRecordAdapter;
 import com.liren.live.api.remote.ApiUtils;
 import com.liren.live.api.remote.PhoneLiveApi;
 import com.liren.live.base.BaseActivity;
 import com.liren.live.bean.LiveRecordBean;
-import com.liren.live.R;
 import com.liren.live.ui.customviews.ActivityTitle;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.OkHttpUtils;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,6 +26,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * 直播记录
@@ -117,14 +118,9 @@ public class LiveRecordActivity extends BaseActivity {
     }
     private StringCallback showLiveByIdCallback = new StringCallback() {
         @Override
-        public void onError(Call call, Exception e,int id) {
+        public void onSuccess(String s, Call call, Response response) {
             hideWaitDialog();
-        }
-
-        @Override
-        public void onResponse(String response,int id) {
-            hideWaitDialog();
-            JSONArray res = ApiUtils.checkIsSuccess(response);
+            JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
 
             if(res != null){
                 try {
@@ -136,18 +132,13 @@ public class LiveRecordActivity extends BaseActivity {
 
             }
         }
+
+
     };
     private StringCallback callback = new StringCallback() {
         @Override
-        public void onError(Call call, Exception e,int id) {
-            mLlLoadingDataEmpty.setVisibility(View.GONE);
-            mLlLoadingError.setVisibility(View.VISIBLE);
-            mRvLiveRecord.setVisibility(View.INVISIBLE);
-        }
-
-        @Override
-        public void onResponse(String response,int id) {
-            JSONArray res = ApiUtils.checkIsSuccess(response);
+        public void onSuccess(String s, Call call, Response response) {
+            JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
             if(swipeRefreshLayout.isRefreshing()){
                 pager = 2;
                 mRecordList.clear();
@@ -184,8 +175,8 @@ public class LiveRecordActivity extends BaseActivity {
                 mLlLoadingError.setVisibility(View.GONE);
                 mRvLiveRecord.setVisibility(View.INVISIBLE);
             }
-
         }
+
     };
 
 

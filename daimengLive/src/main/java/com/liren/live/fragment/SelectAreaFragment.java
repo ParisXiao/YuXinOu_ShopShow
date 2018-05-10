@@ -10,23 +10,27 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.liren.live.R;
 import com.liren.live.api.remote.ApiUtils;
 import com.liren.live.api.remote.PhoneLiveApi;
 import com.liren.live.base.BaseFragment;
 import com.liren.live.bean.AreaBean;
 import com.liren.live.viewpagerfragment.IndexPagerFragment;
-import com.google.gson.Gson;
-import com.liren.live.R;
 import com.liren.live.widget.BlackTextView;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.callback.StringCallback;
+
 import org.json.JSONArray;
 import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.List;
-import butterknife.ButterKnife;
+
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
+import okhttp3.Response;
 
 //地区选择
 public class SelectAreaFragment extends BaseFragment {
@@ -59,13 +63,8 @@ public class SelectAreaFragment extends BaseFragment {
     public void initData() {
         PhoneLiveApi.getAreaList(new StringCallback() {
             @Override
-            public void onError(Call call, Exception e,int id) {
-
-            }
-
-            @Override
-            public void onResponse(String response,int id) {
-                JSONArray areaListJsonArray = ApiUtils.checkIsSuccess(response);
+            public void onSuccess(String s, Call call, Response response) {
+                JSONArray areaListJsonArray = ApiUtils.checkIsSuccess(response.body().toString());
 
                 if(null != areaListJsonArray){
                     try {
@@ -80,6 +79,7 @@ public class SelectAreaFragment extends BaseFragment {
 
                 }
             }
+
         });
     }
 

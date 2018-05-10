@@ -5,17 +5,18 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.liren.live.AppConfig;
-import com.liren.live.api.remote.ApiUtils;
 import com.liren.live.AppContext;
+import com.liren.live.api.remote.ApiUtils;
 import com.liren.live.api.remote.PhoneLiveApi;
 import com.liren.live.ui.UserDiamondsActivity;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import okhttp3.Call;
+import okhttp3.Response;
 
 //支付宝配置信息调用支付类
 public class AliPay{
@@ -58,20 +59,14 @@ public class AliPay{
         //请求订单号码
         PhoneLiveApi.getAliPayOrderNum(uid,orderid,changeid,num,money, new StringCallback() {
             @Override
-            public void onError(Call call, Exception e,int id) {
-
-               Toast.makeText(mPayActivity,"支付失败",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onResponse(String response,int id) {
-                JSONArray res = ApiUtils.checkIsSuccess(response);
+            public void onSuccess(String s, Call call, Response response) {
+                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
                 if(null != res){
                     try {
                         JSONObject data = res.getJSONObject(0);
                         String orderId = data.getString("orderid");
-                         Log.d("orderid",orderId);
-                    //    payV2(orderId,body,total_fee,url);
+                        Log.d("orderid",orderId);
+                        //    payV2(orderId,body,total_fee,url);
 
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -80,8 +75,8 @@ public class AliPay{
                 }else{
                     Toast.makeText(mPayActivity,"支付失败",Toast.LENGTH_SHORT).show();
                 }
-
             }
+
         });
 
 

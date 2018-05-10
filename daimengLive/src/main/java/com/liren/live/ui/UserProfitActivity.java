@@ -3,8 +3,10 @@ package com.liren.live.ui;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.liren.live.AppConfig;
 import com.liren.live.AppContext;
+import com.liren.live.R;
 import com.liren.live.api.remote.ApiUtils;
 import com.liren.live.api.remote.PhoneLiveApi;
 import com.liren.live.base.BaseActivity;
@@ -12,11 +14,9 @@ import com.liren.live.bean.ProfitBean;
 import com.liren.live.ui.customviews.ActivityTitle;
 import com.liren.live.utils.DialogHelp;
 import com.liren.live.utils.UIHelper;
-import com.google.gson.Gson;
-import com.liren.live.R;
 import com.liren.live.widget.BlackTextView;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.OkHttpUtils;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +24,7 @@ import org.json.JSONException;
 import butterknife.BindView;
 import butterknife.OnClick;
 import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * 收益
@@ -68,13 +69,8 @@ public class UserProfitActivity extends BaseActivity {
 
         PhoneLiveApi.getWithdraw(getUserID(),getUserToken(), new StringCallback() {
             @Override
-            public void onError(Call call, Exception e,int id) {
-
-            }
-
-            @Override
-            public void onResponse(String response,int id) {
-                JSONArray res = ApiUtils.checkIsSuccess(response);
+            public void onSuccess(String s, Call call, Response response) {
+                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
 
                 if(null != res){
                     try {
@@ -86,6 +82,7 @@ public class UserProfitActivity extends BaseActivity {
 
                 }
             }
+
         });
     }
 
@@ -109,15 +106,9 @@ public class UserProfitActivity extends BaseActivity {
                         new StringCallback(){
 
                             @Override
-                            public void onError(Call call, Exception e,int id) {
+                            public void onSuccess(String s, Call call, Response response) {
                                 hideWaitDialog();
-                                AppContext.showToast("接口请求失败");
-                            }
-
-                            @Override
-                            public void onResponse(String response,int id) {
-                                hideWaitDialog();
-                                JSONArray res = ApiUtils.checkIsSuccess(response);
+                                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
                                 if(null != res){
 
                                     try {
@@ -127,8 +118,11 @@ public class UserProfitActivity extends BaseActivity {
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
+                                }else {
+                                    AppContext.showToast("接口请求失败");
                                 }
                             }
+
                         });
                 break;
 

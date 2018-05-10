@@ -11,26 +11,28 @@ import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.liren.live.AppConfig;
-import com.liren.live.bean.LiveJson;
-import com.liren.live.widget.WPSwipeRefreshLayout;
 import com.liren.live.AppContext;
 import com.liren.live.R;
 import com.liren.live.adapter.LiveUserAdapter;
 import com.liren.live.api.remote.ApiUtils;
 import com.liren.live.api.remote.PhoneLiveApi;
 import com.liren.live.base.BaseFragment;
+import com.liren.live.bean.LiveJson;
 import com.liren.live.utils.UIHelper;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.liren.live.widget.WPSwipeRefreshLayout;
+import com.lzy.okhttputils.OkHttpUtils;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.Call;
+import okhttp3.Response;
+
 /**
  * 首页左边关注
  */
@@ -126,21 +128,12 @@ public class AttentionFragment extends BaseFragment implements SwipeRefreshLayou
 
     private StringCallback callback = new StringCallback() {
         @Override
-        public void onError(Call call, Exception e,int id) {
-            mRefresh.setRefreshing(false);
-            mTvPrompt.setVisibility(View.GONE);
-            mLlFailLoad.setVisibility(View.VISIBLE);
-            mRvAttentions.setVisibility(View.INVISIBLE );
-        }
-
-        @Override
-        public void onResponse(String response,int id) {
-
+        public void onSuccess(String s, Call call, Response response) {
             if(mRefresh.isRefreshing()){
                 pager = 2;
                 mUserList.clear();
             }
-            JSONArray res = ApiUtils.checkIsSuccess(response);
+            JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
             if (null != res) {
                 List<LiveJson> data = ApiUtils.formatDataToList(res,LiveJson.class);
                 //上拉加载增加页数
@@ -173,6 +166,7 @@ public class AttentionFragment extends BaseFragment implements SwipeRefreshLayou
                 mRvAttentions.setVisibility(View.INVISIBLE);
             }
         }
+
     };
 
     private void fillUI() {

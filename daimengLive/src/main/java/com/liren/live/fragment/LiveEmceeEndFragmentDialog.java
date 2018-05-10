@@ -18,16 +18,17 @@ import com.liren.live.api.remote.PhoneLiveApi;
 import com.liren.live.widget.AvatarView;
 import com.liren.live.widget.BlackButton;
 import com.liren.live.widget.BlackTextView;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.OkHttpUtils;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import butterknife.ButterKnife;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * 主播结束 直播 弹窗
@@ -81,13 +82,8 @@ public class LiveEmceeEndFragmentDialog extends DialogFragment {
         PhoneLiveApi.getLiveEndInfo(stream,new StringCallback(){
 
             @Override
-            public void onError(Call call, Exception e, int id) {
-
-            }
-
-            @Override
-            public void onResponse(String response, int id) {
-                JSONArray res = ApiUtils.checkIsSuccess(response);
+            public void onSuccess(String s, Call call, Response response) {
+                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
                 if(res != null){
                     try {
                         JSONObject data = res.getJSONObject(0);
@@ -99,8 +95,8 @@ public class LiveEmceeEndFragmentDialog extends DialogFragment {
                     }
 
                 }
-
             }
+
         });
 
 

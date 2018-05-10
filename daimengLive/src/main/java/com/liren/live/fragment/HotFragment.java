@@ -16,31 +16,33 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.nineoldandroids.animation.ObjectAnimator;
 import com.liren.live.AppConfig;
-import com.liren.live.adapter.HeaderAndFooterAdapter;
-import com.liren.live.bean.LiveJson;
-import com.liren.live.utils.LiveUtils;
-import com.liren.live.utils.TDevice;
-import com.liren.live.widget.SpaceRecycleView;
 import com.liren.live.R;
+import com.liren.live.adapter.HeaderAndFooterAdapter;
 import com.liren.live.api.remote.ApiUtils;
 import com.liren.live.api.remote.PhoneLiveApi;
 import com.liren.live.base.BaseFragment;
+import com.liren.live.bean.LiveJson;
+import com.liren.live.utils.LiveUtils;
+import com.liren.live.utils.TDevice;
 import com.liren.live.utils.UIHelper;
 import com.liren.live.widget.SlideshowView;
+import com.liren.live.widget.SpaceRecycleView;
 import com.liren.live.widget.WPSwipeRefreshLayout;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.OkHttpUtils;
+import com.lzy.okhttputils.callback.StringCallback;
+import com.nineoldandroids.animation.ObjectAnimator;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * @dw 首页热门
@@ -198,17 +200,7 @@ public class HotFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
 
     private StringCallback callback = new StringCallback() {
         @Override
-        public void onError(Call call, Exception e,int id) {
-
-            mSwipeRefreshLayout.setRefreshing(false);
-            mLlLoadingDataEmpty.setVisibility(View.GONE);
-            mLlLoadingDataError.setVisibility(View.VISIBLE);
-            mRecyclerView.setVisibility(View.INVISIBLE);
-        }
-
-        @Override
-        public void onResponse(String s,int id) {
-
+        public void onSuccess(String s, Call call, Response response) {
             JSONArray res = ApiUtils.checkIsSuccess(s);
 
             try {
@@ -260,6 +252,8 @@ public class HotFragment extends BaseFragment implements SwipeRefreshLayout.OnRe
 
             mSwipeRefreshLayout.setRefreshing(false);
         }
+
+
     };
 
     private void fillUI() {

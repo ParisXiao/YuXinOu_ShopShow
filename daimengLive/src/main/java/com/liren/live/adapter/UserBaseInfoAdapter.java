@@ -5,20 +5,21 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-import com.liren.live.bean.SimpleUserInfo;
 import com.liren.live.AppContext;
 import com.liren.live.R;
 import com.liren.live.api.remote.PhoneLiveApi;
+import com.liren.live.bean.SimpleUserInfo;
 import com.liren.live.utils.LiveUtils;
 import com.liren.live.utils.SimpleUtils;
 import com.liren.live.utils.StringUtils;
 import com.liren.live.widget.BlackTextView;
 import com.liren.live.widget.CircleImageView;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import java.util.List;
 
 import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  *关注粉丝列表
@@ -82,11 +83,7 @@ public class UserBaseInfoAdapter extends BaseAdapter {
 
                 PhoneLiveApi.showFollow(AppContext.getInstance().getLoginUid(),u.id, AppContext.getInstance().getToken(),new StringCallback() {
                     @Override
-                    public void onError(Call call, Exception e,int id) {
-                    }
-
-                    @Override
-                    public void onResponse(String response,int id) {
+                    public void onSuccess(String s, Call call, Response response) {
                         if (StringUtils.toInt(u.isattention) == 1) {//1 已经关注 0未关注
                             u.isattention = "0";
                             ((ImageView)v.findViewById(R.id.iv_item_attention)).setImageResource(R.drawable.me_follow);
@@ -95,6 +92,7 @@ public class UserBaseInfoAdapter extends BaseAdapter {
                             ((ImageView)v.findViewById(R.id.iv_item_attention)).setImageResource(R.drawable.me_following);
                         }
                     }
+
                 });
             }
         });

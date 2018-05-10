@@ -20,7 +20,7 @@ import com.liren.live.config.UserConfig;
 import com.liren.live.utils.OKHttpUtils;
 import com.liren.live.utils.PhoneUtils;
 import com.liren.live.utils.PreferenceUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,6 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import okhttp3.Call;
+import okhttp3.Response;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -138,18 +139,15 @@ public class RegisterActivity extends MyBaseActivity {
     private void requestGetMessageCode() {
         PhoneLiveApi.getMessageCode(registerPhone.getText().toString().trim(), "Login.getCode", new StringCallback() {
             @Override
-            public void onError(Call call, Exception e, int id) {
-
-            }
-
-            @Override
-            public void onResponse(String response, int id) {
-                JSONArray res = ApiUtils.checkIsSuccess(response);
+            public void onSuccess(String s, Call call, Response response) {
+                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
                 if(res != null){
 
                     AppContext.showToast(getString(R.string.codehasbeensend),0);
                 }
             }
+
+
         });
     }
     private String msg;

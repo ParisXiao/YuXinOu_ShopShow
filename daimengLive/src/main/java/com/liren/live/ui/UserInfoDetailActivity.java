@@ -9,23 +9,22 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.liren.live.bean.UserBean;
-import com.liren.live.ui.customviews.ActivityTitle;
-import com.liren.live.utils.DialogHelp;
-import com.liren.live.utils.LiveUtils;
-import com.liren.live.utils.UIHelper;
-import com.liren.live.widget.AvatarView;
 import com.google.gson.Gson;
-
 import com.liren.live.AppContext;
 import com.liren.live.R;
 import com.liren.live.api.remote.ApiUtils;
 import com.liren.live.api.remote.PhoneLiveApi;
 import com.liren.live.base.BaseActivity;
+import com.liren.live.bean.UserBean;
 import com.liren.live.em.ChangInfo;
+import com.liren.live.ui.customviews.ActivityTitle;
+import com.liren.live.utils.DialogHelp;
+import com.liren.live.utils.LiveUtils;
+import com.liren.live.utils.UIHelper;
+import com.liren.live.widget.AvatarView;
 import com.liren.live.widget.BlackTextView;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.OkHttpUtils;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,6 +36,7 @@ import java.util.Date;
 
 import butterknife.BindView;
 import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * 用户信息详情页面
@@ -155,13 +155,8 @@ public class UserInfoDetailActivity extends BaseActivity {
                 final int sex = (i + 1);
                 PhoneLiveApi.saveInfo(LiveUtils.getFiledJson("sex", String.valueOf(sex)), getUserID(), getUserToken(), new StringCallback() {
                     @Override
-                    public void onError(Call call, Exception e,int id) {
+                    public void onSuccess(String s, Call call, Response response) {
 
-                        showToast2("修改性别失败");
-                    }
-
-                    @Override
-                    public void onResponse(String response,int id) {
                         UserBean user = AppContext.getInstance().getLoginUser();
                         user.sex = String.valueOf(sex);
                         AppContext.getInstance().saveUserInfo(user);
@@ -212,13 +207,8 @@ public class UserInfoDetailActivity extends BaseActivity {
                 AppContext.getInstance().getToken(),
                 new StringCallback() {
                     @Override
-                    public void onError(Call call, Exception e, int id) {
-                        showToast2(getString(R.string.editfail));
-                    }
-
-                    @Override
-                    public void onResponse(String response,int id) {
-                        JSONArray res = ApiUtils.checkIsSuccess(response);
+                    public void onSuccess(String s, Call call, Response response) {
+                        JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
                         if(null != res){
                             AppContext.showToast(getString(R.string.editsuccess));
                             UserBean u =  AppContext.getInstance().getLoginUser();
@@ -226,8 +216,11 @@ public class UserInfoDetailActivity extends BaseActivity {
                             AppContext.getInstance().updateUserInfo(u);
                             etInfoBirthday.setText(birthday);
 
+                        }else {
+                            showToast2(getString(R.string.editfail));
                         }
                     }
+
                 });
     }
 
@@ -244,13 +237,7 @@ public class UserInfoDetailActivity extends BaseActivity {
 
     private final StringCallback callback = new StringCallback() {
         @Override
-        public void onError(Call call, Exception e,int id) {
-
-        }
-
-        @Override
-        public void onResponse(String s,int id) {
-
+        public void onSuccess(String s, Call call, Response response) {
             JSONArray res = ApiUtils.checkIsSuccess(s);
             if (res != null) {
                 try {
@@ -262,6 +249,7 @@ public class UserInfoDetailActivity extends BaseActivity {
 
             }
         }
+
     };
 
 

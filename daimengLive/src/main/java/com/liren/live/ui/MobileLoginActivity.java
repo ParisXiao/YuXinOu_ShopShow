@@ -15,7 +15,7 @@ import com.liren.live.utils.UIHelper;
 import com.google.gson.Gson;
 import com.liren.live.R;
 import com.liren.live.widget.BlackEditText;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,9 +33,10 @@ import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qq.QQ;
 import cn.sharesdk.wechat.friends.Wechat;
 import okhttp3.Call;
+import okhttp3.Response;
 
 /**
- *手机登陆
+ * 手机登陆
  */
 public class MobileLoginActivity extends BaseActivity implements PlatformActionListener {
 
@@ -58,7 +59,7 @@ public class MobileLoginActivity extends BaseActivity implements PlatformActionL
     ImageView mIvWeiBoLogin;
 
     private String type;
-    private String[] names = {QQ.NAME,Wechat.NAME, SinaWeibo.NAME};
+    private String[] names = {QQ.NAME, Wechat.NAME, SinaWeibo.NAME};
 
     @Override
     protected int getLayoutId() {
@@ -72,7 +73,7 @@ public class MobileLoginActivity extends BaseActivity implements PlatformActionL
         mIvWeChatLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showWaitDialog("正在登录...",false);
+                showWaitDialog("正在登录...", false);
                 type = "wx";
                 otherLogin(names[1]);
             }
@@ -81,7 +82,7 @@ public class MobileLoginActivity extends BaseActivity implements PlatformActionL
         mIvQQLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showWaitDialog("正在登录...",false);
+                showWaitDialog("正在登录...", false);
                 type = "qq";
                 otherLogin(names[0]);
 
@@ -92,7 +93,7 @@ public class MobileLoginActivity extends BaseActivity implements PlatformActionL
         mIvWeiBoLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showWaitDialog("正在登录...",false);
+                showWaitDialog("正在登录...", false);
                 type = "sina";
                 otherLogin(names[2]);
 
@@ -111,27 +112,21 @@ public class MobileLoginActivity extends BaseActivity implements PlatformActionL
     public void initData() {
 
 
-        PhoneLiveApi.requestOtherLoginStatus(new StringCallback(){
+        PhoneLiveApi.requestOtherLoginStatus(new StringCallback() {
 
             @Override
-            public void onError(Call call, Exception e, int id) {
-
-            }
-
-            @Override
-            public void onResponse(String response, int id) {
-
-                JSONArray res = ApiUtils.checkIsSuccess(response);
-                if(res != null){
+            public void onSuccess(String s, Call call, Response response) {
+                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+                if (res != null) {
                     try {
                         JSONObject object = res.getJSONObject(0);
-                        if(object.getInt("login_qq") == 1){
+                        if (object.getInt("login_qq") == 1) {
                             mIvQQLogin.setVisibility(View.VISIBLE);
                         }
-                        if(object.getInt("login_sina") == 1){
+                        if (object.getInt("login_sina") == 1) {
                             mIvWeiBoLogin.setVisibility(View.VISIBLE);
                         }
-                        if(object.getInt("login_wx") == 1){
+                        if (object.getInt("login_wx") == 1) {
                             mIvWeChatLogin.setVisibility(View.VISIBLE);
                         }
                     } catch (JSONException e) {
@@ -139,15 +134,16 @@ public class MobileLoginActivity extends BaseActivity implements PlatformActionL
                     }
                 }
             }
+
         });
 
     }
 
-    @OnClick({R.id.btn_dologin,R.id.btn_doReg,R.id.tv_findPass})
+    @OnClick({R.id.btn_dologin, R.id.btn_doReg, R.id.tv_findPass})
     @Override
     public void onClick(View v) {
 
-        if(v.getId() == R.id.btn_dologin) {
+        if (v.getId() == R.id.btn_dologin) {
 
             if (prepareForLogin()) {
                 return;
@@ -157,24 +153,24 @@ public class MobileLoginActivity extends BaseActivity implements PlatformActionL
 
             showWaitDialog(R.string.loading);
 
-            PhoneLiveApi.login(mUserName,mPassword, callback);
+            PhoneLiveApi.login(mUserName, mPassword, callback);
 
-        }else  if (v.getId()==R.id.btn_doReg) {
+        } else if (v.getId() == R.id.btn_doReg) {
 
             UIHelper.showMobileRegLogin(this);
 
-        }else  if(v.getId()==R.id.tv_findPass) {
+        } else if (v.getId() == R.id.tv_findPass) {
 
             UIHelper.showUserFindPass(this);
         }
 
     }
 
-    private void otherLogin(String name){
+    private void otherLogin(String name) {
 
         ShareSDK.initSDK(this);
 
-        showWaitDialog("正在跳转...",false);
+        showWaitDialog("正在跳转...", false);
         Platform other = ShareSDK.getPlatform(name);
         //执行登录，登录后在回调里面获取用户资料
         other.showUser(null);
@@ -187,29 +183,23 @@ public class MobileLoginActivity extends BaseActivity implements PlatformActionL
     //登录回调
     private final StringCallback callback = new StringCallback() {
         @Override
-        public void onError(Call call, Exception e,int id) {
+        public void onSuccess(String s, Call call, Response response) {
             hideWaitDialog();
-        }
+            JSONArray requestRes = ApiUtils.checkIsSuccess(s);
+            if (requestRes != null) {
 
-        @Override
-        public void onResponse(String s,int id) {
+                Gson gson = new Gson();
+                try {
+                    UserBean user = gson.fromJson(requestRes.getString(0), UserBean.class);
 
-           hideWaitDialog();
-           JSONArray requestRes = ApiUtils.checkIsSuccess(s);
-           if(requestRes != null){
+                    AppContext.getInstance().saveUserInfo(user);
 
-               Gson gson = new Gson();
-               try {
-                   UserBean user = gson.fromJson(requestRes.getString(0), UserBean.class);
+                    LoginUtils.getInstance().OtherInit(MobileLoginActivity.this);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
-                   AppContext.getInstance().saveUserInfo(user);
-
-                   LoginUtils.getInstance().OtherInit(MobileLoginActivity.this);
-               } catch (JSONException e) {
-                   e.printStackTrace();
-               }
-
-           }
+            }
 
         }
     };
@@ -247,7 +237,7 @@ public class MobileLoginActivity extends BaseActivity implements PlatformActionL
             @Override
             public void run() {
                 hideWaitDialog();
-                AppContext.showToast("授权成功正在登录....",0);
+                AppContext.showToast("授权成功正在登录....", 0);
             }
         });
 
@@ -257,7 +247,7 @@ public class MobileLoginActivity extends BaseActivity implements PlatformActionL
             //showWaitDialog("正在登录...");
             PlatformDb platDB = platform.getDb();//获取数平台数据DB
             //通过DB获取各种数据
-            PhoneLiveApi.otherLogin(type,platDB,callback);
+            PhoneLiveApi.otherLogin(type, platDB, callback);
         }
 
     }
@@ -265,13 +255,13 @@ public class MobileLoginActivity extends BaseActivity implements PlatformActionL
     @Override
     public void onError(Platform platform, int i, Throwable throwable) {
         hideWaitDialog();
-        AppContext.showToast("授权登录失败",0);
+        AppContext.showToast("授权登录失败", 0);
     }
 
     @Override
     public void onCancel(Platform platform, int i) {
         hideWaitDialog();
-        AppContext.showToast("授权已取消",0);
+        AppContext.showToast("授权已取消", 0);
     }
 
     @Override

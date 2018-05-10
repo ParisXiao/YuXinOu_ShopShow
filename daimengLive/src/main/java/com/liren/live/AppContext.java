@@ -3,6 +3,7 @@ package com.liren.live;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.support.multidex.MultiDex;
 
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
@@ -19,12 +20,12 @@ import com.liren.live.utils.MethodsCompat;
 import com.liren.live.utils.StringUtils;
 import com.liren.live.utils.TLog;
 import com.liren.live.utils.UIHelper;
+import com.lzy.okhttputils.OkHttpUtils;
+import com.lzy.okhttputils.cookie.CookieJarImpl;
+import com.lzy.okhttputils.cookie.store.PersistentCookieStore;
+import com.lzy.okhttputils.interceptor.LoggerInterceptor;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.rtmp.TXLiveBase;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.cookie.CookieJarImpl;
-import com.zhy.http.okhttp.cookie.store.PersistentCookieStore;
-import com.zhy.http.okhttp.log.LoggerInterceptor;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -52,6 +53,7 @@ public class AppContext extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        MultiDex.install(this);
 
         instance = this;
         init();
@@ -79,28 +81,25 @@ public class AppContext extends BaseApplication {
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
 
-
+        OkHttpUtils.init(this);
         //网络请求初始化
-        CookieJarImpl cookieJar = new CookieJarImpl(new PersistentCookieStore(getApplicationContext()));
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
+        CookieJarImpl cookieJar = new CookieJarImpl(new PersistentCookieStore());
+        new OkHttpClient.Builder()
                 .cookieJar(cookieJar)
                 .addInterceptor(new LoggerInterceptor("liren"))
                 //其他配置
                 .build();
-
-        OkHttpUtils.initClient(okHttpClient);
         //短视频初始化
 
         TXLiveBase.setConsoleEnabled(true);
         CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(getApplicationContext());
         strategy.setAppVersion(TXLiveBase.getSDKVersionStr());
-        CrashReport.initCrashReport(getApplicationContext(),strategy);
+        CrashReport.initCrashReport(getApplicationContext(), strategy);
 
     }
 
 
-
-    protected void setGlobalListeners(){
+    protected void setGlobalListeners() {
         EMClient.getInstance().addConnectionListener(new MyConnectionListener());
         EMClient.getInstance().chatManager().addMessageListener(msgListener);
     }
@@ -111,19 +110,20 @@ public class AppContext extends BaseApplication {
         @Override
         public void onConnected() {
         }
+
         @Override
         public void onDisconnected(final int error) {
-            if(error == EMError.USER_REMOVED){
+            if (error == EMError.USER_REMOVED) {
                 // 显示帐号已经被移除
                 TLog.log("显示帐号已经被移除");
-            }else if (error == EMError.USER_LOGIN_ANOTHER_DEVICE) {
+            } else if (error == EMError.USER_LOGIN_ANOTHER_DEVICE) {
                 // 显示帐号在其他设备登陆
                 TLog.log("显示帐号在其他设备登陆");
             } else {
-                if (NetUtils.hasNetwork(AppContext.getInstance())){
+                if (NetUtils.hasNetwork(AppContext.getInstance())) {
                     //连接不到聊天服务器
                     TLog.log("连接不到聊天服务器");
-                }else{
+                } else {
                     //当前网络不可用，请检查网络设置
                     TLog.log("当前网络不可用，请检查网络设置");
                     Event.CommonEvent event = new Event.CommonEvent();
@@ -134,13 +134,14 @@ public class AppContext extends BaseApplication {
             }
         }
     }
+
     private EMMessageListener msgListener = new EMMessageListener() {
 
         @Override
         public void onMessageReceived(List<EMMessage> messages) {
             TLog.log("收到消息:" + messages);
             Intent broadcastIntent = new Intent("com.liren.live");
-            broadcastIntent.putExtra("cmd_value",messages.get(0));
+            broadcastIntent.putExtra("cmd_value", messages.get(0));
             sendBroadcast(broadcastIntent, null);
             //收到消息
         }
@@ -264,16 +265,16 @@ public class AppContext extends BaseApplication {
         this.login = true;
         setProperties(new Properties() {
             {
-                setProperty("user.uid",user.id);
+                setProperty("user.uid", user.id);
                 setProperty("user.name", user.user_nicename);
                 setProperty("user.token", user.token);
                 setProperty("user.sign", user.signature);
                 setProperty("user.avatar", user.avatar);
 
-                setProperty("user.coin",user.coin);
+                setProperty("user.coin", user.coin);
                 setProperty("user.sex", user.sex);
-                setProperty("user.signature",user.signature);
-                setProperty("user.avatar_thumb",user.avatar_thumb);
+                setProperty("user.signature", user.signature);
+                setProperty("user.avatar_thumb", user.avatar_thumb);
                 setProperty("user.level", user.level);
 
             }
@@ -289,15 +290,15 @@ public class AppContext extends BaseApplication {
     public void updateUserInfo(final UserBean user) {
         setProperties(new Properties() {
             {
-                setProperty("user.uid",user.id);
+                setProperty("user.uid", user.id);
                 setProperty("user.name", user.user_nicename);
                 setProperty("user.sign", user.signature);
                 setProperty("user.avatar", user.avatar);
                 setProperty("user.city", user.city == null ? "" : user.city);
-                setProperty("user.coin",user.coin);
+                setProperty("user.coin", user.coin);
                 setProperty("user.sex", user.sex);
-                setProperty("user.signature",user.signature);
-                setProperty("user.avatar_thumb",user.avatar_thumb);
+                setProperty("user.signature", user.signature);
+                setProperty("user.avatar_thumb", user.avatar_thumb);
                 setProperty("user.level", user.level);
             }
         });
@@ -310,20 +311,20 @@ public class AppContext extends BaseApplication {
      */
     public UserBean getLoginUser() {
         UserBean user = new UserBean();
-        user.id            = getProperty("user.uid");
-        user.avatar        = getProperty("user.avatar");
+        user.id = getProperty("user.uid");
+        user.avatar = getProperty("user.avatar");
         user.user_nicename = getProperty("user.name");
-        user.signature     = getProperty("user.sign");
-        user.token         = getProperty("user.token");
-        user.votes         = getProperty("user.votes");
-        user.city          = getProperty("user.city");
-        user.coin          = getProperty("user.coin");
-        user.sex           = getProperty("user.sex");
-        user.signature     = getProperty("user.signature");
-        user.avatar        = getProperty("user.avatar");
-        user.level         = getProperty("user.level");
-        user.avatar_thumb  = getProperty("user.avatar_thumb");
-        user.birthday      = getProperty("user.birthday");
+        user.signature = getProperty("user.sign");
+        user.token = getProperty("user.token");
+        user.votes = getProperty("user.votes");
+        user.city = getProperty("user.city");
+        user.coin = getProperty("user.coin");
+        user.sex = getProperty("user.sex");
+        user.signature = getProperty("user.signature");
+        user.avatar = getProperty("user.avatar");
+        user.level = getProperty("user.level");
+        user.avatar_thumb = getProperty("user.avatar_thumb");
+        user.birthday = getProperty("user.birthday");
         return user;
     }
 
@@ -333,12 +334,13 @@ public class AppContext extends BaseApplication {
     public void cleanLoginInfo() {
         this.loginUid = "0";
         this.login = false;
-        removeProperty("user.birthday","user.avatar_thumb","user.uid", "user.token", "user.name", "user.pwd", "user.avatar","user.sign","user.city","user.coin","user.sex","user.signature","user.signature","user.avatar","user.level");
+        removeProperty("user.birthday", "user.avatar_thumb", "user.uid", "user.token", "user.name", "user.pwd", "user.avatar", "user.sign", "user.city", "user.coin", "user.sex", "user.signature", "user.signature", "user.avatar", "user.level");
     }
 
     public String getLoginUid() {
         return loginUid;
     }
+
     public String getToken() {
         return Token;
     }

@@ -72,7 +72,7 @@
         android:textSize="@dimen/h8" />
 
 
-    <com.tencent.liteav.demo.shortvideo.joiner.widget.swipemenu.SwipeMenuRecyclerView
+    <com.liren.live.video.shortvideo.joiner.widget.swipemenu.SwipeMenuRecyclerView
         android:id="@+id/swipe_menu_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

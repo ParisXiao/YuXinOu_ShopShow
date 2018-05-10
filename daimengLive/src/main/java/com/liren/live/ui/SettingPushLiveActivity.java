@@ -28,7 +28,11 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.liren.live.AppContext;
+import com.liren.live.R;
 import com.liren.live.api.remote.ApiUtils;
+import com.liren.live.api.remote.PhoneLiveApi;
+import com.liren.live.base.BaseActivity;
 import com.liren.live.bean.UserBean;
 import com.liren.live.interf.DialogInterface;
 import com.liren.live.ui.dialog.LiveCommon;
@@ -36,14 +40,10 @@ import com.liren.live.utils.DialogHelp;
 import com.liren.live.utils.FileUtil;
 import com.liren.live.utils.ImageUtils;
 import com.liren.live.utils.InputMethodUtils;
-import com.liren.live.AppContext;
-import com.liren.live.R;
-import com.liren.live.api.remote.PhoneLiveApi;
-import com.liren.live.base.BaseActivity;
 import com.liren.live.utils.ShareUtils;
 import com.liren.live.utils.StringUtils;
 import com.liren.live.widget.BlackEditText;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,6 +56,7 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.OnClick;
 import okhttp3.Call;
+import okhttp3.Response;
 
 public class SettingPushLiveActivity extends BaseActivity {
     //填写直播标题
@@ -339,12 +340,7 @@ public class SettingPushLiveActivity extends BaseActivity {
                 type_val,
                 new StringCallback() {
                     @Override
-                    public void onError(Call call, Exception e,int id) {
-                        AppContext.showToast("开启直播失败,请退出重试");
-                    }
-
-                    @Override
-                    public void onResponse(String s,int id) {
+                    public void onSuccess(String s, Call call, Response response) {
                         JSONArray res = ApiUtils.checkIsSuccess(s);
                         if(res != null){
                             try {
@@ -363,8 +359,11 @@ public class SettingPushLiveActivity extends BaseActivity {
                                 e.printStackTrace();
                             }
 
+                        }else {
+                            AppContext.showToast("开启直播失败,请退出重试");
                         }
                     }
+
                 });
     }
 

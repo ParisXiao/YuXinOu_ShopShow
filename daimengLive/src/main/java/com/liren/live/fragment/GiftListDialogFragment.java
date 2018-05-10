@@ -21,11 +21,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.liren.live.adapter.GiftListAdapter;
-import com.liren.live.utils.TDevice;
 import com.google.gson.Gson;
 import com.liren.live.AppContext;
 import com.liren.live.R;
+import com.liren.live.adapter.GiftListAdapter;
 import com.liren.live.adapter.ViewPageGridViewAdapter;
 import com.liren.live.api.remote.ApiUtils;
 import com.liren.live.api.remote.PhoneLiveApi;
@@ -33,9 +32,10 @@ import com.liren.live.bean.GiftBean;
 import com.liren.live.bean.UserBean;
 import com.liren.live.event.Event;
 import com.liren.live.ui.RtmpPlayerActivity;
+import com.liren.live.utils.TDevice;
 import com.liren.live.utils.UIHelper;
 import com.liren.live.widget.BlackTextView;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONArray;
@@ -46,6 +46,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * @dw 直播间礼物列表
@@ -116,12 +117,7 @@ public class GiftListDialogFragment extends DialogFragment {
         //获取礼物列表
         PhoneLiveApi.getGiftList(mUser.id,mUser.token,new StringCallback() {
             @Override
-            public void onError(Call call, Exception e, int id) {
-                AppContext.showToast("获取礼物信息失败");
-            }
-
-            @Override
-            public void onResponse(String s,int id) {
+            public void onSuccess(String s, Call call, Response response) {
                 JSONArray res = ApiUtils.checkIsSuccess(s);
                 if(res != null && isAdded()){
                     try {
@@ -135,9 +131,12 @@ public class GiftListDialogFragment extends DialogFragment {
                         e.printStackTrace();
                     }
 
+                }else {
+                    AppContext.showToast("获取礼物信息失败");
                 }
-
             }
+
+
         });
     }
 
@@ -155,36 +154,31 @@ public class GiftListDialogFragment extends DialogFragment {
 
             PhoneLiveApi.sendGift(mUser, mSelectedGiftItem, ((RtmpPlayerActivity)getActivity()).mEmceeInfo.uid,
                     ((RtmpPlayerActivity)getActivity()).mEmceeInfo.stream,new StringCallback() {
-                @Override
-                public void onError(Call call, Exception e,int id) {
+                        @Override
+                        public void onSuccess(String s, Call call, Response response) {
+                            JSONArray success = ApiUtils.checkIsSuccess(s);
+                            if (s != null) {
+                                try {
+                                    ((TextView) mSendGiftLian.findViewById(R.id.tv_show_gift_outtime)).setText(String.valueOf(mShowGiftSendOutTime));
+                                    JSONObject tokenJson = success.getJSONObject(0);
+                                    //获取剩余金额,重新赋值
+                                    mUser.coin = tokenJson.getString("coin");
+                                    mUserCoin.setText(mUser.coin);//重置余额
+                                    mUser.level = tokenJson.getString("level");
+                                    AppContext.getInstance().saveUserInfo(mUser);
 
-                }
+                                    Event.VideoEvent event = new Event.VideoEvent();
+                                    event.action = 0;
+                                    event.data = new String[2];
+                                    event.data[0] = tokenJson.getString("gifttoken");
+                                    event.data[1] = isOutTime;
+                                    EventBus.getDefault().post(event);
 
-                @Override
-                public void onResponse(String response,int id) {
-                    JSONArray s = ApiUtils.checkIsSuccess(response);
-                    if (s != null) {
-                        try {
-                            ((TextView) mSendGiftLian.findViewById(R.id.tv_show_gift_outtime)).setText(String.valueOf(mShowGiftSendOutTime));
-                            JSONObject tokenJson = s.getJSONObject(0);
-                            //获取剩余金额,重新赋值
-                            mUser.coin = tokenJson.getString("coin");
-                            mUserCoin.setText(mUser.coin);//重置余额
-                            mUser.level = tokenJson.getString("level");
-                            AppContext.getInstance().saveUserInfo(mUser);
-
-                            Event.VideoEvent event = new Event.VideoEvent();
-                            event.action = 0;
-                            event.data = new String[2];
-                            event.data[0] = tokenJson.getString("gifttoken");
-                            event.data[1] = isOutTime;
-                            EventBus.getDefault().post(event);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                         }
-                    }
-                }
             });
         }
     }

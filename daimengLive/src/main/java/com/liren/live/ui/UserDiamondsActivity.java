@@ -3,32 +3,31 @@ package com.liren.live.ui;
 import android.content.DialogInterface;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.liren.live.AppContext;
-import com.liren.live.adapter.DiamondsAdapter;
-import com.liren.live.alipay.AliPays;
-import com.liren.live.utils.DialogHelp;
-import com.liren.live.utils.GenerateSequenceUtil;
-import com.liren.live.utils.MD5;
-import com.liren.live.utils.SharedPreUtil;
 import com.google.gson.Gson;
 import com.liren.live.AppConfig;
+import com.liren.live.AppContext;
 import com.liren.live.R;
+import com.liren.live.adapter.DiamondsAdapter;
+import com.liren.live.alipay.AliPays;
 import com.liren.live.alipay.Keys;
-import com.liren.live.bean.RechargeJson;
-import com.liren.live.ui.customviews.ActivityTitle;
-import com.liren.live.utils.StringUtils;
-import com.liren.live.utils.UIHelper;
-import com.liren.live.wxpay.WChatPay;
 import com.liren.live.api.remote.ApiUtils;
 import com.liren.live.api.remote.PhoneLiveApi;
 import com.liren.live.base.BaseActivity;
 import com.liren.live.bean.RechargeBean;
+import com.liren.live.bean.RechargeJson;
+import com.liren.live.ui.customviews.ActivityTitle;
+import com.liren.live.utils.DialogHelp;
+import com.liren.live.utils.GenerateSequenceUtil;
+import com.liren.live.utils.MD5;
+import com.liren.live.utils.SharedPreUtil;
+import com.liren.live.utils.StringUtils;
+import com.liren.live.utils.UIHelper;
 import com.liren.live.widget.BlackTextView;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.liren.live.wxpay.WChatPay;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,6 +47,7 @@ import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * 我的钻石
@@ -229,13 +229,8 @@ public class UserDiamondsActivity extends BaseActivity {
         PhoneLiveApi.requestBalance(getUserID(),getUserToken(),new StringCallback(){
 
             @Override
-            public void onError(Call call, Exception e, int id) {
-
-            }
-
-            @Override
-            public void onResponse(String response, int id) {
-                JSONArray array = ApiUtils.checkIsSuccess(response);
+            public void onSuccess(String s, Call call, Response response) {
+                JSONArray array = ApiUtils.checkIsSuccess(response.body().toString());
 
                 if(array != null){
 
@@ -247,6 +242,7 @@ public class UserDiamondsActivity extends BaseActivity {
 
                 }
             }
+
         });
 
     }

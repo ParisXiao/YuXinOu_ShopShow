@@ -19,11 +19,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.liren.live.utils.TDevice;
 import com.google.gson.Gson;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
-import com.tandong.bottomview.view.BottomView;
 import com.liren.live.AppContext;
 import com.liren.live.R;
 import com.liren.live.api.remote.ApiUtils;
@@ -33,13 +31,15 @@ import com.liren.live.bean.PrivateChatUserBean;
 import com.liren.live.bean.SimpleUserInfo;
 import com.liren.live.bean.UserBean;
 import com.liren.live.event.Event;
+import com.liren.live.ui.customviews.BottomMenuView;
 import com.liren.live.ui.im.IMControl;
 import com.liren.live.utils.LiveUtils;
+import com.liren.live.utils.TDevice;
 import com.liren.live.utils.UIHelper;
 import com.liren.live.widget.AvatarView;
-import com.liren.live.ui.customviews.BottomMenuView;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.OkHttpUtils;
+import com.lzy.okhttputils.callback.StringCallback;
+import com.tandong.bottomview.view.BottomView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -48,9 +48,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import butterknife.ButterKnife;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.Call;
+import okhttp3.Response;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action1;
@@ -129,7 +130,7 @@ public class UserInfoDialogFragment extends DialogFragment {
         window.setWindowAnimations(R.style.BottomToTopAnim);
         WindowManager.LayoutParams params = window.getAttributes();
         params.width = WindowManager.LayoutParams.MATCH_PARENT;
-        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             params.width = (int) TDevice.dpToPixel(400);
         }
 
@@ -147,19 +148,16 @@ public class UserInfoDialogFragment extends DialogFragment {
 
         mTvId.setText("ID:" + mToUser.id);
         //获取用户详细信息
-        PhoneLiveApi.getUserInfo(mUser.id,mToUser.id,mRoomNum, new StringCallback() {
+        PhoneLiveApi.getUserInfo(mUser.id, mToUser.id, mRoomNum, new StringCallback() {
             @Override
-            public void onError(Call call, Exception e,int id) {
-            }
-            @Override
-            public void onResponse(String response,int id) {
-                JSONArray res = ApiUtils.checkIsSuccess(response);
-                if(res != null){
+            public void onSuccess(String s, Call call, Response response) {
+                JSONArray res = ApiUtils.checkIsSuccess(s);
+                if (res != null) {
                     try {
                         JSONObject data = res.getJSONObject(0);
 
                         mTvFollowNum.setText("关注:  " + data.getString("follows"));
-                        mTvFansNum.setText(  "粉丝:  " + data.getString("fans"));
+                        mTvFansNum.setText("粉丝:  " + data.getString("fans"));
                         //mTvSendNum.setText(  "送出:  " + data.getString("consumption"));
                         mTvTicketNum.setText("收入:  " + data.getString("votestotal"));
                         mTvSign.setText(data.getString("signature"));
@@ -182,7 +180,7 @@ public class UserInfoDialogFragment extends DialogFragment {
 
 
                         action = data.getInt("action");
-                        switch (action){
+                        switch (action) {
                             //自己
                             case 0:
                                 mTvReportBtn.setVisibility(View.GONE);
@@ -216,6 +214,8 @@ public class UserInfoDialogFragment extends DialogFragment {
                     }
                 }
             }
+
+
         });
 
     }
@@ -228,7 +228,7 @@ public class UserInfoDialogFragment extends DialogFragment {
         builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                PhoneLiveApi.report(mUser.id,mUser.token, mToUser.id);
+                PhoneLiveApi.report(mUser.id, mUser.token, mToUser.id);
                 AppContext.showToast(getString(R.string.reportsuccess));
             }
         });
@@ -242,13 +242,13 @@ public class UserInfoDialogFragment extends DialogFragment {
     }
 
     private void initView(final View view) {
-        mUser    = getArguments().getParcelable("MYUSERINFO");
-        mToUser  = getArguments().getParcelable("TOUSERINFO");
+        mUser = getArguments().getParcelable("MYUSERINFO");
+        mToUser = getArguments().getParcelable("TOUSERINFO");
         mRoomNum = getArguments().getString("ROOMNUM");
         try {
 
             mIMControl = ((ShowLiveActivityBase) getActivity()).mIMControl;
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
 
@@ -293,8 +293,6 @@ public class UserInfoDialogFragment extends DialogFragment {
         mIvUserSex = (ImageView) view.findViewById(R.id.iv_show_dialog_sex);
 
 
-
-
         mIvSetting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -319,12 +317,12 @@ public class UserInfoDialogFragment extends DialogFragment {
                 } catch (HyphenateException e) {
                     e.printStackTrace();
                 }
-                PhoneLiveApi.showFollow(AppContext.getInstance().getLoginUid(), mToUser.id,AppContext.getInstance().getToken(), null);
+                PhoneLiveApi.showFollow(AppContext.getInstance().getLoginUid(), mToUser.id, AppContext.getInstance().getToken(), null);
                 mTvFollowBtn.setEnabled(false);
                 mTvFollowBtn.setTextColor(getResources().getColor(R.color.gray));
                 mTvFollowBtn.setText(getString(R.string.alreadyfollow));
 
-                if(mToUser.id.equals(mRoomNum)) {
+                if (mToUser.id.equals(mRoomNum)) {
                     Event.VideoEvent event = new Event.VideoEvent();
                     event.action = 1;
                     EventBus.getDefault().post(event);
@@ -335,7 +333,7 @@ public class UserInfoDialogFragment extends DialogFragment {
 
     //显示管理弹窗
     public void showManageBottomMenu() {
-        BottomMenuView mBottomMenuView =  new BottomMenuView(getActivity());
+        BottomMenuView mBottomMenuView = new BottomMenuView(getActivity());
         mManageMenu = new BottomView(getActivity(), R.style.BottomViewTheme_Transparent, mBottomMenuView);
         mBottomMenuView.setOptionData(action, mManageMenu);
         mBottomMenuView.setIsEmcee(mUser.id.equals(mRoomNum));
@@ -348,13 +346,8 @@ public class UserInfoDialogFragment extends DialogFragment {
 
         PhoneLiveApi.getPmUserInfo(uid, touid, new StringCallback() {
             @Override
-            public void onError(Call call, Exception e, int id) {
-
-            }
-
-            @Override
-            public void onResponse(String response, int id) {
-                JSONArray res = ApiUtils.checkIsSuccess(response);
+            public void onSuccess(String s, Call call, Response response) {
+                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
                 if (null == res) return;
                 //UIHelper.showPrivateChatMessage(activity,new Gson().fromJson(res,PrivateChatUserBean.class));
                 PrivateChatUserBean chatUserBean = null;
@@ -370,8 +363,9 @@ public class UserInfoDialogFragment extends DialogFragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
+
+
         });
     }
 
@@ -390,28 +384,24 @@ public class UserInfoDialogFragment extends DialogFragment {
 
     /**
      * @dw 设置禁言
-     * */
-    public void setShutUp(){
+     */
+    public void setShutUp() {
 
         PhoneLiveApi.setShutUp(
                 mRoomNum,
                 mToUser.id,
                 mUser.id,
                 mUser.token,
-                new StringCallback(){
+                new StringCallback() {
 
                     @Override
-                    public void onError(Call call, Exception e,int id) {
+                    public void onSuccess(String s, Call call, Response response) {
+                        JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
 
+                        if (null == res) return;
+                        mIMControl.doSetShutUp(mUser, mToUser);
                     }
 
-                    @Override
-                    public void onResponse(String response,int id) {
-                        JSONArray res = ApiUtils.checkIsSuccess(response);
-
-                        if(null == res) return;
-                        mIMControl.doSetShutUp(mUser,mToUser);
-                    }
                 });
     }
 
@@ -422,39 +412,33 @@ public class UserInfoDialogFragment extends DialogFragment {
                 mToUser.id,
                 mUser.id,
                 mUser.token,
-                new StringCallback(){
+                new StringCallback() {
 
                     @Override
-                    public void onError(Call call, Exception e,int id) {
+                    public void onSuccess(String s, Call call, Response response) {
+                        JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
 
+                        if (null == res) return;
+                        mIMControl.doSetKick(mUser, mToUser);
                     }
 
-                    @Override
-                    public void onResponse(String response,int id) {
-                        JSONArray res = ApiUtils.checkIsSuccess(response);
 
-                        if(null == res) return;
-                        mIMControl.doSetKick(mUser,mToUser);
-                    }
                 });
     }
 
     //超管关闭直播
     private void setCloseLive(String type) {
-        PhoneLiveApi.setCloseLive(mUser.id,mUser.token,mToUser.id,type,new StringCallback(){
+        PhoneLiveApi.setCloseLive(mUser.id, mUser.token, mToUser.id, type, new StringCallback() {
 
             @Override
-            public void onError(Call call, Exception e, int id) {
+            public void onSuccess(String s, Call call, Response response) {
+                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
 
-            }
-
-            @Override
-            public void onResponse(String response, int id) {
-                JSONArray res = ApiUtils.checkIsSuccess(response);
-
-                if(null == res) return;
+                if (null == res) return;
                 mIMControl.doSetCloseLive();
             }
+
+
         });
     }
 
@@ -470,33 +454,31 @@ public class UserInfoDialogFragment extends DialogFragment {
                         mToUser.id,
                         mUser.token,
                         mUser.id,
-                        new StringCallback(){
+                        new StringCallback() {
 
                             @Override
-                            public void onError(Call call, Exception e,int id) {
-                                Toast.makeText(getContext(),"操作失败",Toast.LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onResponse(String response,int id) {
-                                JSONArray res = ApiUtils.checkIsSuccess(response);
-                                if(null == res) return;
+                            public void onSuccess(String s, Call call, Response response) {
+                                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+                                if (null == res) {
+                                    Toast.makeText(getContext(), "操作失败", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
                                 subscriber.onNext("");
                                 mManageMenu.dismissBottomView();
-
                             }
+
                         });
             }
         });
         observable.subscribe(new Action1<String>() {
             @Override
             public void call(String s) {
-                if(action == 501){
+                if (action == 501) {
                     action = 502;
-                    mIMControl.doSetOrRemoveManage(mUser,mToUser,mToUser.user_nicename + "被设为管理员");
-                }else{
+                    mIMControl.doSetOrRemoveManage(mUser, mToUser, mToUser.user_nicename + "被设为管理员");
+                } else {
                     action = 501;
-                    mIMControl.doSetOrRemoveManage(mUser,mToUser,mToUser.user_nicename + "被删除管理员");
+                    mIMControl.doSetOrRemoveManage(mUser, mToUser, mToUser.user_nicename + "被删除管理员");
                 }
 
             }
@@ -507,33 +489,31 @@ public class UserInfoDialogFragment extends DialogFragment {
     public void onMessageEvent(Event.DialogEvent event) {
 
         mManageMenu.dismissBottomView();
-        if(event.action == 1){
+        if (event.action == 1) {
 
             setShutUp();
 
-        }else if(event.action == 0){
+        } else if (event.action == 0) {
 
             setManage();
 
-        }else if(event.action == 3){
+        } else if (event.action == 3) {
             //踢人
             setKick();
-        }else if(event.action == 2){
+        } else if (event.action == 2) {
             //关闭直播
             setCloseLive("0");
 
-        }else if(event.action == 4){
+        } else if (event.action == 4) {
             //禁用
             setCloseLive("1");
-        }else if(event.action == 5){
+        } else if (event.action == 5) {
 
             ManageListDialogFragment fragment = new ManageListDialogFragment();
-            fragment.setStyle(ManageListDialogFragment.STYLE_NO_TITLE,0);
-            fragment.show(getActivity().getSupportFragmentManager(),"ManageListDialogFragment");
+            fragment.setStyle(ManageListDialogFragment.STYLE_NO_TITLE, 0);
+            fragment.show(getActivity().getSupportFragmentManager(), "ManageListDialogFragment");
         }
     }
-
-
 
 
     @Override

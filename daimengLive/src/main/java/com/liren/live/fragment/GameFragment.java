@@ -11,14 +11,14 @@ import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.liren.live.R;
-import com.liren.live.game.adapter.GameListAdapter;
 import com.liren.live.api.remote.ApiUtils;
 import com.liren.live.api.remote.PhoneLiveApi;
 import com.liren.live.base.BaseFragment;
 import com.liren.live.bean.LiveJson;
+import com.liren.live.game.adapter.GameListAdapter;
 import com.liren.live.utils.UIHelper;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.OkHttpUtils;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -29,6 +29,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.Call;
+import okhttp3.Response;
 
 
 //游戏直播分类
@@ -95,16 +96,9 @@ public class GameFragment extends BaseFragment {
         PhoneLiveApi.requestGetGameLive(new StringCallback(){
 
             @Override
-            public void onError(Call call, Exception e, int id) {
+            public void onSuccess(String s, Call call, Response response) {
                 mSwipeRefresh.setRefreshing(false);
-                mLlLoadingDataEmpty.setVisibility(View.GONE);
-                mLlLoadingDataError.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onResponse(String response, int id) {
-                mSwipeRefresh.setRefreshing(false);
-                JSONArray data = ApiUtils.checkIsSuccess(response);
+                JSONArray data = ApiUtils.checkIsSuccess(response.body().toString());
                 if(data != null){
                     try {
 
@@ -112,8 +106,14 @@ public class GameFragment extends BaseFragment {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                }else {
+                    mSwipeRefresh.setRefreshing(false);
+                    mLlLoadingDataEmpty.setVisibility(View.GONE);
+                    mLlLoadingDataError.setVisibility(View.VISIBLE);
                 }
             }
+
+
         });
     }
 

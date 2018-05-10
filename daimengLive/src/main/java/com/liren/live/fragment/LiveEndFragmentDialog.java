@@ -8,20 +8,21 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.liren.live.api.remote.ApiUtils;
 import com.liren.live.AppContext;
 import com.liren.live.R;
+import com.liren.live.api.remote.ApiUtils;
 import com.liren.live.api.remote.PhoneLiveApi;
 import com.liren.live.widget.BlackButton;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.OkHttpUtils;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import butterknife.ButterKnife;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * Created by liren on 16/8/18.
@@ -81,18 +82,15 @@ public class LiveEndFragmentDialog extends DialogFragment {
 
         PhoneLiveApi.showFollow(uid,touid, AppContext.getInstance().getToken(),new StringCallback() {
             @Override
-            public void onError(Call call, Exception e,int id) {
-
-            }
-            @Override
-            public void onResponse(String response,int id) {
-                ApiUtils.checkIsSuccess(response);
+            public void onSuccess(String s, Call call, Response response) {
+                ApiUtils.checkIsSuccess(response.body().toString());
                 if(mFollowEmcee.getText().toString().equals(getResources().getString(R.string.follow))){
                     mFollowEmcee.setText(getResources().getString(R.string.alreadyfollow));
                 }else{
                     mFollowEmcee.setText(getResources().getString(R.string.follow));
                 }
             }
+
         });
     }
 
@@ -102,13 +100,8 @@ public class LiveEndFragmentDialog extends DialogFragment {
         //判断当前主播是否已经关注
         PhoneLiveApi.getIsFollow(AppContext.getInstance().getLoginUid(),roomnum,new StringCallback() {
             @Override
-            public void onError(Call call, Exception e,int id) {
-
-            }
-
-            @Override
-            public void onResponse(String response,int id) {
-                JSONArray res = ApiUtils.checkIsSuccess(response);//0：未关注1:关注
+            public void onSuccess(String s, Call call, Response response) {
+                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());//0：未关注1:关注
                 if(res != null && isAdded()){
                     try {
                         if(res.getJSONObject(0).getInt("isattent") == 0){
@@ -123,6 +116,7 @@ public class LiveEndFragmentDialog extends DialogFragment {
                     }
                 }
             }
+
         });
     }
 

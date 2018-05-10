@@ -17,7 +17,7 @@ import com.liren.live.api.remote.ApiUtils;
 import com.liren.live.api.remote.PhoneLiveApi;
 import com.liren.live.bean.ManageListBean;
 import com.liren.live.widget.BlackTextView;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,9 +25,10 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * 管理员列表
@@ -65,13 +66,8 @@ public class ManageListDialogFragment extends DialogFragment {
     }
     private StringCallback callback = new StringCallback() {
         @Override
-        public void onError(Call call, Exception e,int id) {
-            AppContext.showToast("获取管理员列表失败");
-        }
-
-        @Override
-        public void onResponse(String response,int id) {
-            JSONArray manageListJsonObject = ApiUtils.checkIsSuccess(response);
+        public void onSuccess(String s, Call call, Response response) {
+            JSONArray manageListJsonObject = ApiUtils.checkIsSuccess(response.body().toString());
             if(null != manageListJsonObject){
                 try {
                     Gson g = new Gson();
@@ -84,8 +80,11 @@ public class ManageListDialogFragment extends DialogFragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }else {
+                AppContext.showToast("获取管理员列表失败");
             }
         }
+
     };
 
     private void fillUI() {

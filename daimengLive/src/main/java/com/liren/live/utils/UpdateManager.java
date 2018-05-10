@@ -9,13 +9,14 @@ import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Toast;
+
 import com.liren.live.AppConfig;
 import com.liren.live.AppContext;
 import com.liren.live.R;
 import com.liren.live.api.remote.ApiUtils;
 import com.liren.live.api.remote.PhoneLiveApi;
-import com.zhy.http.okhttp.callback.FileCallBack;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.callback.FileCallback;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +25,7 @@ import org.json.JSONObject;
 import java.io.File;
 
 import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * 更新管理类
@@ -55,15 +57,8 @@ public class UpdateManager {
 
     private StringCallback callback = new StringCallback() {
         @Override
-        public void onError(Call call, Exception e,int id) {
-            //hideCheckDialog();
-            Toast.makeText(mContext,"获取网络数据失败",Toast.LENGTH_SHORT).show();
-        }
-
-        @Override
-        public void onResponse(String response,int id) {
-            //hideCheckDialog();
-            JSONArray res = ApiUtils.checkIsSuccess(response);
+        public void onSuccess(String s, Call call, Response response) {
+            JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
             if(null != res){
                 try {
                     JSONObject config = res.getJSONObject(0);
@@ -80,9 +75,11 @@ public class UpdateManager {
                     e.printStackTrace();
                 }
 
+            }else {
+                Toast.makeText(mContext,"获取网络数据失败",Toast.LENGTH_SHORT).show();
             }
-
         }
+
     };
 
     private void showCheckDialog() {
@@ -147,22 +144,17 @@ public class UpdateManager {
         builder.setTitle("正在下载中...");
         builder.setView(view);
         builder.create().show();
-        PhoneLiveApi.getNewVersionApk(apiUrl,new FileCallBack(AppConfig.DEFAULT_SAVE_FILE_PATH,"app.apk"){
+        PhoneLiveApi.getNewVersionApk(apiUrl,new FileCallback(AppConfig.DEFAULT_SAVE_FILE_PATH,"app.apk"){
 
             @Override
-            public void onError(Call call, Exception e,int id) {
-                Toast.makeText(mContext,"安装包下载失败!",Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-            }
-
-            @Override
-            public void onResponse(File response,int id) {
-                installApk();
-                dialog.dismiss();
-            }
-
-            @Override
-            public void inProgress(float progress, long total,int id) {
+            public void onSuccess(File file, Call call, Response response) {
+                    if (response.isSuccessful()){
+                        installApk();
+                        dialog.dismiss();
+                    }else {
+                        Toast.makeText(mContext,"安装包下载失败!",Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
 
             }
         });

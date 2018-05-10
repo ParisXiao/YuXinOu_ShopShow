@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.liren.live.utils.TDevice;
 import com.google.gson.Gson;
 import com.liren.live.AppConfig;
 import com.liren.live.AppContext;
@@ -20,17 +19,19 @@ import com.liren.live.base.BaseFragment;
 import com.liren.live.bean.UserBean;
 import com.liren.live.ui.customviews.LineControllerView;
 import com.liren.live.utils.LiveUtils;
+import com.liren.live.utils.TDevice;
 import com.liren.live.utils.UIHelper;
 import com.liren.live.widget.AvatarView;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import butterknife.ButterKnife;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * 登录用户中心页面
@@ -148,32 +149,26 @@ public class UserInformationFragment extends BaseFragment{
     }
 
     private StringCallback stringCallback = new StringCallback() {
-       @Override
-       public void onError(Call call, Exception e,int id) {
+        @Override
+        public void onSuccess(String s, Call call, Response response) {
+            JSONArray res = ApiUtils.checkIsSuccess(s);
+            if(res != null){
 
-       }
+                try {
+                    JSONObject object = res.getJSONObject(0);
+                    mInfo = new Gson().fromJson(object.toString(),UserBean.class);
+                    AppContext.getInstance().updateUserInfo(mInfo);
 
-       @Override
-       public void onResponse(String s,int id) {
-           JSONArray res = ApiUtils.checkIsSuccess(s);
-           if(res != null){
+                    //mLiveNum.setText(object.getString("lives"));
+                    mLcvFollow.setContent(object.getString("follows"));
+                    mLcvFans.setContent(object.getString("fans"));
 
-               try {
-                   JSONObject object = res.getJSONObject(0);
-                   mInfo = new Gson().fromJson(object.toString(),UserBean.class);
-                   AppContext.getInstance().updateUserInfo(mInfo);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
-                   //mLiveNum.setText(object.getString("lives"));
-                   mLcvFollow.setContent(object.getString("follows"));
-                   mLcvFans.setContent(object.getString("fans"));
-
-               } catch (JSONException e) {
-                   e.printStackTrace();
-               }
-           }
-
-
-       }
     };
 
     @Override

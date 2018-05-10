@@ -1,20 +1,20 @@
 package com.liren.live.wxpay;
 
 import android.app.Activity;
-import android.widget.Toast;
 
+import com.liren.live.AppContext;
 import com.liren.live.api.remote.ApiUtils;
+import com.liren.live.api.remote.PhoneLiveApi;
+import com.lzy.okhttputils.callback.StringCallback;
 import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.liren.live.AppContext;
-import com.liren.live.api.remote.PhoneLiveApi;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * Created by Administrator on 2016/4/14.
@@ -41,16 +41,11 @@ public class WChatPay {
                 ,price,num,new StringCallback(){
 
                     @Override
-                    public void onError(Call call, Exception e,int id) {
-                        Toast.makeText(AppContext.getInstance(),"获取订单失败", Toast.LENGTH_LONG).show();
+                    public void onSuccess(String s, Call call, Response response) {
+                        JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+                        if(null == res) return;
                     }
 
-                    @Override
-                    public void onResponse(String response,int id) {
-                        JSONArray res = ApiUtils.checkIsSuccess(response);
-                        if(null == res) return;
-                       // callWxPay(res);
-                    }
                 });
     }
 

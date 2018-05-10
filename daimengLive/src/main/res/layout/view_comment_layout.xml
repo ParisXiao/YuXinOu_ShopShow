@@ -49,19 +49,20 @@
             android:background="@drawable/shape_edit_bg"
             android:layout_centerHorizontal="true"
             android:layout_height="match_parent">
+
             <EditText
                 android:id="@+id/commentEdit"
                 android:layout_width="match_parent"
-                android:singleLine="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/x10"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
                 android:background="@null"
-                android:textColor="#999999"
-                android:textSize="@dimen/x28"
                 android:gravity="center_vertical"
-                android:textColorHint="#999999"
                 android:hint="说点什么"
-                android:layout_height="match_parent" />
+                android:singleLine="true"
+                android:textColor="#999999"
+                android:textColorHint="#999999"
+                android:textSize="@dimen/x28" />
         </RelativeLayout>
         <Button
             android:id="@+id/commentSend"

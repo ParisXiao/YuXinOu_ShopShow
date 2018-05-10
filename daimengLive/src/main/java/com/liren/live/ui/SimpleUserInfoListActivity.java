@@ -8,16 +8,16 @@ import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.liren.live.AppConfig;
+import com.liren.live.R;
 import com.liren.live.adapter.UserInfoListAdapter;
 import com.liren.live.api.remote.ApiUtils;
+import com.liren.live.api.remote.PhoneLiveApi;
 import com.liren.live.base.BaseActivity;
 import com.liren.live.bean.SimpleUserInfo;
 import com.liren.live.ui.customviews.ActivityTitle;
 import com.liren.live.utils.UIHelper;
-import com.liren.live.R;
-import com.liren.live.api.remote.PhoneLiveApi;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.OkHttpUtils;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import org.json.JSONArray;
 
@@ -26,6 +26,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * 关注列表
@@ -109,7 +110,6 @@ public class SimpleUserInfoListActivity extends BaseActivity {
     @Override
     public void initData() {
 
-
     }
 
     private void requestGetData() {
@@ -129,17 +129,8 @@ public class SimpleUserInfoListActivity extends BaseActivity {
 
     private StringCallback callback = new StringCallback() {
         @Override
-        public void onError(Call call, Exception e, int id) {
-
-            mRefreshLayout.setRefreshing(false);
-            mLlLoadingDataEmpty.setVisibility(View.GONE);
-            mLlLoadingError.setVisibility(View.VISIBLE);
-            mRecyclerView.setVisibility(View.INVISIBLE);
-        }
-
-        @Override
-        public void onResponse(String response,int id) {
-            JSONArray res = ApiUtils.checkIsSuccess(response);
+        public void onSuccess(String s, Call call, Response response) {
+            JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
 
             if(mRefreshLayout.isRefreshing()){
                 pager = 2;
@@ -179,6 +170,7 @@ public class SimpleUserInfoListActivity extends BaseActivity {
                 mRecyclerView.setVisibility(View.INVISIBLE);
             }
         }
+
     };
 
     private void fillUI() {

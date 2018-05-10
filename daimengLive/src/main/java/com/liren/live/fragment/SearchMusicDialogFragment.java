@@ -26,8 +26,8 @@ import com.liren.live.utils.DBManager;
 import com.liren.live.utils.TLog;
 import com.liren.live.widget.BlackEditText;
 import com.liren.live.widget.BlackTextView;
-import com.zhy.http.okhttp.callback.FileCallBack;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.callback.FileCallback;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,6 +39,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * 直播间音乐搜索弹窗
@@ -46,7 +47,7 @@ import okhttp3.Call;
 public class SearchMusicDialogFragment extends DialogFragment {
     @BindView(R.id.iv_search_music_back)
     ImageView mSearchBack;
-    
+
     @BindView(R.id.tv_search_btn)
     BlackTextView mSearchBtn;
 
@@ -65,10 +66,10 @@ public class SearchMusicDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_search_music,null);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_search_music, null);
 
-        ButterKnife.bind(this,view);
-        Dialog dialog = new Dialog(getActivity(),R.style.dialog_live_end);
+        ButterKnife.bind(this, view);
+        Dialog dialog = new Dialog(getActivity(), R.style.dialog_live_end);
         dialog.setContentView(view);
 
         initView(view);
@@ -97,7 +98,7 @@ public class SearchMusicDialogFragment extends DialogFragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 File file = new File(AppConfig.DEFAULT_SAVE_MUSIC_PATH + mMusicList.get(position).audio_name + ".mp3");
-                if(file.exists()){
+                if (file.exists()) {
                     file.delete();
                     mDbManager.delete(mMusicList.get(position));
                     mMusicList.remove(position);
@@ -117,30 +118,23 @@ public class SearchMusicDialogFragment extends DialogFragment {
     //所有音乐
     private void searchMusic() {
         String keyword = mInputEdit.getText().toString().trim();
-        if(keyword.equals("")){
+        if (keyword.equals("")) {
             AppContext.showToast("请输入有效的关键词~");
             return;
         }
-        PhoneLiveApi.searchMusic(keyword,new StringCallback(){
-
+        PhoneLiveApi.searchMusic(keyword, new StringCallback() {
             @Override
-            public void onError(Call call, Exception e,int id) {
-                AppContext.showToast("查询失败,请换首歌试试~");
-            }
+            public void onSuccess(String s, Call call, Response response) {
+                JSONArray resJson = ApiUtils.checkIsSuccess(response.body().toString());
 
-            @Override
-            public void onResponse(String response,int id) {
-
-                JSONArray resJson = ApiUtils.checkIsSuccess(response);
-
-                if(resJson != null){
+                if (resJson != null) {
                     mMusicList.clear();
 
-                    if(resJson.length() > 0){
+                    if (resJson.length() > 0) {
                         Gson g = new Gson();
-                        for(int i = 0; i <resJson.length(); i++){
+                        for (int i = 0; i < resJson.length(); i++) {
                             try {
-                                mMusicList.add(g.fromJson(resJson.getString(i),MusicBean.class));
+                                mMusicList.add(g.fromJson(resJson.getString(i), MusicBean.class));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -151,8 +145,8 @@ public class SearchMusicDialogFragment extends DialogFragment {
                 }
 
             }
-
         });
+
     }
 
     private void fillUI() {
@@ -162,30 +156,24 @@ public class SearchMusicDialogFragment extends DialogFragment {
 
     public void initData() {
         mDbManager = new DBManager(getActivity());
-        mMusicList =  mDbManager.query();
+        mMusicList = mDbManager.query();
 
-        mAdapter = new SearchMusicAdapter(mMusicList,this, mDbManager);
+        mAdapter = new SearchMusicAdapter(mMusicList, this, mDbManager);
         mSearchListView.setAdapter(mAdapter);
     }
 
     /**
      * @dw 获取歌曲信息
-     * */
-    public void downloadMusic(final MusicBean music,final CircularProgressButton mBtnDownload) {
+     */
+    public void downloadMusic(final MusicBean music, final CircularProgressButton mBtnDownload) {
 
         //获取歌曲信息
-        PhoneLiveApi.getMusicFileUrl(music.audio_id,new StringCallback(){
+        PhoneLiveApi.getMusicFileUrl(music.audio_id, new StringCallback() {
 
             @Override
-            public void onError(Call call, Exception e,int id) {
-                AppContext.showToast("获取歌曲失败");
-            }
-
-            @Override
-            public void onResponse(String response,int id) {
-
-                JSONArray musicFileInfoJson = ApiUtils.checkIsSuccess(response);
-                if(musicFileInfoJson != null){
+            public void onSuccess(String s, Call call, Response response) {
+                JSONArray musicFileInfoJson = ApiUtils.checkIsSuccess(response.body().toString());
+                if (musicFileInfoJson != null) {
 
                     //歌曲下载地址
                     try {
@@ -194,74 +182,69 @@ public class SearchMusicDialogFragment extends DialogFragment {
                         String musicLrc = musicFileInfoJson.getJSONObject(0).getString("lrcLink");
 
                         //判断歌曲地址是否存在
-                        if(!TextUtils.isEmpty(musicUrl)){
+                        if (!TextUtils.isEmpty(musicUrl)) {
                             downloadMusicAndLrc(musicUrl, musicLrc, music, mBtnDownload);
 
-                        }else{
-                            Toast.makeText(getActivity(),"歌曲无法下载,请换首歌试试",Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getActivity(), "歌曲无法下载,请换首歌试试", Toast.LENGTH_SHORT).show();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
                 }
-
             }
+
         });
     }
 
     //下载歌词和歌曲
     private void downloadMusicAndLrc(String musicUrl, String musicLrc, final MusicBean music, final CircularProgressButton mBtnDownload) {
         //下载歌曲
-        PhoneLiveApi.downloadMusic(musicUrl,new FileCallBack(AppConfig.DEFAULT_SAVE_MUSIC_PATH,music.audio_name + ".mp3"){
+        PhoneLiveApi.downloadMusic(musicUrl, new FileCallback(AppConfig.DEFAULT_SAVE_MUSIC_PATH, music.audio_name + ".mp3") {
 
             @Override
-            public void onError(Call call, Exception e,int id) {
+            public void onSuccess(File file, Call call, Response response) {
+                if (response.isSuccessful()) {
+                    List<MusicBean> list = new ArrayList<MusicBean>();
+                    list.add(music);
+                    mDbManager.add(list);
 
-                mBtnDownload.setErrorText("下载失败");
+                }else {
+                    mBtnDownload.setErrorText("下载失败");
+                }
             }
 
-            @Override
-            public void onResponse(File response,int id) {
-                List<MusicBean> list = new ArrayList<MusicBean>();
-                list.add(music);
-                mDbManager.add(list);
 
-            }
-
-            @Override
-            public void inProgress(float progress, long total,int id) {
-                mBtnDownload.setProgress((int) (progress*100));
-            }
+//            @Override
+//            public void inProgress(float progress, long total, int id) {
+//                mBtnDownload.setProgress((int) (progress * 100));
+//            }
         });
 
         try {
             //下载歌词s
-            PhoneLiveApi.downloadLrc(musicLrc,new FileCallBack(AppConfig.DEFAULT_SAVE_MUSIC_PATH,music.audio_name + ".lrc"){
+            PhoneLiveApi.downloadLrc(musicLrc, new FileCallback(AppConfig.DEFAULT_SAVE_MUSIC_PATH, music.audio_name + ".lrc") {
 
                 @Override
-                public void onError(Call call, Exception e,int id) {
-                    AppContext.showToast("没有找到相应的歌词~");
-                }
-
-                @Override
-                public void onResponse(File response,int id) {
-                    TLog.log(response.getPath());
-                }
-
-                @Override
-                public void inProgress(float progress, long total,int id) {
+                public void onSuccess(File file, Call call, Response response) {
+                    if (response.isSuccessful()){
+                        TLog.log(file.getPath());
+                    }else {
+                        AppContext.showToast("没有找到相应的歌词~");
+                    }
 
                 }
+
             });
-        }catch (Exception e){
+        } catch (Exception e) {
             AppContext.showToast("歌词下载失败");
         }
     }
 
 
     //歌曲选中回调接口
-    public interface SearchMusicFragmentInterface{
+    public interface SearchMusicFragmentInterface {
         void onSelectMusic(Intent intent);
     }
 }

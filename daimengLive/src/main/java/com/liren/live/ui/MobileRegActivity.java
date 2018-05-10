@@ -5,9 +5,12 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.hyphenate.util.NetUtils;
 import com.liren.live.AppContext;
+import com.liren.live.R;
 import com.liren.live.api.remote.ApiUtils;
+import com.liren.live.api.remote.PhoneLiveApi;
 import com.liren.live.base.BaseActivity;
 import com.liren.live.bean.UserBean;
 import com.liren.live.ui.customviews.ActivityTitle;
@@ -15,10 +18,7 @@ import com.liren.live.utils.DialogHelp;
 import com.liren.live.utils.LoginUtils;
 import com.liren.live.utils.SimpleUtils;
 import com.liren.live.utils.TDevice;
-import com.google.gson.Gson;
-import com.liren.live.R;
-import com.liren.live.api.remote.PhoneLiveApi;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,6 +28,7 @@ import java.lang.ref.WeakReference;
 import butterknife.BindView;
 import butterknife.OnClick;
 import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  *手机登陆
@@ -103,18 +104,14 @@ public class MobileRegActivity extends BaseActivity {
     private void requestGetMessageCode() {
         PhoneLiveApi.getMessageCode(mUserName, "Login.getCode", new StringCallback() {
             @Override
-            public void onError(Call call, Exception e, int id) {
-
-            }
-
-            @Override
-            public void onResponse(String response, int id) {
-                JSONArray res = ApiUtils.checkIsSuccess(response);
+            public void onSuccess(String s, Call call, Response response) {
+                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
                 if(res != null){
 
                     AppContext.showToast(getString(R.string.codehasbeensend),0);
                 }
             }
+
         });
     }
 
@@ -142,29 +139,24 @@ public class MobileRegActivity extends BaseActivity {
     //注册回调
     private final StringCallback callback = new StringCallback() {
         @Override
-        public void onError(Call call, Exception e,int id) {
-            AppContext.showToast("网络请求出错!");
+        public void onSuccess(String s, Call call, Response response) {
+            hideWaitDialog();
+            JSONArray requestRes = ApiUtils.checkIsSuccess(s);
+            if(requestRes != null){
+                Gson gson = new Gson();
+                try {
+                    UserBean user = gson.fromJson(requestRes.getString(0), UserBean.class);
+                    //保存用户信息
+                    AppContext.getInstance().saveUserInfo(user);
+
+                    LoginUtils.getInstance().OtherInit(MobileRegActivity.this);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
         }
 
-        @Override
-        public void onResponse(String s,int id) {
-
-           hideWaitDialog();
-           JSONArray requestRes = ApiUtils.checkIsSuccess(s);
-           if(requestRes != null){
-               Gson gson = new Gson();
-               try {
-                   UserBean user = gson.fromJson(requestRes.getString(0), UserBean.class);
-                   //保存用户信息
-                   AppContext.getInstance().saveUserInfo(user);
-
-                   LoginUtils.getInstance().OtherInit(MobileRegActivity.this);
-               } catch (JSONException e) {
-                   e.printStackTrace();
-               }
-
-           }
-        }
     };
     private boolean prepareForReg() {
         if (!TDevice.hasInternet()) {

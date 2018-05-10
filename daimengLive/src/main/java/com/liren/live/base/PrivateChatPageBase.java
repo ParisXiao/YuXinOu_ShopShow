@@ -13,25 +13,25 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.liren.live.AppContext;
-import com.liren.live.adapter.UserBaseInfoPrivateChatAdapter;
-import com.liren.live.api.remote.ApiUtils;
-import com.liren.live.bean.UserBean;
-import com.liren.live.event.Event;
-import com.liren.live.fragment.MessageDetailDialogFragment;
-import com.liren.live.utils.TLog;
-import com.liren.live.utils.UIHelper;
 import com.google.gson.Gson;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMTextMessageBody;
+import com.hyphenate.exceptions.HyphenateException;
+import com.liren.live.AppContext;
 import com.liren.live.R;
+import com.liren.live.adapter.UserBaseInfoPrivateChatAdapter;
+import com.liren.live.api.remote.ApiUtils;
 import com.liren.live.api.remote.PhoneLiveApi;
 import com.liren.live.bean.PrivateChatUserBean;
+import com.liren.live.bean.UserBean;
+import com.liren.live.event.Event;
+import com.liren.live.fragment.MessageDetailDialogFragment;
 import com.liren.live.interf.DialogInterface;
-import com.hyphenate.exceptions.HyphenateException;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.liren.live.utils.TLog;
+import com.liren.live.utils.UIHelper;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -44,6 +44,7 @@ import java.util.Map;
 
 import butterknife.ButterKnife;
 import okhttp3.Call;
+import okhttp3.Response;
 
 
 public  class PrivateChatPageBase extends BaseFragment {
@@ -199,14 +200,8 @@ public  class PrivateChatPageBase extends BaseFragment {
     private StringCallback multiBaseInfoCallback = new StringCallback(){
 
         @Override
-        public void onError(Call call, Exception e,int id) {
-
-            TLog.log("[获取会话列表用户信息error]:" + call.request().toString());
-        }
-
-        @Override
-        public void onResponse(String response,int id) {
-            JSONArray fansJsonArr = ApiUtils.checkIsSuccess(response);
+        public void onSuccess(String s, Call call, Response response) {
+            JSONArray fansJsonArr = ApiUtils.checkIsSuccess(response.body().toString());
 
             if(null != fansJsonArr){
                 TLog.log("[获取会话列表用户信息success]:" + fansJsonArr.toString());
@@ -247,6 +242,7 @@ public  class PrivateChatPageBase extends BaseFragment {
                 }
             }
         }
+
     };
 
     //会话列表中已存在更新该会话最后一条信息
@@ -280,13 +276,8 @@ public  class PrivateChatPageBase extends BaseFragment {
         emConversationMap = EMClient.getInstance().chatManager().getAllConversations();
         PhoneLiveApi.getPmUserInfo(mUser.id,messages.getFrom(), new StringCallback() {
             @Override
-            public void onError(Call call, Exception e,int id) {
-
-            }
-
-            @Override
-            public void onResponse(String response,int id) {
-                JSONArray res = ApiUtils.checkIsSuccess(response);
+            public void onSuccess(String s, Call call, Response response) {
+                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
                 if(null != res){
                     PrivateChatUserBean privateChatUserBean = null;
                     try {
@@ -302,8 +293,8 @@ public  class PrivateChatPageBase extends BaseFragment {
                     }
 
                 }
-
             }
+
         });
 
 
@@ -348,13 +339,8 @@ public  class PrivateChatPageBase extends BaseFragment {
             //未传递标记请求服务端判断
             PhoneLiveApi.getPmUserInfo(message.getFrom(),AppContext.getInstance().getLoginUid(), new StringCallback() {
                 @Override
-                public void onError(Call call, Exception e,int id) {
-
-                }
-
-                @Override
-                public void onResponse(String response,int id) {
-                    JSONArray res = ApiUtils.checkIsSuccess(response);
+                public void onSuccess(String s, Call call, Response response) {
+                    JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
                     if(null != res){
                         try {
                             PrivateChatUserBean privateChatUserBean = new Gson().fromJson(res.getString(0),PrivateChatUserBean.class);
@@ -366,8 +352,9 @@ public  class PrivateChatPageBase extends BaseFragment {
                         }
 
                     }
-
                 }
+
+
             });
             e.printStackTrace();
         }

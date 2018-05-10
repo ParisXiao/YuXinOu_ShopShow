@@ -36,13 +36,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.liren.live.game.base.GameControlInterface;
-import com.liren.live.ui.customviews.HeartLayout;
 import com.google.gson.Gson;
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.AnimatorSet;
-import com.nineoldandroids.animation.ObjectAnimator;
-import com.nineoldandroids.animation.PropertyValuesHolder;
 import com.liren.live.AppConfig;
 import com.liren.live.R;
 import com.liren.live.adapter.ChatListAdapter;
@@ -56,8 +50,10 @@ import com.liren.live.bean.UserBean;
 import com.liren.live.fragment.LiveEmceeEndFragmentDialog;
 import com.liren.live.fragment.LiveEndFragmentDialog;
 import com.liren.live.fragment.UserInfoDialogFragment;
+import com.liren.live.game.base.GameControlInterface;
 import com.liren.live.interf.DialogInterface;
 import com.liren.live.model.Danmu;
+import com.liren.live.ui.customviews.HeartLayout;
 import com.liren.live.ui.im.IMControl;
 import com.liren.live.ui.im.PhoneLivePrivateChat;
 import com.liren.live.utils.InputMethodUtils;
@@ -74,12 +70,17 @@ import com.liren.live.widget.BlackTextView;
 import com.liren.live.widget.SpaceRecycleView;
 import com.liren.live.widget.VerticalImageSpan;
 import com.liren.live.widget.danmu.DanmuControl;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.callback.StringCallback;
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.AnimatorSet;
+import com.nineoldandroids.animation.ObjectAnimator;
+import com.nineoldandroids.animation.PropertyValuesHolder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -87,11 +88,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
-import java.lang.ref.SoftReference;
 
 import butterknife.BindView;
 import master.flame.danmaku.controller.IDanmakuView;
 import okhttp3.Call;
+import okhttp3.Response;
 import rx.Observable;
 import rx.Subscriber;
 import rx.functions.Action1;
@@ -1255,13 +1256,8 @@ public class ShowLiveActivityBase extends BaseActivity {
 
         PhoneLiveApi.sendBarrage(mUser,mChatInput.getText().toString(),mRoomNum,mStreamName,new StringCallback() {
             @Override
-            public void onError(Call call, Exception e,int id) {
-
-            }
-            @Override
-            public void onResponse(String response,int id) {
-
-                JSONArray data = ApiUtils.checkIsSuccess(response);
+            public void onSuccess(String s, Call call, Response response) {
+                JSONArray data = ApiUtils.checkIsSuccess(s);
                 if (data != null) {
                     try {
                         JSONObject tokenJson = data.getJSONObject(0);
@@ -1277,6 +1273,7 @@ public class ShowLiveActivityBase extends BaseActivity {
                 }
 
             }
+
         });
 
     }

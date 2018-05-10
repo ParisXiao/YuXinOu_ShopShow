@@ -17,41 +17,42 @@ import com.liren.live.R;
 import com.liren.live.api.remote.ApiUtils;
 import com.liren.live.api.remote.PhoneLiveApi;
 import com.liren.live.bean.LiveJson;
-import com.liren.live.bean.UserBean;
-import com.liren.live.fragment.ManageListDialogFragment;
-import com.liren.live.interf.DialogInterface;
-import com.liren.live.ui.EditInfoActivity;
-import com.liren.live.ui.SettingActivity;
 import com.liren.live.bean.PrivateChatUserBean;
 import com.liren.live.bean.SimpleBackPage;
-import com.liren.live.ui.SimpleUserInfoListActivity;
+import com.liren.live.bean.UserBean;
 import com.liren.live.em.ChangInfo;
-import com.liren.live.ui.ChangePassActivity;
-import com.liren.live.ui.MobileFindPassActivity;
-import com.liren.live.ui.MobileRegActivity;
-import com.liren.live.ui.SettingPushLiveActivity;
-import com.liren.live.ui.DedicateOrderActivity;
+import com.liren.live.fragment.ManageListDialogFragment;
+import com.liren.live.interf.DialogInterface;
 import com.liren.live.ui.ActionBarSimpleBackActivity;
+import com.liren.live.ui.ChangePassActivity;
+import com.liren.live.ui.DedicateOrderActivity;
+import com.liren.live.ui.EditInfoActivity;
 import com.liren.live.ui.HomePageActivity;
 import com.liren.live.ui.LiveRecordActivity;
-import com.liren.live.ui.MobileLoginActivity;
 import com.liren.live.ui.MainActivity;
+import com.liren.live.ui.MobileFindPassActivity;
+import com.liren.live.ui.MobileLoginActivity;
+import com.liren.live.ui.MobileRegActivity;
+import com.liren.live.ui.RtmpPlayerActivity;
+import com.liren.live.ui.SettingActivity;
+import com.liren.live.ui.SettingPushLiveActivity;
+import com.liren.live.ui.SimpleBackActivity;
+import com.liren.live.ui.SimpleUserInfoListActivity;
 import com.liren.live.ui.UserDiamondsActivity;
 import com.liren.live.ui.UserInfoDetailActivity;
 import com.liren.live.ui.UserLevelActivity;
 import com.liren.live.ui.UserProfitActivity;
 import com.liren.live.ui.UserSelectAvatarActivity;
-import com.liren.live.ui.SimpleBackActivity;
-import com.liren.live.ui.RtmpPlayerActivity;
 import com.liren.live.ui.WebViewActivity;
 import com.liren.live.ui.dialog.LiveCommon;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * 界面帮助类
@@ -345,14 +346,8 @@ public class UIHelper {
         PhoneLiveApi.checkoutRoom(AppContext.getInstance().getLoginUid()
                 ,AppContext.getInstance().getToken(),live.stream,live.uid, new StringCallback() {
                     @Override
-                    public void onError(Call call, Exception e, int id) {
-
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-
-                        JSONArray res = ApiUtils.checkIsSuccess(response);
+                    public void onSuccess(String s, Call call, Response response) {
+                        JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
                         if (res != null) {
                             try {
                                 final JSONObject data = res.getJSONObject(0);
@@ -371,13 +366,8 @@ public class UIHelper {
                                                     live.uid,live.stream,new StringCallback(){
 
                                                         @Override
-                                                        public void onError(Call call, Exception e, int id) {
-
-                                                        }
-
-                                                        @Override
-                                                        public void onResponse(String response, int id) {
-                                                            JSONArray res = ApiUtils.checkIsSuccess(response);
+                                                        public void onSuccess(String s, Call call, Response response) {
+                                                            JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
 
                                                             if(res != null){
 
@@ -394,6 +384,7 @@ public class UIHelper {
                                                                 UIHelper.showLookLiveActivity(context, bundle);
                                                             }
                                                         }
+
                                                     });
                                             d.dismiss();
                                         }
@@ -416,13 +407,8 @@ public class UIHelper {
                                                         live.uid,live.stream,new StringCallback(){
 
                                                             @Override
-                                                            public void onError(Call call, Exception e, int id) {
-
-                                                            }
-
-                                                            @Override
-                                                            public void onResponse(String response, int id) {
-                                                                JSONArray res = ApiUtils.checkIsSuccess(response);
+                                                            public void onSuccess(String s, Call call, Response response) {
+                                                                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
 
                                                                 if(res != null){
 
@@ -448,6 +434,8 @@ public class UIHelper {
                                                                     }
                                                                 }
                                                             }
+
+
                                                         });
                                                 d.dismiss();
                                             }
@@ -513,6 +501,8 @@ public class UIHelper {
 
                         }
                     }
+
+
                 });
     }
 }

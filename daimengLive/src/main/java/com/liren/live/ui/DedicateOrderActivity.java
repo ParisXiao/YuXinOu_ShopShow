@@ -4,22 +4,24 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.liren.live.ui.customviews.ActivityTitle;
 import com.liren.live.R;
 import com.liren.live.adapter.OrderAdapter;
 import com.liren.live.api.remote.ApiUtils;
 import com.liren.live.api.remote.PhoneLiveApi;
 import com.liren.live.base.BaseActivity;
 import com.liren.live.bean.OrderBean;
+import com.liren.live.ui.customviews.ActivityTitle;
 import com.liren.live.utils.UIHelper;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.OkHttpUtils;
+import com.lzy.okhttputils.callback.StringCallback;
+
 import org.json.JSONArray;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * 贡献排行榜
@@ -69,13 +71,8 @@ public class DedicateOrderActivity extends BaseActivity {
 
         PhoneLiveApi.getYpOrder(getIntent().getStringExtra("uid"), new StringCallback() {
             @Override
-            public void onError(Call call, Exception e, int id) {
-
-            }
-
-            @Override
-            public void onResponse(String response,int id) {
-                JSONArray res = ApiUtils.checkIsSuccess(response);
+            public void onSuccess(String s, Call call, Response response) {
+                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
 
                 if(null != res){
                     mOrderList.clear();
@@ -83,6 +80,7 @@ public class DedicateOrderActivity extends BaseActivity {
                     fillUI();
                 }
             }
+
         });
     }
 

@@ -14,17 +14,17 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 
-import com.liren.live.api.remote.ApiUtils;
-import com.liren.live.bean.UserBean;
-import com.liren.live.utils.ImageUtils;
 import com.liren.live.AppContext;
 import com.liren.live.R;
+import com.liren.live.api.remote.ApiUtils;
 import com.liren.live.api.remote.PhoneLiveApi;
 import com.liren.live.base.BaseActivity;
+import com.liren.live.bean.UserBean;
 import com.liren.live.utils.FileUtil;
+import com.liren.live.utils.ImageUtils;
 import com.liren.live.utils.StringUtils;
 import com.liren.live.widget.LoadUrlImageView;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,6 +37,7 @@ import java.util.Date;
 import butterknife.BindView;
 import butterknife.OnClick;
 import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * 头像上传
@@ -273,14 +274,8 @@ public class UserSelectAvatarActivity extends BaseActivity {
                         new StringCallback(){
 
                             @Override
-                            public void onError(Call call, Exception e,int id) {
-                                AppContext.showToast("上传头像失败");
-                                hideWaitDialog();
-                            }
-
-                            @Override
-                            public void onResponse(String response,int id) {
-                                final JSONArray res = ApiUtils.checkIsSuccess(response);
+                            public void onSuccess(String s, Call call, Response response) {
+                                final JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
                                 if(null != res){
                                     AppContext.showToast("头像修改成功");
 
@@ -297,9 +292,12 @@ public class UserSelectAvatarActivity extends BaseActivity {
 
                                     AppContext.getInstance().updateUserInfo(u);
 
+                                }else {
+                                    AppContext.showToast("上传头像失败");
                                 }
                                 hideWaitDialog();
                             }
+
                         });
 
             } catch (Exception e) {

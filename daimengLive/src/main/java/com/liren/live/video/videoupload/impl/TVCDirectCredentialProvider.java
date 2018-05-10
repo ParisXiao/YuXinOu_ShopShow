@@ -1,6 +1,5 @@
 package com.liren.live.video.videoupload.impl;
 
-
 import com.tencent.qcloud.core.auth.BasicLifecycleCredentialProvider;
 import com.tencent.qcloud.core.auth.QCloudLifecycleCredentials;
 import com.tencent.qcloud.core.auth.SessionQCloudCredentials;

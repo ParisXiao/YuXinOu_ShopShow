@@ -9,19 +9,20 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 
+import com.hyphenate.chat.EMClient;
 import com.liren.live.api.remote.ApiUtils;
 import com.liren.live.api.remote.PhoneLiveApi;
 import com.liren.live.ui.MainActivity;
 import com.liren.live.utils.SharedPreUtil;
-import com.hyphenate.chat.EMClient;
 import com.liren.live.utils.UIHelper;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import cn.jpush.android.api.JPushInterface;
 import okhttp3.Call;
+import okhttp3.Response;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 /**
@@ -52,13 +53,8 @@ public class AppStart extends Activity {
             public void onAnimationEnd(Animation arg0) {
                 PhoneLiveApi.getConfig(new StringCallback() {
                     @Override
-                    public void onError(Call call, Exception e, int id) {
-
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        JSONArray res = ApiUtils.checkIsSuccess(response);
+                    public void onSuccess(String s, Call call, Response response) {
+                        JSONArray res = ApiUtils.checkIsSuccess(s);
                         if(res != null){
                             try {
 
@@ -69,6 +65,7 @@ public class AppStart extends Activity {
                             }
                         }
                     }
+
                 });
 
             }

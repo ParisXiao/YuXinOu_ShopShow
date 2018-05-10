@@ -6,18 +6,18 @@ import android.graphics.BitmapFactory;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.liren.live.AppConfig;
-import com.liren.live.bean.UserBean;
 import com.google.gson.Gson;
+import com.liren.live.AppConfig;
 import com.liren.live.AppContext;
 import com.liren.live.R;
 import com.liren.live.api.remote.ApiUtils;
 import com.liren.live.api.remote.PhoneLiveApi;
 import com.liren.live.base.BaseActivity;
+import com.liren.live.bean.UserBean;
 import com.liren.live.utils.LoginUtils;
 import com.liren.live.utils.UIHelper;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.OkHttpUtils;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,6 +35,7 @@ import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.tencent.qq.QQ;
 import cn.sharesdk.wechat.friends.Wechat;
 import okhttp3.Call;
+import okhttp3.Response;
 
 
 //登录选择页面
@@ -77,14 +78,8 @@ public class SelectLoginActivity extends BaseActivity implements PlatformActionL
         PhoneLiveApi.requestOtherLoginStatus(new StringCallback(){
 
             @Override
-            public void onError(Call call, Exception e, int id) {
-
-            }
-
-            @Override
-            public void onResponse(String response, int id) {
-
-                JSONArray res = ApiUtils.checkIsSuccess(response);
+            public void onSuccess(String s, Call call, Response response) {
+                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
                 if(res != null){
                     try {
                         JSONObject object = res.getJSONObject(0);
@@ -102,6 +97,7 @@ public class SelectLoginActivity extends BaseActivity implements PlatformActionL
                     }
                 }
             }
+
         });
     }
 
@@ -161,15 +157,8 @@ public class SelectLoginActivity extends BaseActivity implements PlatformActionL
             //通过DB获取各种数据
             PhoneLiveApi.otherLogin(type,platDB,new StringCallback() {
                 @Override
-                public void onError(Call call, Exception e,int id) {
-                    AppContext.showToast("登录失败",0);
-
-                }
-
-                @Override
-                public void onResponse(String response,int id) {
-
-                    JSONArray requestRes = ApiUtils.checkIsSuccess(response);
+                public void onSuccess(String s, Call call, Response response) {
+                    JSONArray requestRes = ApiUtils.checkIsSuccess(response.body().toString());
                     if(requestRes != null){
                         Gson gson = new Gson();
 
@@ -184,8 +173,12 @@ public class SelectLoginActivity extends BaseActivity implements PlatformActionL
                         }
 
 
+                    }else {
+                        AppContext.showToast("登录失败",0);
                     }
                 }
+
+
             });
         }
 

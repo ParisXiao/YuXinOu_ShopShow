@@ -13,38 +13,37 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ksyun.media.player.IMediaPlayer;
+import com.ksyun.media.player.KSYMediaPlayer;
 import com.liren.live.AppConfig;
+import com.liren.live.AppContext;
+import com.liren.live.R;
 import com.liren.live.api.remote.ApiUtils;
+import com.liren.live.api.remote.PhoneLiveApi;
 import com.liren.live.base.ShowLiveActivityBase;
 import com.liren.live.bean.ChatBean;
 import com.liren.live.bean.LiveJson;
+import com.liren.live.bean.SendGiftBean;
 import com.liren.live.bean.SimpleUserInfo;
 import com.liren.live.bean.UserBean;
 import com.liren.live.event.Event;
 import com.liren.live.fragment.GiftListDialogFragment;
+import com.liren.live.interf.IMControlInterface;
+import com.liren.live.ui.customviews.SwipeAnimationController;
 import com.liren.live.ui.dialog.LiveCommon;
 import com.liren.live.ui.im.IMControl;
-import com.liren.live.ui.customviews.SwipeAnimationController;
+import com.liren.live.utils.DialogHelp;
 import com.liren.live.utils.LiveUtils;
+import com.liren.live.utils.ShareUtils;
 import com.liren.live.utils.SocketMsgUtils;
 import com.liren.live.utils.StringUtils;
 import com.liren.live.utils.TLog;
 import com.liren.live.widget.LoadUrlImageView;
 import com.liren.live.widget.VideoSurfaceView;
-import com.ksyun.media.player.IMediaPlayer;
-import com.ksyun.media.player.KSYMediaPlayer;
-import com.liren.live.AppContext;
-import com.liren.live.R;
-import com.liren.live.api.remote.PhoneLiveApi;
-import com.liren.live.bean.SendGiftBean;
-import com.liren.live.interf.IMControlInterface;
-import com.liren.live.utils.DialogHelp;
-import com.liren.live.utils.ShareUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -60,6 +59,7 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.OnClick;
 import okhttp3.Call;
+import okhttp3.Response;
 
 
 public class RtmpPlayerActivity extends ShowLiveActivityBase {
@@ -286,12 +286,7 @@ public class RtmpPlayerActivity extends ShowLiveActivityBase {
                 , mEmceeInfo.stream
                 , new StringCallback() {
                     @Override
-                    public void onError(Call call, Exception e, int id) {
-
-                    }
-
-                    @Override
-                    public void onResponse(String s, int id) {
+                    public void onSuccess(String s, Call call, Response response) {
                         JSONArray res = ApiUtils.checkIsSuccess(s);
 
                         if (res != null) {
@@ -307,6 +302,7 @@ public class RtmpPlayerActivity extends ShowLiveActivityBase {
 
                         }
                     }
+
                 });
 
     }
@@ -417,17 +413,14 @@ public class RtmpPlayerActivity extends ShowLiveActivityBase {
                 
                 PhoneLiveApi.showFollow(mUser.id, mEmceeInfo.uid, mUser.token, new StringCallback() {
                     @Override
-                    public void onError(Call call, Exception e, int id) {
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        JSONArray res = ApiUtils.checkIsSuccess(response);
+                    public void onSuccess(String s, Call call, Response response) {
+                        JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
                         if (null != res) {
                             mIvAttention.setVisibility(View.GONE);
                             showToast2("关注成功");
                         }
                     }
+
                 });
                 mIMControl.doSendSystemMessage(mUser.user_nicename + "关注了主播", mUser);
                 break;
@@ -775,33 +768,13 @@ public class RtmpPlayerActivity extends ShowLiveActivityBase {
                 mEmceeInfo.uid,mEmceeInfo.stream,new StringCallback(){
 
                     @Override
-                    public void onError(Call call, Exception e, int id) {
-                        if(ksyMediaPlayer != null){
-                            ksyMediaPlayer.pause();
-
-                        }
-
-                        if(isFinishing())return;
-                        Dialog dialog = DialogHelp.getMessageDialog(RtmpPlayerActivity.this, "扣费失败，请退出直播间重试", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                finish();
-                            }
-                        }).create();
-
-                        dialog.setCanceledOnTouchOutside(false);
-                        dialog.setCancelable(false);
-                        dialog.show();
-                    }
-
-                    @Override
-                    public void onResponse(String response, int id) {
-                        JSONArray res = ApiUtils.checkIsSuccess(response);
+                    public void onSuccess(String s, Call call, Response response) {
+                        JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
 
                         if(res != null){
 
                             lookTime ++;
-                            
+
                             if(mTvChargingTime != null){
                                 mTvChargingTime.setText(String.format(Locale.CANADA,"观看第%d分钟",lookTime));
                             }
@@ -823,7 +796,7 @@ public class RtmpPlayerActivity extends ShowLiveActivityBase {
                                 mHandler.postDelayed(chargingLiveRunnable, 60 * 1000);
                             }
                         }else{
-                            
+
                             if(ksyMediaPlayer != null){
                                 ksyMediaPlayer.pause();
                             }
@@ -840,6 +813,7 @@ public class RtmpPlayerActivity extends ShowLiveActivityBase {
                             dialog.show();
                         }
                     }
+
                 });
     }
 

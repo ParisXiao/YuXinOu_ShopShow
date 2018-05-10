@@ -74,17 +74,17 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         tools:replace="android:name,android:icon">
-        <activity android:name=".ui.logicactivity.MyMainActivity" >
+        <activity android:name=".AppStart" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".AppStart"
-            android:configChanges="keyboardHidden|orientation">
-        </activity>
+        <!--<activity-->
+            <!--android:name=".AppStart"-->
+            <!--android:configChanges="keyboardHidden|orientation">-->
+        <!--</activity>-->
         <!-- 设计图分辨率 -->
         <meta-data
             android:name="design_width"
@@ -481,6 +481,7 @@
         <activity android:name=".ui.logicactivity.ChooseSellerActivity" />
 
         <activity android:name=".ui.logicactivity.VoiceActivity"></activity>
+        <!--<activity android:name=".ui.logicactivity.MyMainActivity" />-->
     </application>
 
 </manifest>

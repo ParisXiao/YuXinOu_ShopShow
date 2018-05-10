@@ -128,6 +128,7 @@ public class KaiBoFragment extends MyBaseFragment {
             public void onClick(View arg0) {
                 dialog.dismiss();
                 Intent intent = new Intent(getActivity(), TCVideoChooseActivity.class);
+                intent.putExtra("TITLE","短视频拼接");
                 intent.putExtra("CHOOSE_TYPE", TCVideoChooseActivity.TYPE_MULTI_CHOOSE);
                 startActivity(intent);
             }
@@ -138,6 +139,7 @@ public class KaiBoFragment extends MyBaseFragment {
             public void onClick(View arg0) {
                 dialog.dismiss();
                 Intent intent = new Intent(getActivity(), TCVideoChooseActivity.class);
+                intent.putExtra("TITLE","短视频特效");
                 intent.putExtra("CHOOSE_TYPE", TCVideoChooseActivity.TYPE_SINGLE_CHOOSE);
                 startActivity(intent);
             }

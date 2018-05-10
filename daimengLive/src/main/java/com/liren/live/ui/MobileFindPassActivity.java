@@ -16,7 +16,7 @@ import com.liren.live.utils.DialogHelp;
 import com.liren.live.utils.SimpleUtils;
 import com.liren.live.utils.TDevice;
 import com.liren.live.widget.BlackEditText;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import org.json.JSONArray;
 
@@ -25,6 +25,7 @@ import java.lang.ref.WeakReference;
 import butterknife.BindView;
 import butterknife.OnClick;
 import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  *手机登陆
@@ -84,17 +85,13 @@ public class MobileFindPassActivity extends BaseActivity {
             }
             PhoneLiveApi.getMessageCode(mUserName, "Login.getForgetCode", new StringCallback() {
                 @Override
-                public void onError(Call call, Exception e, int id) {
-
-                }
-
-                @Override
-                public void onResponse(String response, int id) {
-                    JSONArray res = ApiUtils.checkIsSuccess(response);
+                public void onSuccess(String s, Call call, Response response) {
+                    JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
                     if(res != null){
                         AppContext.showToast(getString(R.string.codehasbeensend),0);
                     }
                 }
+
             });
 
             SimpleUtils.startTimer(new WeakReference<TextView>(mBtnSendCode),"发送验证码",60,1);
@@ -132,13 +129,7 @@ public class MobileFindPassActivity extends BaseActivity {
     //注册回调
     private final StringCallback callback = new StringCallback() {
         @Override
-        public void onError(Call call, Exception e,int id) {
-            AppContext.showToast("网络请求出错!");
-        }
-
-        @Override
-        public void onResponse(String s,int id) {
-
+        public void onSuccess(String s, Call call, Response response) {
             hideWaitDialog();
 
             JSONArray res = ApiUtils.checkIsSuccess(s);
@@ -157,8 +148,8 @@ public class MobileFindPassActivity extends BaseActivity {
                 alertDialog.show();
             }
 
-
         }
+
     };
 
     private boolean prepareForFindPass() {

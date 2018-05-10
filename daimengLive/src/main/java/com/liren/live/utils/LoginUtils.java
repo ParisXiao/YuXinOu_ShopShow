@@ -7,7 +7,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
 import com.liren.live.AppContext;
 import com.liren.live.api.remote.PhoneLiveApi;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.callback.StringCallback;
 
 
 public class LoginUtils {

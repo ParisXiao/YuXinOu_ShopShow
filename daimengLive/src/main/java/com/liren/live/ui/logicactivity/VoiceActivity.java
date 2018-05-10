@@ -127,7 +127,7 @@ public class VoiceActivity extends MyBaseActivity implements SuperPlayer.OnNetCh
                 if (direction == SwipyRefreshLayoutDirection.TOP) {
                     movieRefresh.setRefreshing(false);
                     index -= 1;
-                    if (index == 0) {
+                    if (index < 0) {
                         index = 0;
                         pageindex = 1;
                         getData(list);

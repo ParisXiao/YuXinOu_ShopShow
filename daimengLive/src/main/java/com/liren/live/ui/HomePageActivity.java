@@ -10,7 +10,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.liren.live.utils.SimpleUtils;
 import com.google.gson.Gson;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
@@ -25,13 +24,14 @@ import com.liren.live.bean.LiveRecordBean;
 import com.liren.live.bean.PrivateChatUserBean;
 import com.liren.live.bean.UserHomePageBean;
 import com.liren.live.utils.LiveUtils;
+import com.liren.live.utils.SimpleUtils;
 import com.liren.live.utils.StringUtils;
 import com.liren.live.utils.TDevice;
 import com.liren.live.utils.UIHelper;
 import com.liren.live.widget.AvatarView;
 import com.liren.live.widget.BlackTextView;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.OkHttpUtils;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,12 +42,12 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import okhttp3.Call;
+import okhttp3.Response;
 
 
 public class HomePageActivity extends BaseActivity {
 
 
-    
     @BindView(R.id.tv_home_page_uname)
     BlackTextView mTvUNice;
 
@@ -57,19 +57,19 @@ public class HomePageActivity extends BaseActivity {
     @BindView(R.id.iv_home_page_level)
     ImageView mULevel;
 
-    
+
     @BindView(R.id.av_home_page_uhead)
     AvatarView mUHead;
 
-    
+
     @BindView(R.id.tv_home_page_follow)
     BlackTextView mTvUFollowNum;
 
-    
+
     @BindView(R.id.tv_home_page_fans)
     BlackTextView mTvUFansNum;
 
-    
+
     @BindView(R.id.tv_home_page_sign)
     BlackTextView mTvUSign;
 
@@ -121,11 +121,11 @@ public class HomePageActivity extends BaseActivity {
     @BindView(R.id.rl_live_status)
     RelativeLayout mRlLiveStatusView;
 
-    
+
     @BindView(R.id.iv_home_page_pic)
     ImageView mIvUserPic;
 
-    
+
     private LiveRecordBean mLiveRecordBean;
 
     private String uid;
@@ -138,7 +138,7 @@ public class HomePageActivity extends BaseActivity {
 
     private LiveRecordAdapter mLiveRecordAdapter;
 
-    
+
     private int recordPager = 1;
 
     @Override
@@ -147,24 +147,24 @@ public class HomePageActivity extends BaseActivity {
     }
 
     @Override
-    public void initView()  {
+    public void initView() {
 
-        mOrderTopNoThree [0] = (AvatarView) findViewById(R.id.av_home_page_order1);
-        mOrderTopNoThree [1] = (AvatarView) findViewById(R.id.av_home_page_order2);
-        mOrderTopNoThree [2] = (AvatarView) findViewById(R.id.av_home_page_order3);
+        mOrderTopNoThree[0] = (AvatarView) findViewById(R.id.av_home_page_order1);
+        mOrderTopNoThree[1] = (AvatarView) findViewById(R.id.av_home_page_order2);
+        mOrderTopNoThree[2] = (AvatarView) findViewById(R.id.av_home_page_order3);
         mLiveRecordAdapter = new LiveRecordAdapter(mRecordList);
         mLiveRecordAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 mLiveRecordBean = mRecordList.get(position);
-                
+
                 showLiveRecord();
             }
         });
         mRvLiveRecord.setLayoutManager(new LinearLayoutManager(this));
         mRvLiveRecord.setAdapter(mLiveRecordAdapter);
 
-        ((TextView)findViewById(R.id.tv_home_tick_order)).setText(AppConfig.TICK_NAME + "排行榜");
+        ((TextView) findViewById(R.id.tv_home_tick_order)).setText(AppConfig.TICK_NAME + "排行榜");
     }
 
     @Override
@@ -172,20 +172,16 @@ public class HomePageActivity extends BaseActivity {
 
         uid = getIntent().getStringExtra("uid");
 
-        if(uid.equals(getUserID())){
+        if (uid.equals(getUserID())) {
             mLLBottomMenu.setVisibility(View.GONE);
         }
 
-        
-        PhoneLiveApi.getHomePageUInfo(getUserID(), uid,new StringCallback() {
-            @Override
-            public void onError(Call call, Exception e,int id) {
-            }
 
+        PhoneLiveApi.getHomePageUInfo(getUserID(), uid, new StringCallback() {
             @Override
-            public void onResponse(String response,int id) {
-                JSONArray res = ApiUtils.checkIsSuccess(response);
-                if(res != null){
+            public void onSuccess(String s, Call call, Response response) {
+                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+                if (res != null) {
 
                     try {
                         mUserHomePageBean = new Gson().fromJson(res.getString(0), UserHomePageBean.class);
@@ -195,23 +191,23 @@ public class HomePageActivity extends BaseActivity {
                     fillUIUserInfo();
                 }
             }
+
         });
     }
 
 
-    
     private void fillUIUserInfo() {
 
 
-        if(mUserHomePageBean.islive.equals("1")){
+        if (mUserHomePageBean.islive.equals("1")) {
             mRlLiveStatusView.setVisibility(View.VISIBLE);
             mRlLiveStatusView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    UIHelper.startRtmpPlayerActivity(HomePageActivity.this,mUserHomePageBean.liveinfo);
+                    UIHelper.startRtmpPlayerActivity(HomePageActivity.this, mUserHomePageBean.liveinfo);
                 }
             });
-        }else{
+        } else {
             mRlLiveStatusView.setVisibility(View.GONE);
         }
 
@@ -219,39 +215,39 @@ public class HomePageActivity extends BaseActivity {
         mTvUNice.setText(mUserHomePageBean.user_nicename);
         mUSex.setImageResource(LiveUtils.getSexRes(mUserHomePageBean.sex));
         mULevel.setImageResource(LiveUtils.getLevelRes(mUserHomePageBean.level));
-        mTvUFansNum.setText(  getString(R.string.fans) + ":" + mUserHomePageBean.fans);
+        mTvUFansNum.setText(getString(R.string.fans) + ":" + mUserHomePageBean.fans);
         mTvUFollowNum.setText(getString(R.string.attention) + ":" + mUserHomePageBean.follows);
         mTvUSign.setText(mUserHomePageBean.signature);
         mTvUSign2.setText(mUserHomePageBean.signature);
         mTvUNum.setText(mUserHomePageBean.id);
         mFollowState.setText(StringUtils.toInt(mUserHomePageBean.isattention) == 0 ? getString(R.string.follow2) : getString(R.string.alreadyfollow));
-        mTvBlackState.setText(StringUtils.toInt(mUserHomePageBean.isblack) == 0 ? getString(R.string.pullblack):getString(R.string.relieveblack));
+        mTvBlackState.setText(StringUtils.toInt(mUserHomePageBean.isblack) == 0 ? getString(R.string.pullblack) : getString(R.string.relieveblack));
 
-        SimpleUtils.loadImageForView(this,mIvUserPic,mUserHomePageBean.avatar,0);
+        SimpleUtils.loadImageForView(this, mIvUserPic, mUserHomePageBean.avatar, 0);
 
-        List<UserHomePageBean.ContributeBean> os =  mUserHomePageBean.contribute;
-        for(int i = 0;i<os.size(); i++){
+        List<UserHomePageBean.ContributeBean> os = mUserHomePageBean.contribute;
+        for (int i = 0; i < os.size(); i++) {
             mOrderTopNoThree[i].setAvatarUrl(os.get(i).getAvatar());
         }
 
 
-        if(null != mUserHomePageBean.liverecord){
+        if (null != mUserHomePageBean.liverecord) {
             mRecordList.clear();
             mRecordList.addAll(mUserHomePageBean.liverecord);
 
-            if(mRecordList.size() != 0){
+            if (mRecordList.size() != 0) {
                 mRvLiveRecord.setVisibility(View.VISIBLE);
                 mLoadingDataEmpty.setVisibility(View.GONE);
                 mLoadingDataError.setVisibility(View.GONE);
                 mLiveRecordAdapter.notifyDataSetChanged();
-            }else{
+            } else {
                 mRvLiveRecord.setVisibility(View.INVISIBLE);
                 mLoadingDataEmpty.setVisibility(View.VISIBLE);
                 mLoadingDataError.setVisibility(View.GONE);
             }
 
 
-        }else{
+        } else {
             mRvLiveRecord.setVisibility(View.INVISIBLE);
             mLoadingDataEmpty.setVisibility(View.VISIBLE);
             mLoadingDataError.setVisibility(View.GONE);
@@ -259,24 +255,24 @@ public class HomePageActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.ll_home_page_menu_lahei,R.id.ll_home_page_menu_privatechat,R.id.tv_home_page_menu_follow,R.id.rl_home_pager_yi_order,R.id.tv_home_page_follow,R.id.tv_home_page_index_btn,R.id.tv_home_page_video_btn,R.id.iv_home_page_back,R.id.tv_home_page_fans})
+    @OnClick({R.id.ll_home_page_menu_lahei, R.id.ll_home_page_menu_privatechat, R.id.tv_home_page_menu_follow, R.id.rl_home_pager_yi_order, R.id.tv_home_page_follow, R.id.tv_home_page_index_btn, R.id.tv_home_page_video_btn, R.id.iv_home_page_back, R.id.tv_home_page_fans})
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.ll_home_page_menu_privatechat:
-                
+
                 openPrivateChat();
                 break;
             case R.id.ll_home_page_menu_lahei:
-                
+
                 pullTheBlack();
                 break;
             case R.id.tv_home_page_menu_follow:
-                
+
                 followUserOralready();
                 break;
             case R.id.tv_home_page_index_btn:
-                
+
                 changeLineStatus(true);
                 mHomeIndexPage.setVisibility(View.VISIBLE);
                 mHomeVideoPage.setVisibility(View.GONE);
@@ -284,7 +280,7 @@ public class HomePageActivity extends BaseActivity {
                 mPageVideoBtn.setTextColor(getResources().getColor(R.color.black));
                 break;
             case R.id.tv_home_page_video_btn:
-                
+
                 changeLineStatus(false);
                 mHomeIndexPage.setVisibility(View.GONE);
                 mHomeVideoPage.setVisibility(View.VISIBLE);
@@ -296,23 +292,23 @@ public class HomePageActivity extends BaseActivity {
                 finish();
                 break;
             case R.id.tv_home_page_fans:
-                
-                UIHelper.showFansListActivity(this,uid);
+
+                UIHelper.showFansListActivity(this, uid);
                 break;
             case R.id.tv_home_page_follow:
-                
+
                 UIHelper.showAttentionActivity(this, uid);
                 break;
             case R.id.rl_home_pager_yi_order:
-                
-                OrderWebViewActivity.startOrderWebView(this,uid);
+
+                OrderWebViewActivity.startOrderWebView(this, uid);
                 break;
         }
 
     }
 
     private void changeLineStatus(boolean status) {
-        if(status){
+        if (status) {
             mViewLine1.setBackgroundResource(R.color.global);
             mViewLine2.setBackgroundColor(Color.parseColor("#E2E2E2"));
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mViewLine1.getLayoutParams();
@@ -322,7 +318,7 @@ public class HomePageActivity extends BaseActivity {
             LinearLayout.LayoutParams params2 = (LinearLayout.LayoutParams) mViewLine2.getLayoutParams();
             params2.height = 1;
             mViewLine2.setLayoutParams(params2);
-        }else{
+        } else {
             mViewLine2.setBackgroundResource(R.color.global);
             mViewLine1.setBackgroundColor(Color.parseColor("#E2E2E2"));
 
@@ -338,106 +334,94 @@ public class HomePageActivity extends BaseActivity {
     }
 
 
-    
     private void showLiveRecord() {
 
-        showWaitDialog("正在获取回放...",false);
+        showWaitDialog("正在获取回放...", false);
 
-        PhoneLiveApi.getLiveRecordById(mLiveRecordBean.getId(),new StringCallback() {
+        PhoneLiveApi.getLiveRecordById(mLiveRecordBean.getId(), new StringCallback() {
             @Override
-            public void onError(Call call, Exception e,int id) {
+            public void onSuccess(String s, Call call, Response response) {
                 hideWaitDialog();
-            }
+                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
 
-            @Override
-            public void onResponse(String response,int id) {
-                hideWaitDialog();
-                JSONArray res = ApiUtils.checkIsSuccess(response);
-
-                if(res != null){
+                if (res != null) {
                     try {
                         mLiveRecordBean.setVideo_url(res.getJSONObject(0).getString("url"));
-                        LiveRecordPlayerActivity.startVideoBack(HomePageActivity.this,mLiveRecordBean);
+                        LiveRecordPlayerActivity.startVideoBack(HomePageActivity.this, mLiveRecordBean);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
 
                 }
             }
+
         });
 
     }
 
 
-    
     private void pullTheBlack() {
-        PhoneLiveApi.pullTheBlack(AppContext.getInstance().getLoginUid(),uid,
+        PhoneLiveApi.pullTheBlack(AppContext.getInstance().getLoginUid(), uid,
                 AppContext.getInstance().getToken(),
-                new StringCallback(){
+                new StringCallback() {
 
-            @Override
-            public void onError(Call call, Exception e,int id) {
-                AppContext.showToast("操作失败");
-            }
+                    @Override
+                    public void onSuccess(String s, Call call, Response response) {
+                        JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+                        if (null == res) {
+                            AppContext.showToast("操作失败");
+                            return;
+                        }
+                        if (StringUtils.toInt(mUserHomePageBean.isblack) == 0) {
 
-            @Override
-            public void onResponse(String response,int id) {
-                JSONArray res = ApiUtils.checkIsSuccess(response);
-                if(null == res)return;
-                if(StringUtils.toInt(mUserHomePageBean.isblack) == 0){
-                    
-                    try {
-                        EMClient.getInstance().contactManager().addUserToBlackList(String.valueOf(mUserHomePageBean.id),true);
-                    } catch (HyphenateException e) {
-                        e.printStackTrace();
+                            try {
+                                EMClient.getInstance().contactManager().addUserToBlackList(String.valueOf(mUserHomePageBean.id), true);
+                            } catch (HyphenateException e) {
+                                e.printStackTrace();
+                            }
+                        } else {
+                            try {
+                                EMClient.getInstance().contactManager().removeUserFromBlackList(String.valueOf(mUserHomePageBean.id));
+                            } catch (HyphenateException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        int isBlack = StringUtils.toInt(mUserHomePageBean.isblack);
+
+                        mUserHomePageBean.isblack = (isBlack == 0 ? "1" : "0");
+
+                        mTvBlackState.setText(isBlack == 0 ? getString(R.string.relieveblack) : getString(R.string.pullblack));
+                        AppContext.showToast(isBlack == 0 ? "拉黑成功" : "解除拉黑", 0);
                     }
-                }else{
-                    try {
-                        EMClient.getInstance().contactManager().removeUserFromBlackList(String.valueOf(mUserHomePageBean.id));
-                    } catch (HyphenateException e) {
-                        e.printStackTrace();
-                    }
-                }
 
-                int isBlack = StringUtils.toInt(mUserHomePageBean.isblack);
-
-                mUserHomePageBean.isblack = (isBlack == 0 ? "1" : "0");
-
-                mTvBlackState.setText(isBlack == 0 ? getString(R.string.relieveblack) : getString(R.string.pullblack));
-                AppContext.showToast( isBlack == 0?"拉黑成功":"解除拉黑",0);
-
-            }
-        });
+                });
     }
 
-    
+
     private void openPrivateChat() {
 
-        if(StringUtils.toInt(mUserHomePageBean.isblack2) == 1){
+        if (StringUtils.toInt(mUserHomePageBean.isblack2) == 1) {
             AppContext.showToast("你已被对方拉黑无法私信");
             return;
         }
 
-        if(null != mUserHomePageBean){
+        if (null != mUserHomePageBean) {
 
-            PhoneLiveApi.getPmUserInfo(getUserID(),mUserHomePageBean.id, new StringCallback() {
+            PhoneLiveApi.getPmUserInfo(getUserID(), mUserHomePageBean.id, new StringCallback() {
                 @Override
-                public void onError(Call call, Exception e,int id) {
-
-                }
-
-                @Override
-                public void onResponse(String response,int id) {
-                    JSONArray res = ApiUtils.checkIsSuccess(response);
-                    if(null != res)
+                public void onSuccess(String s, Call call, Response response) {
+                    JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+                    if (null != res)
                         try {
                             UIHelper.showPrivateChatMessage(HomePageActivity.this,
-                                    new Gson().fromJson(res.getString(0),PrivateChatUserBean.class));
+                                    new Gson().fromJson(res.getString(0), PrivateChatUserBean.class));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
                 }
+
             });
 
         }
@@ -447,27 +431,23 @@ public class HomePageActivity extends BaseActivity {
 
     private void followUserOralready() {
 
-        PhoneLiveApi.showFollow(getUserID(),uid,getUserToken(),new StringCallback() {
+        PhoneLiveApi.showFollow(getUserID(), uid, getUserToken(), new StringCallback() {
             @Override
-            public void onError(Call call, Exception e,int id) {
-
-            }
-
-            @Override
-            public void onResponse(String response,int id) {
+            public void onSuccess(String s, Call call, Response response) {
                 mUserHomePageBean.isattention = (
                         StringUtils.toInt(mUserHomePageBean.isattention) == 0 ? "1" : "0");
 
-                if (StringUtils.toInt(mUserHomePageBean.isattention) == 0 ){
+                if (StringUtils.toInt(mUserHomePageBean.isattention) == 0) {
                     mFollowState.setText(getString(R.string.follow2));
-                }else{
+                } else {
 
                     mFollowState.setText(getString(R.string.alreadyfollow));
-                    if (StringUtils.toInt(mUserHomePageBean.isblack) != 0){
+                    if (StringUtils.toInt(mUserHomePageBean.isblack) != 0) {
                         pullTheBlack();
                     }
                 }
             }
+
         });
     }
 

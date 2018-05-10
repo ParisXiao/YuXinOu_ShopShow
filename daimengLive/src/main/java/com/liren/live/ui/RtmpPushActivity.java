@@ -26,8 +26,6 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
-import com.liren.live.fragment.LivePlugsDialogFragment;
-import com.liren.live.ui.dialog.LiveCommon;
 import com.hyphenate.util.NetUtils;
 import com.ksyun.media.streamer.encoder.VideoEncodeFormat;
 import com.ksyun.media.streamer.filter.imgtex.ImgBeautyProFilter;
@@ -35,32 +33,34 @@ import com.ksyun.media.streamer.filter.imgtex.ImgFilterBase;
 import com.ksyun.media.streamer.filter.imgtex.ImgTexFilterMgt;
 import com.ksyun.media.streamer.kit.KSYStreamer;
 import com.ksyun.media.streamer.kit.StreamerConstants;
-import com.liren.live.api.remote.ApiUtils;
-import com.liren.live.base.ShowLiveActivityBase;
-import com.liren.live.bean.ChatBean;
-import com.liren.live.bean.UserBean;
-import com.liren.live.event.Event;
-import com.liren.live.fragment.SearchMusicDialogFragment;
-import com.liren.live.ui.im.IMControl;
-import com.liren.live.utils.SocketMsgUtils;
-import com.liren.live.utils.StringUtils;
-import com.liren.live.utils.TLog;
-import com.liren.live.widget.music.ILrcBuilder;
-import com.liren.live.widget.music.LrcRow;
-import com.liren.live.widget.music.LrcView;
 import com.liren.live.AppContext;
 import com.liren.live.R;
+import com.liren.live.api.remote.ApiUtils;
 import com.liren.live.api.remote.PhoneLiveApi;
+import com.liren.live.base.ShowLiveActivityBase;
+import com.liren.live.bean.ChatBean;
 import com.liren.live.bean.SendGiftBean;
+import com.liren.live.bean.UserBean;
+import com.liren.live.event.Event;
+import com.liren.live.fragment.LivePlugsDialogFragment;
 import com.liren.live.fragment.MusicPlayerDialogFragment;
+import com.liren.live.fragment.SearchMusicDialogFragment;
 import com.liren.live.interf.IMControlInterface;
+import com.liren.live.ui.dialog.LiveCommon;
+import com.liren.live.ui.im.IMControl;
 import com.liren.live.ui.other.LiveStream;
 import com.liren.live.utils.DialogHelp;
 import com.liren.live.utils.LiveUtils;
 import com.liren.live.utils.ShareUtils;
+import com.liren.live.utils.SocketMsgUtils;
+import com.liren.live.utils.StringUtils;
+import com.liren.live.utils.TLog;
 import com.liren.live.widget.music.DefaultLrcBuilder;
+import com.liren.live.widget.music.ILrcBuilder;
+import com.liren.live.widget.music.LrcRow;
+import com.liren.live.widget.music.LrcView;
+import com.lzy.okhttputils.callback.StringCallback;
 import com.tandong.bottomview.view.BottomView;
-import com.zhy.http.okhttp.callback.StringCallback;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -79,6 +79,7 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.OnClick;
 import okhttp3.Call;
+import okhttp3.Response;
 
 
 public class RtmpPushActivity extends ShowLiveActivityBase implements SearchMusicDialogFragment.SearchMusicFragmentInterface{
@@ -774,15 +775,9 @@ public class RtmpPushActivity extends ShowLiveActivityBase implements SearchMusi
                         PhoneLiveApi.requestSetRoomType(mUser.id,mUser.token,mStreamName,coin,new StringCallback(){
 
                             @Override
-                            public void onError(Call call, Exception e, int id) {
+                            public void onSuccess(String s, Call call, Response response) {
                                 d.dismiss();
-                                AppContext.showToast("修改房间状态失败");
-                            }
-
-                            @Override
-                            public void onResponse(String response, int id) {
-                                d.dismiss();
-                                JSONArray res = ApiUtils.checkIsSuccess(response);
+                                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
 
                                 if(res != null){
                                     AppContext.showToast("房间已修改为付费计时房间");
@@ -795,9 +790,13 @@ public class RtmpPushActivity extends ShowLiveActivityBase implements SearchMusi
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
+                                }else {
+                                    d.dismiss();
+                                    AppContext.showToast("修改房间状态失败");
                                 }
-
                             }
+
+
                         });
                     }
                 }
@@ -876,14 +875,11 @@ public class RtmpPushActivity extends ShowLiveActivityBase implements SearchMusi
         
         PhoneLiveApi.closeLive(mUser.id, mUser.token,mStreamName, new StringCallback() {
             @Override
-            public void onError(Call call, Exception e,int id) {
-                
-            }
-
-            @Override
-            public void onResponse(String response,int id) {
+            public void onSuccess(String s, Call call, Response response) {
 
             }
+
+
         });
 
         mGiftShowQueue.clear();

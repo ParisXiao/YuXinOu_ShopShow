@@ -15,13 +15,14 @@ import com.liren.live.utils.LiveUtils;
 import com.liren.live.widget.BlackButton;
 import com.liren.live.widget.BlackEditText;
 import com.liren.live.widget.BlackTextView;
-import com.zhy.http.okhttp.OkHttpUtils;
-import com.zhy.http.okhttp.callback.StringCallback;
+import com.lzy.okhttputils.OkHttpUtils;
+import com.lzy.okhttputils.callback.StringCallback;
 
 import org.json.JSONArray;
 
 import butterknife.BindView;
 import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * 修改资料
@@ -122,12 +123,7 @@ public class EditInfoActivity extends BaseActivity {
 
     private StringCallback callback = new StringCallback() {
         @Override
-        public void onError(Call call, Exception e,int id) {
-            showToast2(getString(R.string.editfail));
-        }
-
-        @Override
-        public void onResponse(String s,int id) {
+        public void onSuccess(String s, Call call, Response response) {
             JSONArray res = ApiUtils.checkIsSuccess(s);
             if(null != res){
                 AppContext.showToast(getString(R.string.editsuccess),0);
@@ -139,9 +135,11 @@ public class EditInfoActivity extends BaseActivity {
                 }
                 AppContext.getInstance().updateUserInfo(u);
                 finish();
+            }else {
+                showToast2(getString(R.string.editfail));
             }
-
         }
+
     };
 
     @Override
