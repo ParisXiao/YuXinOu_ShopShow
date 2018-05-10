@@ -165,7 +165,7 @@ public class MainActivity extends BaseActivity implements
         PhoneLiveApi.getConfig(new StringCallback() {
             @Override
             public void onSuccess(String s, Call call, Response response) {
-                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+                JSONArray res = ApiUtils.checkIsSuccess(s);
                 if(res != null){
                     try {
 

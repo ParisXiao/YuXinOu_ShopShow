@@ -230,7 +230,7 @@ public class UserDiamondsActivity extends BaseActivity {
 
             @Override
             public void onSuccess(String s, Call call, Response response) {
-                JSONArray array = ApiUtils.checkIsSuccess(response.body().toString());
+                JSONArray array = ApiUtils.checkIsSuccess(s);
 
                 if(array != null){
 

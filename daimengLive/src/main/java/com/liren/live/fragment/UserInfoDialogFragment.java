@@ -347,7 +347,7 @@ public class UserInfoDialogFragment extends DialogFragment {
         PhoneLiveApi.getPmUserInfo(uid, touid, new StringCallback() {
             @Override
             public void onSuccess(String s, Call call, Response response) {
-                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+                JSONArray res = ApiUtils.checkIsSuccess(s);
                 if (null == res) return;
                 //UIHelper.showPrivateChatMessage(activity,new Gson().fromJson(res,PrivateChatUserBean.class));
                 PrivateChatUserBean chatUserBean = null;
@@ -396,7 +396,7 @@ public class UserInfoDialogFragment extends DialogFragment {
 
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+                        JSONArray res = ApiUtils.checkIsSuccess(s);
 
                         if (null == res) return;
                         mIMControl.doSetShutUp(mUser, mToUser);
@@ -416,7 +416,7 @@ public class UserInfoDialogFragment extends DialogFragment {
 
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+                        JSONArray res = ApiUtils.checkIsSuccess(s);
 
                         if (null == res) return;
                         mIMControl.doSetKick(mUser, mToUser);
@@ -432,7 +432,7 @@ public class UserInfoDialogFragment extends DialogFragment {
 
             @Override
             public void onSuccess(String s, Call call, Response response) {
-                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+                JSONArray res = ApiUtils.checkIsSuccess(s);
 
                 if (null == res) return;
                 mIMControl.doSetCloseLive();
@@ -458,7 +458,7 @@ public class UserInfoDialogFragment extends DialogFragment {
 
                             @Override
                             public void onSuccess(String s, Call call, Response response) {
-                                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+                                JSONArray res = ApiUtils.checkIsSuccess(s);
                                 if (null == res) {
                                     Toast.makeText(getContext(), "操作失败", Toast.LENGTH_SHORT).show();
                                     return;

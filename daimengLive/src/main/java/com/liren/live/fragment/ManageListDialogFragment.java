@@ -67,7 +67,7 @@ public class ManageListDialogFragment extends DialogFragment {
     private StringCallback callback = new StringCallback() {
         @Override
         public void onSuccess(String s, Call call, Response response) {
-            JSONArray manageListJsonObject = ApiUtils.checkIsSuccess(response.body().toString());
+            JSONArray manageListJsonObject = ApiUtils.checkIsSuccess(s);
             if(null != manageListJsonObject){
                 try {
                     Gson g = new Gson();

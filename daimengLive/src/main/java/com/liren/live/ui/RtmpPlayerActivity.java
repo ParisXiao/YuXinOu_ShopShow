@@ -414,7 +414,7 @@ public class RtmpPlayerActivity extends ShowLiveActivityBase {
                 PhoneLiveApi.showFollow(mUser.id, mEmceeInfo.uid, mUser.token, new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+                        JSONArray res = ApiUtils.checkIsSuccess(s);
                         if (null != res) {
                             mIvAttention.setVisibility(View.GONE);
                             showToast2("关注成功");
@@ -769,7 +769,7 @@ public class RtmpPlayerActivity extends ShowLiveActivityBase {
 
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+                        JSONArray res = ApiUtils.checkIsSuccess(s);
 
                         if(res != null){
 

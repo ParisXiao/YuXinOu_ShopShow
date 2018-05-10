@@ -777,7 +777,7 @@ public class RtmpPushActivity extends ShowLiveActivityBase implements SearchMusi
                             @Override
                             public void onSuccess(String s, Call call, Response response) {
                                 d.dismiss();
-                                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+                                JSONArray res = ApiUtils.checkIsSuccess(s);
 
                                 if(res != null){
                                     AppContext.showToast("房间已修改为付费计时房间");

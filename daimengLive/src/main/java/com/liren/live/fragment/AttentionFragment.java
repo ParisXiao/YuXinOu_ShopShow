@@ -133,7 +133,7 @@ public class AttentionFragment extends BaseFragment implements SwipeRefreshLayou
                 pager = 2;
                 mUserList.clear();
             }
-            JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+            JSONArray res = ApiUtils.checkIsSuccess(s);
             if (null != res) {
                 List<LiveJson> data = ApiUtils.formatDataToList(res,LiveJson.class);
                 //上拉加载增加页数

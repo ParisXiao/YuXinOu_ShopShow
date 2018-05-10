@@ -101,7 +101,7 @@ public class BlackListFragment extends BaseFragment {
         @Override
         public void onSuccess(String s, Call call, Response response) {
 
-            JSONArray blackJsonArray = ApiUtils.checkIsSuccess(response.body().toString());
+            JSONArray blackJsonArray = ApiUtils.checkIsSuccess(s);
             if(null == blackJsonArray)return;
 
             try {

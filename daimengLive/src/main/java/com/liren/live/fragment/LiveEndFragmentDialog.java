@@ -83,7 +83,7 @@ public class LiveEndFragmentDialog extends DialogFragment {
         PhoneLiveApi.showFollow(uid,touid, AppContext.getInstance().getToken(),new StringCallback() {
             @Override
             public void onSuccess(String s, Call call, Response response) {
-                ApiUtils.checkIsSuccess(response.body().toString());
+                ApiUtils.checkIsSuccess(s);
                 if(mFollowEmcee.getText().toString().equals(getResources().getString(R.string.follow))){
                     mFollowEmcee.setText(getResources().getString(R.string.alreadyfollow));
                 }else{
@@ -101,7 +101,7 @@ public class LiveEndFragmentDialog extends DialogFragment {
         PhoneLiveApi.getIsFollow(AppContext.getInstance().getLoginUid(),roomnum,new StringCallback() {
             @Override
             public void onSuccess(String s, Call call, Response response) {
-                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());//0：未关注1:关注
+                JSONArray res = ApiUtils.checkIsSuccess(s);//0：未关注1:关注
                 if(res != null && isAdded()){
                     try {
                         if(res.getJSONObject(0).getInt("isattent") == 0){

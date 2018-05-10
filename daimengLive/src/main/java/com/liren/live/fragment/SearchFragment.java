@@ -118,7 +118,7 @@ public class SearchFragment extends BaseFragment {
             @Override
             public void onSuccess(String s, Call call, Response response) {
                 hideWaitDialog();
-                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+                JSONArray res = ApiUtils.checkIsSuccess(s);
 
                 if (null != res) {
                     mUserList.clear();

@@ -64,7 +64,7 @@ public class SelectAreaFragment extends BaseFragment {
         PhoneLiveApi.getAreaList(new StringCallback() {
             @Override
             public void onSuccess(String s, Call call, Response response) {
-                JSONArray areaListJsonArray = ApiUtils.checkIsSuccess(response.body().toString());
+                JSONArray areaListJsonArray = ApiUtils.checkIsSuccess(s);
 
                 if(null != areaListJsonArray){
                     try {

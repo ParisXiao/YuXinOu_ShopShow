@@ -23,7 +23,7 @@ public class NearbyFragment extends ListBaseFragment {
             @Override
             public void onSuccess(String s, Call call, Response response) {
                 mSwipeRefresh.setRefreshing(false);
-                JSONArray data = ApiUtils.checkIsSuccess(response.body().toString());
+                JSONArray data = ApiUtils.checkIsSuccess(s);
                 if(data != null){
                     try {
 

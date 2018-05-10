@@ -275,7 +275,7 @@ public class UserSelectAvatarActivity extends BaseActivity {
 
                             @Override
                             public void onSuccess(String s, Call call, Response response) {
-                                final JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+                                final JSONArray res = ApiUtils.checkIsSuccess(s);
                                 if(null != res){
                                     AppContext.showToast("头像修改成功");
 

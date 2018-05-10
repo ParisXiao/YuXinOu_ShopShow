@@ -180,7 +180,7 @@ public class HomePageActivity extends BaseActivity {
         PhoneLiveApi.getHomePageUInfo(getUserID(), uid, new StringCallback() {
             @Override
             public void onSuccess(String s, Call call, Response response) {
-                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+                JSONArray res = ApiUtils.checkIsSuccess(s);
                 if (res != null) {
 
                     try {
@@ -342,7 +342,7 @@ public class HomePageActivity extends BaseActivity {
             @Override
             public void onSuccess(String s, Call call, Response response) {
                 hideWaitDialog();
-                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+                JSONArray res = ApiUtils.checkIsSuccess(s);
 
                 if (res != null) {
                     try {
@@ -367,7 +367,7 @@ public class HomePageActivity extends BaseActivity {
 
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+                        JSONArray res = ApiUtils.checkIsSuccess(s);
                         if (null == res) {
                             AppContext.showToast("操作失败");
                             return;
@@ -411,7 +411,7 @@ public class HomePageActivity extends BaseActivity {
             PhoneLiveApi.getPmUserInfo(getUserID(), mUserHomePageBean.id, new StringCallback() {
                 @Override
                 public void onSuccess(String s, Call call, Response response) {
-                    JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+                    JSONArray res = ApiUtils.checkIsSuccess(s);
                     if (null != res)
                         try {
                             UIHelper.showPrivateChatMessage(HomePageActivity.this,

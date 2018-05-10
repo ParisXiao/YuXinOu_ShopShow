@@ -58,7 +58,7 @@ public class UpdateManager {
     private StringCallback callback = new StringCallback() {
         @Override
         public void onSuccess(String s, Call call, Response response) {
-            JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+            JSONArray res = ApiUtils.checkIsSuccess(s);
             if(null != res){
                 try {
                     JSONObject config = res.getJSONObject(0);

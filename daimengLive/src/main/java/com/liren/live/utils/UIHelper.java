@@ -347,7 +347,7 @@ public class UIHelper {
                 ,AppContext.getInstance().getToken(),live.stream,live.uid, new StringCallback() {
                     @Override
                     public void onSuccess(String s, Call call, Response response) {
-                        JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+                        JSONArray res = ApiUtils.checkIsSuccess(s);
                         if (res != null) {
                             try {
                                 final JSONObject data = res.getJSONObject(0);
@@ -367,7 +367,7 @@ public class UIHelper {
 
                                                         @Override
                                                         public void onSuccess(String s, Call call, Response response) {
-                                                            JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+                                                            JSONArray res = ApiUtils.checkIsSuccess(s);
 
                                                             if(res != null){
 
@@ -408,7 +408,7 @@ public class UIHelper {
 
                                                             @Override
                                                             public void onSuccess(String s, Call call, Response response) {
-                                                                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+                                                                JSONArray res = ApiUtils.checkIsSuccess(s);
 
                                                                 if(res != null){
 

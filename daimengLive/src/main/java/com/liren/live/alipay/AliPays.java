@@ -49,7 +49,7 @@ public class AliPays {
         PhoneLiveApi.getAliPayOrderNum(uid,orderid, changeid, num, money, new StringCallback() {
             @Override
             public void onSuccess(String s, Call call, Response response) {
-                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+                JSONArray res = ApiUtils.checkIsSuccess(s);
                 if (null != res) {
                     try {
                         JSONObject data = res.getJSONObject(0);

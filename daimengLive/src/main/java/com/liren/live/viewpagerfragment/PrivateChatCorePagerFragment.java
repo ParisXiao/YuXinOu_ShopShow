@@ -195,7 +195,7 @@ public class PrivateChatCorePagerFragment extends BaseFragment {
 
         @Override
         public void onSuccess(String s, Call call, Response response) {
-            JSONArray fansJsonArr = ApiUtils.checkIsSuccess(response.body().toString());
+            JSONArray fansJsonArr = ApiUtils.checkIsSuccess(s);
 
             if(null != fansJsonArr){
                 TLog.log("[获取会话列表用户信息success]:" + fansJsonArr.toString());
@@ -271,7 +271,7 @@ public class PrivateChatCorePagerFragment extends BaseFragment {
         PhoneLiveApi.getPmUserInfo(mUser.id,messages.getFrom(), new StringCallback() {
             @Override
             public void onSuccess(String s, Call call, Response response) {
-                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+                JSONArray res = ApiUtils.checkIsSuccess(s);
                 if(null != res){
                     PrivateChatUserBean privateChatUserBean = null;
                     try {

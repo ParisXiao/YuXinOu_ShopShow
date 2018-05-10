@@ -125,7 +125,7 @@ public class SearchMusicDialogFragment extends DialogFragment {
         PhoneLiveApi.searchMusic(keyword, new StringCallback() {
             @Override
             public void onSuccess(String s, Call call, Response response) {
-                JSONArray resJson = ApiUtils.checkIsSuccess(response.body().toString());
+                JSONArray resJson = ApiUtils.checkIsSuccess(s);
 
                 if (resJson != null) {
                     mMusicList.clear();
@@ -172,7 +172,7 @@ public class SearchMusicDialogFragment extends DialogFragment {
 
             @Override
             public void onSuccess(String s, Call call, Response response) {
-                JSONArray musicFileInfoJson = ApiUtils.checkIsSuccess(response.body().toString());
+                JSONArray musicFileInfoJson = ApiUtils.checkIsSuccess(s);
                 if (musicFileInfoJson != null) {
 
                     //歌曲下载地址

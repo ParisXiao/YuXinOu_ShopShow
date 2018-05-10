@@ -105,7 +105,7 @@ public class MobileRegActivity extends BaseActivity {
         PhoneLiveApi.getMessageCode(mUserName, "Login.getCode", new StringCallback() {
             @Override
             public void onSuccess(String s, Call call, Response response) {
-                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+                JSONArray res = ApiUtils.checkIsSuccess(s);
                 if(res != null){
 
                     AppContext.showToast(getString(R.string.codehasbeensend),0);

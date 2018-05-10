@@ -130,7 +130,7 @@ public class SimpleUserInfoListActivity extends BaseActivity {
     private StringCallback callback = new StringCallback() {
         @Override
         public void onSuccess(String s, Call call, Response response) {
-            JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+            JSONArray res = ApiUtils.checkIsSuccess(s);
 
             if(mRefreshLayout.isRefreshing()){
                 pager = 2;

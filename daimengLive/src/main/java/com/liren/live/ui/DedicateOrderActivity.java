@@ -72,7 +72,7 @@ public class DedicateOrderActivity extends BaseActivity {
         PhoneLiveApi.getYpOrder(getIntent().getStringExtra("uid"), new StringCallback() {
             @Override
             public void onSuccess(String s, Call call, Response response) {
-                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+                JSONArray res = ApiUtils.checkIsSuccess(s);
 
                 if(null != res){
                     mOrderList.clear();

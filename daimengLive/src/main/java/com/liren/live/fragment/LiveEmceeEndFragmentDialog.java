@@ -83,7 +83,7 @@ public class LiveEmceeEndFragmentDialog extends DialogFragment {
 
             @Override
             public void onSuccess(String s, Call call, Response response) {
-                JSONArray res = ApiUtils.checkIsSuccess(response.body().toString());
+                JSONArray res = ApiUtils.checkIsSuccess(s);
                 if(res != null){
                     try {
                         JSONObject data = res.getJSONObject(0);
