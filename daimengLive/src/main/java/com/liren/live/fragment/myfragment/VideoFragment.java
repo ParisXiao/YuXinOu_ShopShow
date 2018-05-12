@@ -87,7 +87,6 @@ public class VideoFragment extends MyBaseFragment {
             @Override
             public void onClick(View view, VideoListAdapter.ViewName viewName, int position) {
                 if (viewName== VideoListAdapter.ViewName.ITEM){
-                    getData(list.get(position).getID());
 //                    跳转
                     Bundle bundle=new Bundle();
                     bundle.putParcelableArrayList("VideoList", (ArrayList<? extends Parcelable>) list);
@@ -97,63 +96,6 @@ public class VideoFragment extends MyBaseFragment {
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }
-            }
-        });
-    }
-    private void getData(final String commentid) {
-        Observable.create(new Observable.OnSubscribe<Integer>() {
-            @Override
-            public void call(Subscriber<? super Integer> subscriber) {
-                if (OKHttpUtils.isConllection(getContext())) {
-                    String[] key = new String[]{"commentid"};
-                    Map<String, String> map = new HashMap<String, String>();
-                    map.put("commentid", commentid);
-//                        String token = PreferenceUtils.getInstance(getActivity()).getString(UserConfig.DToken);
-                    String token = AppContext.getInstance().getToken();
-                    String result = OKHttpUtils.postData(getContext(), UrlConfig.SmallVideoInfoComments, token, key, map);
-                    Log.d("jjc",result);
-                    if (!TextUtils.isEmpty(result)) {
-                        JSONObject jsonObject;
-                        try {
-                            jsonObject = new JSONObject(result);
-                            String code = jsonObject.getString("code");
-                            if (code.equals("0")) {
-                                JSONObject jsonObject1 = new JSONObject(jsonObject.getString("result"));
-                                JSONArray jsonArray = new JSONArray(jsonObject1.getString("data"));
-                                Log.d("jjc",jsonArray.toString());
-                            } else {
-
-                            }
-
-                        } catch (JSONException e1) {
-                            // TODO Auto-generated catch block
-                            e1.printStackTrace();
-                            subscriber.onNext(4);
-                        }
-                    } else {
-                        dismisDialog();
-                        subscriber.onNext(3);
-                    }
-                } else {
-                    dismisDialog();
-                    subscriber.onNext(2);
-
-                }
-            }
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Integer>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(Integer integer) {
-
             }
         });
     }

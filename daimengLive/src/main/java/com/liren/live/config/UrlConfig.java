@@ -24,6 +24,8 @@ public class UrlConfig {
     public static String MemberPushSupplier=POST+"api/Member/MemberPushSupplier";
     //某人小视屏的评论
     public static String SmallVideoInfoComments=POST+"api/Video/SmallVideoInfoComments";
+    //添加评论
+    public static String SmallVideoInfomationCommentInsert=POST+"api/Video/SmallVideoInfomationCommentInsert";
 
 
 

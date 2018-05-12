@@ -420,9 +420,84 @@ public class VoiceActivity extends MyBaseActivity implements SuperPlayer.OnNetCh
                 comment.setVisibility(View.GONE);
                 break;
             case R.id.commentSend:
-                comment.setVisibility(View.GONE);
+                String message = commentEdit.getText().toString().trim();
+                if(message.equals("")) {
+                    Toast.makeText(VoiceActivity.this,"请输入评论内容",Toast.LENGTH_SHORT).show();
+                } else {
+                    updataMessage(message);
+                    comment.setVisibility(View.GONE);
+                }
                 break;
         }
+    }
+
+    private void updataMessage(final String message) {
+        Observable.create(new Observable.OnSubscribe<Integer>() {
+            @Override
+            public void call(Subscriber<? super Integer> subscriber) {
+                if (OKHttpUtils.isConllection( VoiceActivity.this)) {
+                    String[] key = new String[]{"videoid","commentid","context"};
+                    Map<String, String> map = new HashMap<String, String>();
+                    map.put("videoid",list.get(index).getID());
+                    map.put("commentid", list.get(index).getCommentsNum());
+                    map.put("context", message);
+//                        String token = PreferenceUtils.getInstance(getActivity()).getString(UserConfig.DToken);
+                    String token = AppContext.getInstance().getToken();
+                    String result = OKHttpUtils.postData(VoiceActivity.this, UrlConfig.SmallVideoInfomationCommentInsert, token, key, map);
+                    if (!TextUtils.isEmpty(result)) {
+                        JSONObject jsonObject;
+                        try {
+                            jsonObject = new JSONObject(result);
+                            String code = jsonObject.getString("code");
+                            if (code.equals("0")) {
+                                subscriber.onNext(1);
+//                                成功
+                            } else {
+//                                离线
+                                subscriber.onNext(2);
+                            }
+
+                        } catch (JSONException e1) {
+                            // TODO Auto-generated catch block
+                            e1.printStackTrace();
+                            subscriber.onNext(2);
+                        }
+                    } else {
+                        dismisDialog();
+                        subscriber.onNext(2);
+                    }
+                } else {
+                    dismisDialog();
+                    subscriber.onNext(2);
+
+                }
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Integer>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Integer integer) {
+                switch (integer) {
+                    case 1:
+                        Toast.makeText(VoiceActivity.this,"评论成功",Toast.LENGTH_SHORT).show();
+                        break;
+                    case 2:
+                        Toast.makeText(VoiceActivity.this,"评论失败",Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(VoiceActivity.this,"评论失败",Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
     }
 
     @OnClick(R.id.stop_exit)
