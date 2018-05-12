@@ -22,6 +22,9 @@ public class UrlConfig {
     public static String SaveSmallVideoInformation=POST+"api/Video/SaveSmallVideoInformation";
     //获取绑定的店铺
     public static String MemberPushSupplier=POST+"api/Member/MemberPushSupplier";
+    //某人小视屏的评论
+    public static String SmallVideoInfoComments=POST+"api/Video/SmallVideoInfoComments";
+
 
 
 
