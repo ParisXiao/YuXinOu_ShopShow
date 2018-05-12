@@ -43,6 +43,7 @@ public class AppContext extends BaseApplication {
 
     private String loginUid;
     private String Token;
+    private String D_Token;
     private boolean login = false;
     public static String address = "未设置定位信息";
     public static String province = "";
@@ -176,6 +177,7 @@ public class AppContext extends BaseApplication {
             login = true;
             loginUid = user.id;
             Token = user.token;
+            D_Token = user.t_ds_token;
         } else {
             this.cleanLoginInfo();
         }
@@ -262,12 +264,14 @@ public class AppContext extends BaseApplication {
     public void saveUserInfo(final UserBean user) {
         this.loginUid = user.id;
         this.Token = user.token;
+        this.D_Token = user.t_ds_token;
         this.login = true;
         setProperties(new Properties() {
             {
                 setProperty("user.uid", user.id);
                 setProperty("user.name", user.user_nicename);
                 setProperty("user.token", user.token);
+                setProperty("user.t_ds_token", user.t_ds_token);
                 setProperty("user.sign", user.signature);
                 setProperty("user.avatar", user.avatar);
 
@@ -316,6 +320,7 @@ public class AppContext extends BaseApplication {
         user.user_nicename = getProperty("user.name");
         user.signature = getProperty("user.sign");
         user.token = getProperty("user.token");
+        user.t_ds_token = getProperty("user.t_ds_token");
         user.votes = getProperty("user.votes");
         user.city = getProperty("user.city");
         user.coin = getProperty("user.coin");
@@ -343,6 +348,9 @@ public class AppContext extends BaseApplication {
 
     public String getToken() {
         return Token;
+    }
+    public String getDToken() {
+        return D_Token;
     }
 
     public boolean isLogin() {

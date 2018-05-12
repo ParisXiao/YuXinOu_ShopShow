@@ -136,7 +136,9 @@ public class ChooseSellerAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         list.addAll(items);
         notifyDataSetChanged();
     }
+    public void changeItem(int postion){
 
+    }
     /**
      * 更新加载更多状态
      *

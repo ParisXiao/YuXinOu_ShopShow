@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
     android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,6 +23,7 @@
         android:layout_alignParentBottom="true"
         android:background="@color/purple"
         android:id="@android:id/tabhost"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="50dp" />
 
@@ -30,12 +32,14 @@
     <View
         android:layout_marginBottom="50dp"
         android:layout_alignParentBottom="true"
+        android:visibility="gone"
         style="@style/h_line"/>
 
     <ImageView
         android:src="@drawable/btn_tab_live_background"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
+        android:visibility="gone"
         android:layout_width="60dp"
         android:layout_height="60dp"/>
 </RelativeLayout>

@@ -1,5 +1,6 @@
 package com.liren.live.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -11,18 +12,23 @@ import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.liren.live.AppConfig;
+import com.liren.live.AppContext;
+import com.liren.live.AppManager;
 import com.liren.live.R;
 import com.liren.live.adapter.NewestAdapter;
 import com.liren.live.api.remote.ApiUtils;
 import com.liren.live.api.remote.PhoneLiveApi;
 import com.liren.live.base.BaseFragment;
 import com.liren.live.bean.LiveJson;
+import com.liren.live.ui.logicactivity.NewLoginActivity;
 import com.liren.live.utils.UIHelper;
 import com.liren.live.widget.SpaceRecycleView;
 import com.lzy.okhttputils.OkHttpUtils;
 import com.lzy.okhttputils.callback.StringCallback;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +37,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Response;
+
+import static com.liren.live.api.remote.ApiUtils.TOKEN_TIMEOUT;
 
 /**
  * 首页最新直播
@@ -101,6 +109,49 @@ public class NewestFragment extends BaseFragment implements SwipeRefreshLayout.O
         mRefresh.setColorSchemeColors(getResources().getColor(R.color.global));
         mRefresh.setOnRefreshListener(this);
     }
+    private   JSONArray checkNewSuccess(String res){
+        JSONObject resJson = null;
+        String newRes;
+        try {
+            resJson = new JSONObject(res);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            newRes= res.substring(res.lastIndexOf("ret")-2);
+            try {
+                resJson = new JSONObject(newRes);
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
+        }
+        try {
+            if(Integer.parseInt(resJson.getString("ret")) == 200){
+                JSONObject dataJson =  resJson.getJSONObject("data");
+                String code = dataJson.getString("code");
+                if(code.equals(TOKEN_TIMEOUT)){
+
+                    AppManager.getAppManager().finishAllActivity();
+                    Intent intent = new Intent(AppContext.getInstance(), NewLoginActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    AppContext.getInstance().startActivity(intent);
+
+                    return null;
+
+                }else if(!code.equals("0")){
+                    AppContext.showToast(dataJson.get("msg").toString());
+                    //Toast.makeText(AppContext.getInstance(),dataJson.get("msg").toString(),Toast.LENGTH_LONG).show();
+                    return null;
+                }else {
+                    return dataJson.getJSONArray("info");
+                }
+            }else{
+                return null;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
 
     //最新主播数据请求
     private void requestData() {
@@ -113,7 +164,7 @@ public class NewestFragment extends BaseFragment implements SwipeRefreshLayout.O
                     mUserList.clear();
                 }
 
-                JSONArray res = ApiUtils.checkIsSuccess(s);
+                JSONArray res = checkNewSuccess(s);
 
                 if (null != res) {
 

@@ -13,6 +13,9 @@ import com.hyphenate.chat.EMClient;
 import com.liren.live.api.remote.ApiUtils;
 import com.liren.live.api.remote.PhoneLiveApi;
 import com.liren.live.ui.MainActivity;
+import com.liren.live.ui.SplashActivity;
+import com.liren.live.ui.logicactivity.MyMainActivity;
+import com.liren.live.utils.PreferenceUtils;
 import com.liren.live.utils.SharedPreUtil;
 import com.liren.live.utils.UIHelper;
 import com.lzy.okhttputils.callback.StringCallback;
@@ -99,7 +102,12 @@ public class AppStart extends Activity {
      * 跳转到...
      */
     private void redirectTo() {
-
+        if (!PreferenceUtils.getInstance(AppStart.this).getBoolean("APPFirst",false)){
+            Intent intent=new Intent(AppStart.this, SplashActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
         if(!AppContext.getInstance().isLogin()){
 
             UIHelper.showLoginSelectActivity(this);
@@ -109,7 +117,7 @@ public class AppStart extends Activity {
 
         EMClient.getInstance().groupManager().loadAllGroups();
         EMClient.getInstance().chatManager().loadAllConversations();
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, MyMainActivity.class);
         startActivity(intent);
         finish();
     }

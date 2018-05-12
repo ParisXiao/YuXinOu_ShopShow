@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rl_live_root"
+   >
+    <android.opengl.GLSurfaceView
+        android:id="@+id/camera_preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/view_live_content">
+
+        <include
+            layout="@layout/view_live_content"/>
+        <RelativeLayout
+            android:layout_width="@dimen/x200"
+            android:layout_height="@dimen/y200"
+            android:layout_below="@+id/ll_top_menu"
+            android:layout_marginTop="@dimen/y89"
+            android:background="@drawable/live_shop_small_bg"
+
+            >
+            <RelativeLayout
+                android:id="@+id/live_product"
+                android:layout_width="@dimen/x170"
+                android:layout_height="@dimen/y170"
+                android:layout_centerInParent="true"
+                >
+                <ImageView
+                    android:id="@+id/live_product_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@mipmap/ic_launcher"
+                    android:scaleType="fitXY"
+                    />
+                <TextView
+                    android:id="@+id/live_product_coin"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/y44"
+                    android:layout_alignParentBottom="true"
+                    android:background="#ef6423"
+                    android:textColor="@color/white"
+                    android:text="￥998.00"
+                    android:gravity="center"
+                    />
+            </RelativeLayout>
+        </RelativeLayout>
+            <!--歌词提示start-->
+        <include  layout="@layout/view_live_music_lrc"/>
+            <!--歌词提示end-->
+
+
+            <!--底部菜单-->
+        <include layout="@layout/view_show_start_shoplive_button_menu"/>
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_voice"
+    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.liren.live.ui.logicactivity.VoiceActivity">
@@ -17,7 +18,7 @@
             android:id="@+id/movie_super_player"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true"></com.superplayer.library.SuperPlayer>
+            ></com.superplayer.library.SuperPlayer>
     </com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout>
     <RelativeLayout
         android:layout_marginTop="@dimen/y80"
@@ -115,7 +116,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:src="@mipmap/shoucang" />
+                android:src="@mipmap/pinglun" />
 
             <TextView
                 android:id="@+id/num_pinlun"

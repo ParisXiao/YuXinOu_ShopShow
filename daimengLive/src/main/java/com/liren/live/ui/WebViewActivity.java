@@ -96,7 +96,7 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
             // For Android > 5.0
             public boolean onShowFileChooser (WebView webView, ValueCallback<Uri[]> uploadMsg, WebChromeClient.FileChooserParams fileChooserParams) {
 
-                openFileChooserImplForAndroid5(uploadMsg);
+//                openFileChooserImplForAndroid5(uploadMsg);
                 return true;
             }
 

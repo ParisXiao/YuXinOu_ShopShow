@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_background">
+
+    <LinearLayout
+        android:id="@+id/rootview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <!--头部-->
+        <include layout="@layout/fragment_user_information_head" />
+
+        <com.liren.live.ui.customviews.LineControllerView
+            android:id="@+id/ll_contribute"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/lcv_ui_set"
+            android:layout_marginTop="10dp"
+            app:canNav="true"
+            app:isBottom="true"
+            app:name="@string/Contribute" />
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="@color/colorGray3" />
+
+        <com.liren.live.ui.customviews.LineControllerView
+            android:id="@+id/ll_fans"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/lcv_ui_set"
+            android:layout_marginTop="10dp"
+            app:canNav="true"
+            app:isBottom="true"
+            app:name="@string/my_fans" />
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="@color/colorGray3" />
+
+        <com.liren.live.ui.customviews.LineControllerView
+            android:id="@+id/ll_follow"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/lcv_ui_set"
+            app:canNav="true"
+            app:isBottom="true"
+            app:name="@string/my_follow" />
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="@color/colorGray3" />
+
+        <com.liren.live.ui.customviews.LineControllerView
+            android:id="@+id/ll_live_record"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/lcv_ui_set"
+            app:canNav="true"
+            app:isBottom="true"
+            app:name="@string/live_record" />
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorGray3" />
+
+        <com.liren.live.ui.customviews.LineControllerView
+            android:id="@+id/ll_number_id"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/lcv_ui_set"
+            app:isBottom="true"
+            app:name="@string/user_id" />
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:background="@color/colorGray3" />
+
+        <com.liren.live.ui.customviews.LineControllerView
+            android:id="@+id/ll_profit"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/lcv_ui_set"
+            app:canNav="true"
+            app:isBottom="true"
+            app:name="@string/message" />
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="@color/colorGray3" />
+
+        <com.liren.live.ui.customviews.LineControllerView
+            android:id="@+id/ll_diamonds"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/ll_profit"
+            app:canNav="true"
+            app:isBottom="true" />
+
+        <com.liren.live.ui.customviews.LineControllerView
+            android:id="@+id/ll_vipuser"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/ll_diamonds"
+            app:canNav="true"
+            app:isBottom="true"
+            app:name="@string/vipuser" />
+
+        <com.liren.live.ui.customviews.LineControllerView
+            android:id="@+id/ll_level"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/ll_diamonds"
+            app:canNav="true"
+            app:isBottom="true"
+            app:name="@string/blog" />
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="@color/colorGray3" />
+
+        <com.liren.live.ui.customviews.LineControllerView
+            android:id="@+id/ll_authenticate"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/lcv_ui_set"
+            android:layout_marginTop="10dp"
+            app:canNav="true"
+            app:isBottom="true"
+            app:name="@string/authenticate" />
+
+        <com.liren.live.ui.customviews.LineControllerView
+            android:id="@+id/ll_about"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/ll_authenticate"
+            app:canNav="true"
+            app:isBottom="true"
+            app:name="关于我们" />
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="@color/colorGray3" />
+
+        <com.liren.live.ui.customviews.LineControllerView
+            android:id="@+id/ll_setting"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/lcv_ui_set"
+            app:canNav="true"
+            app:isBottom="true"
+            app:name="@string/team" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="60dp" />
+    </LinearLayout>
+
+</ScrollView>

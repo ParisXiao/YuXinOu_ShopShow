@@ -1,6 +1,5 @@
 package com.liren.live.video.common.activity.videopreview;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -15,17 +14,23 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.liren.live.AppContext;
 import com.liren.live.R;
 import com.liren.live.config.UrlConfig;
 import com.liren.live.config.UserConfig;
@@ -33,6 +38,7 @@ import com.liren.live.utils.OKHttpUtils;
 import com.liren.live.utils.PreferenceUtils;
 import com.liren.live.video.common.utils.FileUtils;
 import com.liren.live.video.common.utils.TCConstants;
+import com.liren.live.video.common.widget.CustomProgressDialog;
 import com.liren.live.video.videoupload.TXUGCPublish;
 import com.liren.live.video.videoupload.TXUGCPublishTypeDef;
 import com.tencent.rtmp.ITXLivePlayListener;
@@ -46,6 +52,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -60,7 +69,7 @@ import rx.schedulers.Schedulers;
  * Created by carolsuo on 2017/3/21.
  */
 
-public class TCVideoPreviewActivity extends Activity implements View.OnClickListener, ITXLivePlayListener {
+public class TCVideoPreviewActivity extends FragmentActivity implements View.OnClickListener, ITXLivePlayListener {
     public static final String TAG = "TCVideoPreviewActivity";
 
     private int mVideoSource; // 视频来源
@@ -88,7 +97,8 @@ public class TCVideoPreviewActivity extends Activity implements View.OnClickList
     private long mVideoDuration;
     //录制界面传过来的视频分辨率
     private int mVideoResolution;
-    private String Signature="";
+    private String Signature = "";
+    private CustomProgressDialog mCustomProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +129,11 @@ public class TCVideoPreviewActivity extends Activity implements View.OnClickList
             Glide.with(this).load(Uri.fromFile(new File(mCoverImagePath)))
                     .into(mImageViewBg);
         }
+
+        mCustomProgressDialog = new CustomProgressDialog();
+        mCustomProgressDialog.createLoadingDialog(this, "");
+        mCustomProgressDialog.setCancelable(false); // 设置是否可以通过点击Back键取消
+        mCustomProgressDialog.setCanceledOnTouchOutside(false); // 设置在点击Dialog外是否取消Dialog进度条
 
         mTXLivePlayer = new TXLivePlayer(this);
         mTXPlayConfig = new TXLivePlayConfig();
@@ -159,6 +174,7 @@ public class TCVideoPreviewActivity extends Activity implements View.OnClickList
         getSignCode();
     }
 
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -185,7 +201,7 @@ public class TCVideoPreviewActivity extends Activity implements View.OnClickList
                 }
                 break;
             case R.id.video_publish:
-                publish();
+                showPush();
                 break;
             case R.id.record_to_edit:
                 startEditVideo();
@@ -215,7 +231,8 @@ public class TCVideoPreviewActivity extends Activity implements View.OnClickList
             finish();
         }
     }
-    private void getSignCode(){
+
+    private void getSignCode() {
         Observable.create(new Observable.OnSubscribe<Integer>() {
 
             @Override
@@ -223,15 +240,17 @@ public class TCVideoPreviewActivity extends Activity implements View.OnClickList
                 if (OKHttpUtils.isConllection(TCVideoPreviewActivity.this)) {
                     String[] key = new String[]{};
                     Map<String, String> map = new HashMap<String, String>();
-                    String token= PreferenceUtils.getInstance(TCVideoPreviewActivity.this).getString(UserConfig.DToken);
-                    String result = OKHttpUtils.postData(TCVideoPreviewActivity.this, UrlConfig.GetSignature, token,"", key, map);
+//                    String token = PreferenceUtils.getInstance(TCVideoPreviewActivity.this).getString(UserConfig.DToken);
+                    String token = AppContext.getInstance().getToken();
+//                    String token ="0210b22418b65984d44462a6165dd9d3" ;
+                    String result = OKHttpUtils.postData(TCVideoPreviewActivity.this, UrlConfig.GetSignature, token, key, map);
                     if (!TextUtils.isEmpty(result)) {
                         JSONObject jsonObject;
                         try {
                             jsonObject = new JSONObject(result);
                             String code = jsonObject.getString("code");
                             if (code.equals("0")) {
-                                Signature=jsonObject.getString("result");
+                                Signature = jsonObject.getString("result");
                             } else {
                                 subscriber.onNext(0);
                             }
@@ -241,7 +260,7 @@ public class TCVideoPreviewActivity extends Activity implements View.OnClickList
                             e1.printStackTrace();
                             subscriber.onNext(0);
                         }
-                    }else {
+                    } else {
                         subscriber.onNext(0);
                     }
                 } else {
@@ -274,7 +293,8 @@ public class TCVideoPreviewActivity extends Activity implements View.OnClickList
 
 
     }
-//    private void publish() {
+
+    //    private void publish() {
 //        stopPlay(false);
 //        Intent intent = new Intent(getApplicationContext(), TCVideoPublisherActivity.class);
 //        intent.putExtra(TCConstants.VIDEO_RECORD_TYPE, TCConstants.VIDEO_RECORD_TYPE_PLAY);
@@ -283,6 +303,40 @@ public class TCVideoPreviewActivity extends Activity implements View.OnClickList
 //        startActivity(intent);
 //        finish();
 //    }
+    private String title="德玛西亚";
+
+    private void showPush() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View v = inflater.inflate(R.layout.dialog_video_push, null);
+        final EditText edit_title = (EditText) v.findViewById(R.id.edit_title);
+        LinearLayout video_push = (LinearLayout) v.findViewById(R.id.video_push);
+        final Dialog dialog = builder.create();
+        dialog.show();
+        dialog.getWindow().setContentView(v);//自定义布局应该在这里添加，要在dialog.show()的后面
+        //dialog.getWindow().setGravity(Gravity.CENTER);//可以设置显示的位置
+        //只用下面这一行弹出对话框时需要点击输入框才能弹出软键盘
+        dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
+//加上下面这一行弹出对话框时软键盘随之弹出
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        video_push.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                title = edit_title.getText().toString().trim();
+                if (TextUtils.isEmpty(title)) {
+                    Toast.makeText(TCVideoPreviewActivity.this, "请编辑视频标题", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                mCustomProgressDialog.show();
+                publish();
+                dialog.dismiss();
+            }
+        });
+
+
+    }
 
     private void publish() {
         stopPlay(false);
@@ -290,14 +344,120 @@ public class TCVideoPreviewActivity extends Activity implements View.OnClickList
         txugcPublish.setListener(new TXUGCPublishTypeDef.ITXVideoPublishListener() {
             @Override
             public void onPublishProgress(long uploadBytes, long totalBytes) {
-                TXLog.d(TAG, "onPublishProgress [" + uploadBytes + "/" + totalBytes +"]");
+                TXLog.d(TAG, "onPublishProgress [" + uploadBytes + "/" + totalBytes + "]");
             }
 
             @Override
-            public void onPublishComplete(TXUGCPublishTypeDef.TXPublishResult result) {
-                TXLog.d(TAG, "onPublishComplete [" + result.retCode + "/" + (result.retCode == 0? result.videoURL: result.descMsg) +"]");
-                Toast.makeText(TCVideoPreviewActivity.this,"上传成功",Toast.LENGTH_SHORT).show();
-                finish();
+            public void onPublishComplete(final TXUGCPublishTypeDef.TXPublishResult result) {
+                TXLog.d(TAG, "onPublishComplete [" + result.retCode + "/" + (result.retCode == 0 ? result.videoURL : result.descMsg) + "]");
+                if (result.retCode == 0) {
+
+                    final String[] msg = new String[1];
+                    Observable.create(new Observable.OnSubscribe<Integer>() {
+
+                        @Override
+                        public void call(Subscriber<? super Integer> subscriber) {
+                            if (OKHttpUtils.isConllection(TCVideoPreviewActivity.this)) {
+                                File file = new File(mCoverImagePath);
+                                FileInputStream inputFile = null;
+                                String img = "";
+                                try {
+                                    inputFile = new FileInputStream(file);
+                                    byte[] buffer = new byte[(int) file.length()];
+                                    inputFile.read(buffer);
+                                    inputFile.close();
+                                    img = Base64.encodeToString(buffer, Base64.DEFAULT);
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+
+                                String[] key = new String[]{"ReleaseID", "VideoName","WhetherHot","Lng","Lat","ReleaseAddress","VideoPath","VideoImagePath"};
+                                Map<String, String> map = new HashMap<String, String>();
+                                map.put("ReleaseID", "15273");
+                                map.put("VideoName", title);
+                                map.put("WhetherHot", "");
+                                map.put("Lng", "");
+                                map.put("Lat", "");
+                                map.put("ReleaseAddress", "");
+                                map.put("VideoPath", result.videoURL);
+                                map.put("VideoImagePath", img);
+                                String sign = "Lat"+""+"Lng"+""+"ReleaseAddress"+""+"ReleaseID" + "15273" + "VideoName" + title + "VideoPath" + result.videoURL + "VideoImagePath" + img+"WhetherHot"+"";
+//                                String token = PreferenceUtils.getInstance(getActivity()).getString(UserConfig.DToken);
+//                                String token ="0210b22418b65984d44462a6165dd9d3" ;
+                                String token = AppContext.getInstance().getToken();
+                                String result = OKHttpUtils.postData(TCVideoPreviewActivity.this, UrlConfig.SaveSmallVideoInformation, token, key, map);
+
+                                if (!TextUtils.isEmpty(result)) {
+                                    JSONObject jsonObject;
+                                    try {
+                                        jsonObject = new JSONObject(result);
+                                        String code = jsonObject.getString("code");
+                                        msg[0] = jsonObject.getString("desc");
+                                        if (code.equals("0")) {
+                                            subscriber.onNext(0);
+//                                成功
+
+                                        } else {
+                                            subscriber.onNext(1);
+//                                离线
+
+                                        }
+
+                                    } catch (JSONException e1) {
+                                        // TODO Auto-generated catch block
+                                        e1.printStackTrace();
+                                    }
+                                } else {
+//                                    mWorkLoadingProgress.dismiss();
+//                                    mWorkLoadingProgress.setProgress(0);
+                                    subscriber.onNext(3);
+                                }
+                            } else {
+//                                mWorkLoadingProgress.dismiss();
+//                                mWorkLoadingProgress.setProgress(0);
+                                subscriber.onNext(2);
+                            }
+                        }
+                    }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Integer>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(Integer integer) {
+                            switch (integer) {
+                                case 0:
+                                    mCustomProgressDialog.dismiss();
+                                    finish();
+                                    Toast.makeText(TCVideoPreviewActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
+                                    break;
+                                case 1:
+                                    mCustomProgressDialog.dismiss();
+                                    Toast.makeText(TCVideoPreviewActivity.this, msg[0], Toast.LENGTH_SHORT).show();
+                                    break;
+                                case 2:
+                                    mCustomProgressDialog.dismiss();
+                                    Toast.makeText(TCVideoPreviewActivity.this, "网络异常，请检查网络设置", Toast.LENGTH_SHORT).show();
+                                    break;
+                                case 3:
+                                    mCustomProgressDialog.dismiss();
+                                    Toast.makeText(TCVideoPreviewActivity.this, "服务器异常", Toast.LENGTH_SHORT).show();
+
+                                    break;
+                            }
+                        }
+                    });
+                }
+
+
             }
         });
 
@@ -346,10 +506,10 @@ public class TCVideoPreviewActivity extends Activity implements View.OnClickList
 
     private void downloadRecord() {
         File file = new File(mVideoPath);
-        File newFile=null;
+        File newFile = null;
         if (file.exists()) {
             try {
-                newFile= new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath() + File.separator + file.getName());
+                newFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath() + File.separator + file.getName());
 //                if (!newFile.exists()) {
 //                    newFile = new File(getExternalFilesDir(Environment.DIRECTORY_DCIM).getPath() + File.separator + file.getName());
 //                }
@@ -369,7 +529,7 @@ public class TCVideoPreviewActivity extends Activity implements View.OnClickList
                 e.printStackTrace();
                 return;
             }
-            Toast.makeText(TCVideoPreviewActivity.this,"已保存在"+newFile.getPath(),Toast.LENGTH_LONG).show();
+            Toast.makeText(TCVideoPreviewActivity.this, "已保存在" + newFile.getPath(), Toast.LENGTH_LONG).show();
         }
     }
 

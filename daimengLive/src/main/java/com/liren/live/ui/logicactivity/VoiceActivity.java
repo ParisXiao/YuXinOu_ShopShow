@@ -14,15 +14,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.liren.live.AppContext;
 import com.liren.live.R;
 import com.liren.live.adapter.CommentAdapter;
 import com.liren.live.base.MyBaseActivity;
 import com.liren.live.bean.AreaBean;
 import com.liren.live.config.UrlConfig;
-import com.liren.live.config.UserConfig;
 import com.liren.live.entity.VideoListEntity;
 import com.liren.live.utils.OKHttpUtils;
-import com.liren.live.utils.PreferenceUtils;
 import com.liren.live.widget.CircleImageView;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayout;
 import com.omadahealth.github.swipyrefreshlayout.library.SwipyRefreshLayoutDirection;
@@ -251,8 +250,8 @@ public class VoiceActivity extends MyBaseActivity implements SuperPlayer.OnNetCh
                     map.put("pageindex", pageindex + "");
                     map.put("pagerows", "20");
                     String sign = "pageindex" + pageindex + "pagerows" + "20";
-                    String token = PreferenceUtils.getInstance(VoiceActivity.this).getString(UserConfig.DToken);
-                    String result = OKHttpUtils.postData(VoiceActivity.this, UrlConfig.SelHotVideo, token, sign, key, map);
+                    String token = AppContext.getInstance().getToken();
+                    String result = OKHttpUtils.postData(VoiceActivity.this, UrlConfig.SelHotVideo, token, key, map);
                     if (!TextUtils.isEmpty(result)) {
                         JSONObject jsonObject;
                         try {

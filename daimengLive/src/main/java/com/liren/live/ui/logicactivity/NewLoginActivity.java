@@ -11,14 +11,22 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.liren.live.AppContext;
 import com.liren.live.R;
+import com.liren.live.api.remote.ApiUtils;
+import com.liren.live.api.remote.PhoneLiveApi;
 import com.liren.live.base.MyBaseActivity;
+import com.liren.live.bean.UserBean;
 import com.liren.live.config.UrlConfig;
 import com.liren.live.config.UserConfig;
+import com.liren.live.utils.LoginUtils;
 import com.liren.live.utils.OKHttpUtils;
 import com.liren.live.utils.PhoneUtils;
 import com.liren.live.utils.PreferenceUtils;
+import com.lzy.okhttputils.callback.StringCallback;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,6 +36,8 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Call;
+import okhttp3.Response;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -76,12 +86,20 @@ public class NewLoginActivity extends MyBaseActivity {
         Typeface fontFace = Typeface.createFromAsset(getAssets(),
                 "fonts/FZCQJT.TTF");
         appname.setTypeface(fontFace);
-    }
 
+        //第一次打开应用
+        PreferenceUtils.getInstance(NewLoginActivity.this).saveBoolean("APPFirst",true);
+
+    }
+    boolean isLogin=false;
     @OnClick({R.id.btn_login, R.id.register, R.id.back_pwd})
     void onclick(View v) {
         switch (v.getId()) {
             case R.id.btn_login:
+                if (isLogin){
+                    return;
+                }
+
                 String phone = editPhone.getText().toString().trim();
                 String password = editPwd.getText().toString().trim();
                 if (TextUtils.isEmpty(phone)) {
@@ -97,7 +115,10 @@ public class NewLoginActivity extends MyBaseActivity {
                     showToast(getResources().getString(R.string.plase_fill_in_pass));
                     return;
                 }
-                submitLogin(phone, password);
+                isLogin=true;
+                showLoadDialog("正在登录...");
+                PhoneLiveApi.login(phone, password, callback);
+//                submitLogin(phone, password);
                 break;
             case R.id.register:
                 Intent intent = new Intent(NewLoginActivity.this, RegisterActivity.class);
@@ -109,7 +130,35 @@ public class NewLoginActivity extends MyBaseActivity {
                 break;
         }
     }
+    //登录回调
+    private final StringCallback callback = new StringCallback() {
+        @Override
+        public void onSuccess(String s, Call call, Response response) {
+            dismisDialog();
+            isLogin=false;
+            JSONArray requestRes = ApiUtils.checkIsSuccess(s);
+            if (requestRes != null) {
+                PreferenceUtils.getInstance(NewLoginActivity.this).saveString(UserConfig.UserPhone, editPhone.getText().toString().trim());
+                Gson gson = new Gson();
+                try {
 
+                    UserBean user = gson.fromJson(requestRes.getString(0), UserBean.class);
+
+                    AppContext.getInstance().saveUserInfo(user);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            LoginUtils.getInstance().OtherInit(NewLoginActivity.this);
+                        }
+                    }).start();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        }
+    };
     @Override
     protected void initData() {
 
@@ -120,6 +169,7 @@ public class NewLoginActivity extends MyBaseActivity {
         super.onResume();
         if (!TextUtils.isEmpty(PreferenceUtils.getInstance(NewLoginActivity.this).getString(UserConfig.UserPhone))) {
             editPhone.setText(PreferenceUtils.getInstance(NewLoginActivity.this).getString(UserConfig.UserPhone));
+            editPwd.setText("");
         }
     }
 
@@ -149,7 +199,7 @@ public class NewLoginActivity extends MyBaseActivity {
                                 JSONObject jsonObject1 = new JSONObject(jsonObject.getString("result"));
                                 PreferenceUtils.getInstance(NewLoginActivity.this).saveString(UserConfig.DToken, jsonObject1.getString("d_token"));
                                 PreferenceUtils.getInstance(NewLoginActivity.this).saveString(UserConfig.ZToken, jsonObject1.getString("z_token"));
-                                PreferenceUtils.getInstance(NewLoginActivity.this).saveString(UserConfig.UserPhone, phone);
+
                                 PreferenceUtils.getInstance(NewLoginActivity.this).saveString(UserConfig.UserPwd, passward);
                                 subscriber.onNext(0);
 //                                成功
@@ -221,7 +271,7 @@ public class NewLoginActivity extends MyBaseActivity {
                     String[] key = new String[]{"code", "pwd"};
                     Map<String, String> map = new HashMap<String, String>();
                     String token = PreferenceUtils.getInstance(NewLoginActivity.this).getString(UserConfig.DToken);
-                    String result = OKHttpUtils.postData(NewLoginActivity.this, UrlConfig.SelPagesForPC, token, "", key, map);
+                    String result = OKHttpUtils.postData(NewLoginActivity.this, UrlConfig.SelPagesForPC, token,  key, map);
                     if (!TextUtils.isEmpty(result)) {
                         JSONObject jsonObject;
                         try {

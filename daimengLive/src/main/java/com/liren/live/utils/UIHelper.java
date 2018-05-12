@@ -29,9 +29,7 @@ import com.liren.live.ui.DedicateOrderActivity;
 import com.liren.live.ui.EditInfoActivity;
 import com.liren.live.ui.HomePageActivity;
 import com.liren.live.ui.LiveRecordActivity;
-import com.liren.live.ui.MainActivity;
 import com.liren.live.ui.MobileFindPassActivity;
-import com.liren.live.ui.MobileLoginActivity;
 import com.liren.live.ui.MobileRegActivity;
 import com.liren.live.ui.RtmpPlayerActivity;
 import com.liren.live.ui.SettingActivity;
@@ -45,6 +43,8 @@ import com.liren.live.ui.UserProfitActivity;
 import com.liren.live.ui.UserSelectAvatarActivity;
 import com.liren.live.ui.WebViewActivity;
 import com.liren.live.ui.dialog.LiveCommon;
+import com.liren.live.ui.logicactivity.MyMainActivity;
+import com.liren.live.ui.logicactivity.NewLoginActivity;
 import com.lzy.okhttputils.callback.StringCallback;
 
 import org.json.JSONArray;
@@ -75,7 +75,7 @@ public class UIHelper {
      */
 
     public static void showMobilLogin(Context context) {
-        Intent intent = new Intent(context, MobileLoginActivity.class);
+        Intent intent = new Intent(context, NewLoginActivity.class);
         context.startActivity(intent);
     }
 
@@ -121,7 +121,7 @@ public class UIHelper {
         Intent intent = new Intent();
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
                 Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.setClass(context, MainActivity.class);
+        intent.setClass(context, MyMainActivity.class);
         //Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);
 
@@ -505,4 +505,5 @@ public class UIHelper {
 
                 });
     }
+
 }

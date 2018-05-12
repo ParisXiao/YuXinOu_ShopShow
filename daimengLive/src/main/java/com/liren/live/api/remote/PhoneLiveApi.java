@@ -1,5 +1,7 @@
 package com.liren.live.api.remote;
 
+import android.text.TextUtils;
+
 import com.liren.live.AppConfig;
 import com.liren.live.AppContext;
 import com.liren.live.bean.GiftBean;
@@ -375,8 +377,8 @@ public class PhoneLiveApi {
         OkHttpUtils.get(AppConfig.MAIN_URL_API)
                 .url(AppConfig.MAIN_URL_API)
                 .params("service", "Home.getNew")
-                .params("lng", AppContext.lng)
-                .params("lat", AppContext.lat)
+                .params("lng", TextUtils.isEmpty(AppContext.lng)?"106.55":AppContext.lng)
+                .params("lat", TextUtils.isEmpty(AppContext.lat)?"29.57":AppContext.lat)
                 .params("p", String.valueOf(pager))
                 .tag("getNewestUserList")
                 .execute(callback);

@@ -138,7 +138,7 @@ public class LiveRecordActivity extends BaseActivity {
     private StringCallback callback = new StringCallback() {
         @Override
         public void onSuccess(String s, Call call, Response response) {
-            JSONArray res = ApiUtils.checkIsSuccess(s));
+            JSONArray res = ApiUtils.checkIsSuccess(s);
             if(swipeRefreshLayout.isRefreshing()){
                 pager = 2;
                 mRecordList.clear();

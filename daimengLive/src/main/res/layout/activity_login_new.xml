@@ -80,6 +80,8 @@
                 android:hint="请输入手机号"
                 android:textColor="@color/black"
                 android:textColorHint="#d1d1d1"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
                 android:textSize="@dimen/x28" />
 
             <View
@@ -100,13 +102,13 @@
                 android:textColor="#333333"
                 android:textSize="@dimen/x26" />
 
-            <ImageView
-                android:layout_width="@dimen/x24"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/x40"
-                android:src="@mipmap/xiala" />
+            <!--<ImageView-->
+                <!--android:layout_width="@dimen/x24"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_marginRight="@dimen/x40"-->
+                <!--android:src="@mipmap/xiala" />-->
 
             <View
                 android:layout_width="match_parent"
@@ -139,6 +141,8 @@
                 android:gravity="center_vertical"
                 android:hint="请输入密码"
                 android:inputType="textPassword"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
                 android:textColor="@color/black"
                 android:textColorHint="#d1d1d1"
                 android:textSize="@dimen/x28" />

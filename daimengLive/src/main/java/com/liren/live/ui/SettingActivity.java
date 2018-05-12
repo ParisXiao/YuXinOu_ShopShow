@@ -1,14 +1,15 @@
 package com.liren.live.ui;
 
+import android.content.Intent;
 import android.view.View;
 
 import com.liren.live.AppConfig;
 import com.liren.live.AppContext;
-import com.liren.live.AppManager;
 import com.liren.live.R;
 import com.liren.live.base.BaseActivity;
 import com.liren.live.ui.customviews.ActivityTitle;
 import com.liren.live.ui.customviews.LineControllerView;
+import com.liren.live.ui.logicactivity.NewLoginActivity;
 import com.liren.live.utils.LoginUtils;
 import com.liren.live.utils.TDevice;
 import com.liren.live.utils.UIHelper;
@@ -59,7 +60,10 @@ public class SettingActivity extends BaseActivity {
         {
             case R.id.ll_login_out:
                 LoginUtils.outLogin(this);
-                AppManager.getAppManager().finishAllActivity();
+//                AppManager.getAppManager().finishAllActivity();
+                Intent intent=new Intent(SettingActivity.this, NewLoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
                 finish();
                 break;
             //房间设置

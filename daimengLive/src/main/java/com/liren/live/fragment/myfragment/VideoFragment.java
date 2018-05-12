@@ -14,17 +14,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.liren.live.AppContext;
 import com.liren.live.R;
 import com.liren.live.adapter.myadapter.VideoListAdapter;
 import com.liren.live.base.MyBaseFragment;
 import com.liren.live.config.UrlConfig;
-import com.liren.live.config.UserConfig;
 import com.liren.live.entity.VideoListEntity;
 import com.liren.live.ui.empty.MyEmptyLayout;
 import com.liren.live.ui.logicactivity.VoiceActivity;
 import com.liren.live.utils.GridSpacingItemDecoration;
 import com.liren.live.utils.OKHttpUtils;
-import com.liren.live.utils.PreferenceUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -154,8 +153,9 @@ public class VideoFragment extends MyBaseFragment {
                         map.put("pageindex", pageindex + "");
                         map.put("pagerows", "20");
                         String sign = "pageindex" + pageindex + "pagerows" + "20";
-                        String token = PreferenceUtils.getInstance(getActivity()).getString(UserConfig.DToken);
-                        String result = OKHttpUtils.postData(getActivity(), UrlConfig.SelHotVideo, token, sign, key, map);
+//                        String token = PreferenceUtils.getInstance(getActivity()).getString(UserConfig.DToken);
+                        String token = AppContext.getInstance().getToken();
+                        String result = OKHttpUtils.postData(getActivity(), UrlConfig.SelHotVideo, token, key, map);
                         if (!TextUtils.isEmpty(result)) {
                             JSONObject jsonObject;
                             try {

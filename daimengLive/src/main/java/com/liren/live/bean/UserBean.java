@@ -11,6 +11,7 @@ public class UserBean extends SimpleUserInfo implements Parcelable {
     public String birthday;
     public String coin;
     public String token;
+    public String t_ds_token;
     public String votes;
     public String consumption;
     public String uType;
@@ -27,6 +28,7 @@ public class UserBean extends SimpleUserInfo implements Parcelable {
         dest.writeString(this.birthday);
         dest.writeString(this.coin);
         dest.writeString(this.token);
+        dest.writeString(this.t_ds_token);
         dest.writeString(this.votes);
         dest.writeString(this.consumption);
         dest.writeString(this.uType);
@@ -41,6 +43,7 @@ public class UserBean extends SimpleUserInfo implements Parcelable {
         this.birthday = in.readString();
         this.coin = in.readString();
         this.token = in.readString();
+        this.t_ds_token = in.readString();
         this.votes = in.readString();
         this.consumption = in.readString();
         this.uType = in.readString();

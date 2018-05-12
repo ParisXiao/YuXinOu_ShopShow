@@ -9,14 +9,17 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.hyphenate.util.NetUtils;
 import com.liren.live.AppContext;
 import com.liren.live.R;
 import com.liren.live.api.remote.ApiUtils;
 import com.liren.live.api.remote.PhoneLiveApi;
 import com.liren.live.base.MyBaseActivity;
+import com.liren.live.bean.UserBean;
 import com.liren.live.config.UrlConfig;
 import com.liren.live.config.UserConfig;
+import com.liren.live.utils.LoginUtils;
 import com.liren.live.utils.OKHttpUtils;
 import com.liren.live.utils.PhoneUtils;
 import com.liren.live.utils.PreferenceUtils;
@@ -62,6 +65,7 @@ public class RegisterActivity extends MyBaseActivity {
     @BindView(R.id.register_send_code)
     TextView registerSendCode;
     private TimeCount time;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_register;
@@ -78,14 +82,22 @@ public class RegisterActivity extends MyBaseActivity {
     public void initData() {
 
     }
-    @OnClick({R.id.register_send_code,R.id.register})
-    public void registerClick(View v){
-        String phone=registerPhone.getText().toString().trim();
-        String code=registerCode.getText().toString().trim();
-        String pwd=registerPwd.getText().toString().trim();
-        String pwdAgain=registerPwdAgain.getText().toString().trim();
-        switch (v.getId()){
+
+    boolean isSend = false;
+    boolean isReg = false;
+
+    @OnClick({R.id.register_send_code, R.id.register})
+    public void registerClick(View v) {
+        String phone = registerPhone.getText().toString().trim();
+        String code = registerCode.getText().toString().trim();
+        String pwd = registerPwd.getText().toString().trim();
+        String pwdAgain = registerPwdAgain.getText().toString().trim();
+        switch (v.getId()) {
             case R.id.register_send_code:
+                if (isSend) {
+                    return;
+                }
+
                 if (TextUtils.isEmpty(phone)) {
                     showToast("请输入手机号码");
                     return;
@@ -94,15 +106,20 @@ public class RegisterActivity extends MyBaseActivity {
                     showToast(getResources().getString(R.string.plase_error_in_phone));
                     return;
                 }
-                if(!NetUtils.hasNetwork(RegisterActivity.this)){
-                    AppContext.showToast("请检查网络设置",0);
+                if (!NetUtils.hasNetwork(RegisterActivity.this)) {
+                    AppContext.showToast("请检查网络设置", 0);
                     return;
                 }
+                isSend = true;
                 time.start();
                 requestGetMessageCode();
                 break;
             case R.id.register:
-                if (TextUtils.isEmpty(code)) {
+                if (isReg) {
+                    return;
+                }
+
+                if (TextUtils.isEmpty(phone)) {
                     showToast("请输入手机号码");
                     return;
                 }
@@ -110,7 +127,7 @@ public class RegisterActivity extends MyBaseActivity {
                     showToast(getResources().getString(R.string.plase_error_in_phone));
                     return;
                 }
-                if (TextUtils.isEmpty(phone)) {
+                if (TextUtils.isEmpty(code)) {
                     showToast("请输入验证码");
                     return;
                 }
@@ -118,7 +135,7 @@ public class RegisterActivity extends MyBaseActivity {
                     showToast("请输入密码");
                     return;
                 }
-                if (pwd.length()<6&&pwd.length()>12){
+                if (pwd.length() < 6 && pwd.length() > 12) {
                     showToast("请输入6至12位长度密码");
                     return;
                 }
@@ -126,32 +143,124 @@ public class RegisterActivity extends MyBaseActivity {
                     showToast("请再次输入密码");
                     return;
                 }
-                if (!pwd.equals(pwdAgain)){
+                if (!pwd.equals(pwdAgain)) {
                     showToast("两次输入密码不同");
                     return;
                 }
-                registerPost(phone,pwd);
+//                registerPost(phone,pwd);
+                isReg = true;
+                showLoadDialog("正在注册...");
+                PhoneLiveApi.reg(phone, pwd, pwdAgain, code, callback);
+
                 break;
+
         }
 
     }
+
+    //注册回调
+    private final StringCallback callback = new StringCallback() {
+        @Override
+        public void onSuccess(String s, Call call, Response response) {
+
+
+            JSONArray requestRes = ApiUtils.checkIsSuccess(s);
+            if (requestRes != null) {
+                Gson gson = new Gson();
+                PreferenceUtils.getInstance(RegisterActivity.this).saveString(UserConfig.UserPhone,registerPhone.getText().toString().trim());
+//                try {
+//                    final JSONObject  jsonObject=new JSONObject( requestRes.getString(0));
+//
+//                    //环信注册
+//                    new Thread() {
+//                        @Override
+//                        public void run() {
+//                            String uid = null;
+//                            try {
+//                                uid = jsonObject.getString("uid");
+//
+//                            } catch (JSONException e) {
+//                                e.printStackTrace();
+//                            }
+//                            try {
+//                                EMClient.getInstance().createAccount(String.valueOf(uid), "yuehuanglive" + uid);//同步方法
+//                                TLog.log("环信[注册成功]");
+//                            } catch (HyphenateException e) {
+//                                int errorCode = e.getErrorCode();
+//                                TLog.log("环信[注册失败]" + errorCode);
+//                                e.printStackTrace();
+//                            } finally {
+//                                UIHelper.showMainActivity(RegisterActivity.this);
+//                                finish();
+//                            }
+//
+//                        }
+//                    }.start();
+//                    //保存推送状态
+//                    SharedPreUtil.put(RegisterActivity.this, "isOpenPush", true);
+//                    UserBean user = gson.fromJson(requestRes.getString(0), UserBean.class);
+                    //保存用户信息
+//                    AppContext.getInstance().saveUserInfo(user);
+                    finish();
+//                    LoginUtils.getInstance().OtherInit(RegisterActivity.this);
+//                    PhoneLiveApi.login(registerPhone.getText().toString(), registerPwd.getText().toString(), loginCallback);
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+
+            } else {
+                isReg = false;
+                dismisDialog();
+            }
+        }
+
+    };
+    //登录回调
+    private final StringCallback loginCallback = new StringCallback() {
+        @Override
+        public void onSuccess(String s, Call call, Response response) {
+            dismisDialog();
+            isReg = false;
+            JSONArray requestRes = ApiUtils.checkIsSuccess(s);
+            if (requestRes != null) {
+                PreferenceUtils.getInstance(RegisterActivity.this).saveString(UserConfig.UserPhone, registerPhone.getText().toString().trim());
+                Gson gson = new Gson();
+                try {
+
+                    UserBean user = gson.fromJson(requestRes.getString(0), UserBean.class);
+
+                    AppContext.getInstance().saveUserInfo(user);
+
+                    LoginUtils.getInstance().OtherInit(RegisterActivity.this);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        }
+    };
+
     //获取验证码
     private void requestGetMessageCode() {
         PhoneLiveApi.getMessageCode(registerPhone.getText().toString().trim(), "Login.getCode", new StringCallback() {
             @Override
             public void onSuccess(String s, Call call, Response response) {
                 JSONArray res = ApiUtils.checkIsSuccess(s);
-                if(res != null){
+                isSend = false;
+                if (res != null) {
 
-                    AppContext.showToast(getString(R.string.codehasbeensend),0);
+                    AppContext.showToast(getString(R.string.codehasbeensend), 0);
                 }
             }
 
 
         });
     }
+
     private String msg;
-    private void registerPost(final String phone, final String passward){
+
+    private void registerPost(final String phone, final String passward) {
         showLoadDialog("正在注册...");
         Observable.create(new Observable.OnSubscribe<Integer>() {
 
@@ -173,8 +282,8 @@ public class RegisterActivity extends MyBaseActivity {
                             if (code.equals("0")) {
                                 dismisDialog();
                                 subscriber.onNext(0);
-                                PreferenceUtils.getInstance(RegisterActivity.this).saveString(UserConfig.UserPhone,phone);
-                                PreferenceUtils.getInstance(RegisterActivity.this).saveString(UserConfig.UserPwd,passward);
+                                PreferenceUtils.getInstance(RegisterActivity.this).saveString(UserConfig.UserPhone, phone);
+                                PreferenceUtils.getInstance(RegisterActivity.this).saveString(UserConfig.UserPwd, passward);
 //                                成功
 
                             } else {
@@ -188,7 +297,7 @@ public class RegisterActivity extends MyBaseActivity {
                             // TODO Auto-generated catch block
                             e1.printStackTrace();
                         }
-                    }else {
+                    } else {
                         dismisDialog();
                         subscriber.onNext(3);
                     }
@@ -228,6 +337,7 @@ public class RegisterActivity extends MyBaseActivity {
             }
         });
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -250,7 +360,7 @@ public class RegisterActivity extends MyBaseActivity {
         @Override
         public void onTick(long millisUntilFinished) {// 计时过程
             registerSendCode.setClickable(false);//防止重复点击
-            registerSendCode.setBackgroundColor(getResources().getColor(R.color.red));
+            registerSendCode.setTextColor(getResources().getColor(R.color.red));
             registerSendCode.setText(millisUntilFinished / 1000 + "秒重新发送");
         }
     }

@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -18,19 +19,29 @@ import android.widget.Toast;
 
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
+import com.liren.live.AppConfig;
 import com.liren.live.AppContext;
 import com.liren.live.R;
+import com.liren.live.api.remote.ApiUtils;
+import com.liren.live.api.remote.PhoneLiveApi;
 import com.liren.live.base.BackHandledInterface;
 import com.liren.live.base.MyBaseActivity;
 import com.liren.live.base.MyBaseFragment;
 import com.liren.live.fragment.myfragment.HomeFragment;
 import com.liren.live.fragment.myfragment.KaiBoFragment;
 import com.liren.live.fragment.myfragment.LiveFragment;
-import com.liren.live.fragment.myfragment.ShopFragment;
+import com.liren.live.fragment.myfragment.UserInforFragment;
 import com.liren.live.fragment.myfragment.VideoFragment;
+import com.liren.live.utils.LoginUtils;
+import com.liren.live.utils.SharedPreUtil;
 import com.liren.live.utils.TLog;
 import com.liren.live.utils.UIHelper;
 import com.liren.live.widget.BlackTextView;
+import com.lzy.okhttputils.callback.StringCallback;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Set;
 
@@ -38,6 +49,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.TagAliasCallback;
+import okhttp3.Call;
+import okhttp3.Response;
 
 /**
  * Created by Administrator on 2018/5/5 0005.
@@ -169,7 +182,9 @@ public class MyMainActivity extends MyBaseActivity implements BackHandledInterfa
                         kaibo.setChecked(false);
                         toolbar.setVisibility(View.VISIBLE);
                         mainDaohang.setVisibility(View.VISIBLE);
-                        add(new ShopFragment(), R.id.container_fragment, "MINE");
+                        add(new UserInforFragment(), R.id.container_fragment, "USETINFO");
+//                        Intent intent=new Intent(MyMainActivity.this,CommonLiveActivity.class);
+//                        startActivity(intent);
                         toolbarTitle.setText("个人中心");
                         home.setTextColor(getResources().getColor(R.color.text_gray));
                         live.setTextColor(getResources().getColor(R.color.text_gray));
@@ -180,8 +195,53 @@ public class MyMainActivity extends MyBaseActivity implements BackHandledInterfa
                 }
             }
         });
+
+        //检查token是否过期
+        checkTokenIsOutTime();
+        //注册极光推送
+        registerJpush();
+        //登录环信
+        loginIM();
+        //更新信息
+        updateConfig();
+        initAMap();
+    }
+    private void updateConfig() {
+
+        if(!TextUtils.isEmpty(SharedPreUtil.getString(this,"config_temp"))){
+
+            try {
+                fillConfigData(new JSONObject(SharedPreUtil.getString(this,"config_temp")));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return;
+        }
+        PhoneLiveApi.getConfig(new StringCallback() {
+            @Override
+            public void onSuccess(String s, Call call, Response response) {
+                JSONArray res = ApiUtils.checkIsSuccess(s);
+                if(res != null){
+                    try {
+
+                        fillConfigData(res.getJSONObject(0));
+                        SharedPreUtil.put(MyMainActivity.this,"config_temp",res.getString(0));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+
+        });
     }
 
+    private void fillConfigData(JSONObject data) throws JSONException {
+        AppConfig.TICK_NAME     = data.getString("name_votes");
+        AppConfig.CURRENCY_NAME = data.getString("name_coin");
+        AppConfig.JOIN_ROOM_ANIMATION_LEVEL = data.getInt("enter_tip_level");
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -226,14 +286,17 @@ public class MyMainActivity extends MyBaseActivity implements BackHandledInterfa
         currentFragment = fragment;
         currentFragment.setUserVisibleHint(true);
     }
-
+    //检查token是否过期
+    private void checkTokenIsOutTime() {
+        LoginUtils.tokenIsOutTime(null);
+    }
     /**
      *
      * 直播初始化
      */
     //登录环信即时聊天
     private void loginIM() {
-        String uid = String.valueOf("111");
+        String uid = String.valueOf(getUserID());
 
         EMClient.getInstance().login(uid,
                 "yuehuanglive" + uid,new EMCallBack() {//回调
@@ -282,6 +345,11 @@ public class MyMainActivity extends MyBaseActivity implements BackHandledInterfa
                 });
 
     }
+    protected String getUserID()
+    {
+        return AppContext.getInstance().getLoginUid();
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {

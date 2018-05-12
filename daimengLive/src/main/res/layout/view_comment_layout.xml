@@ -40,7 +40,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"
-        android:layout_height="@dimen/y78">
+        android:layout_height="@dimen/y78"
+
+        >
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_weight="3"
@@ -59,6 +61,7 @@
                 android:background="@null"
                 android:gravity="center_vertical"
                 android:hint="说点什么"
+                android:paddingLeft="@dimen/x10"
                 android:singleLine="true"
                 android:textColor="#999999"
                 android:textColorHint="#999999"

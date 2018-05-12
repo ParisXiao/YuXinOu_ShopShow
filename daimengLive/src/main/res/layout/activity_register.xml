@@ -61,6 +61,8 @@
                 android:id="@+id/register_phone"
                 android:layout_width="match_parent"
                 android:background="@null"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
                 android:textColorHint="#d1d1d1"
                 android:textSize="@dimen/x28"
                 android:textColor="@color/black"
@@ -86,13 +88,13 @@
                 android:textColor="#333333"
                 android:text="+86"
                 android:layout_height="match_parent" />
-            <ImageView
-                android:layout_width="@dimen/x24"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/x40"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/xiala"
-                android:layout_height="wrap_content" />
+            <!--<ImageView-->
+                <!--android:layout_width="@dimen/x24"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_marginRight="@dimen/x40"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:src="@mipmap/xiala"-->
+                <!--android:layout_height="wrap_content" />-->
             <View
                 android:layout_width="match_parent"
                 android:background="#d1d1d1"
@@ -116,6 +118,8 @@
                 android:background="@null"
                 android:textColorHint="#d1d1d1"
                 android:textSize="@dimen/x28"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
                 android:textColor="@color/black"
                 android:gravity="center_vertical"
                 android:layout_centerVertical="true"
@@ -159,6 +163,8 @@
                 android:textSize="@dimen/x28"
                 android:textColor="@color/black"
                 android:gravity="center_vertical"
+                android:singleLine="true"
+                android:imeOptions="actionNext"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/x110"
                 android:layout_marginRight="@dimen/x40"
@@ -197,6 +203,8 @@
                 android:layout_marginRight="@dimen/x40"
                 android:hint="请再次输入密码"
                 android:inputType="textPassword"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
                 android:layout_height="match_parent" />
 
 

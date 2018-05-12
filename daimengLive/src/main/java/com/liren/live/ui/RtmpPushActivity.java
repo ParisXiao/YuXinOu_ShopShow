@@ -13,6 +13,7 @@ import android.opengl.GLSurfaceView;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatSeekBar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -141,7 +142,9 @@ public class RtmpPushActivity extends ShowLiveActivityBase implements SearchMusi
         
         mStreamName = getIntent().getStringExtra("stream");
         
+//        rtmpPushAddress = "rtmp://22895.livepush.myqcloud.com/live/22895_8888?bizid=22895&txSecret=2dede0438aead32642b7983e444e6076&txTime=5B101BFF";
         rtmpPushAddress = getIntent().getStringExtra("push");
+        Log.e("RTMP",getIntent().getStringExtra("push"));
         mTvLiveNum.setText(String.format(Locale.CHINA,"%d人观看",IMControl.LIVE_USER_NUMS));
         
         mTvYpNum.setText(getIntent().getStringExtra("votestotal"));

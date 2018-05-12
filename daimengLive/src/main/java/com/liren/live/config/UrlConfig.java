@@ -18,6 +18,10 @@ public class UrlConfig {
     public static String SelHotRoom=POST+"api/LiveRoom/SelHotRoom";
     //获取热门小视频
     public static String SelHotVideo=POST+"api/Video/SelHotVideo";
+    //上传小视频
+    public static String SaveSmallVideoInformation=POST+"api/Video/SaveSmallVideoInformation";
+    //获取绑定的店铺
+    public static String MemberPushSupplier=POST+"api/Member/MemberPushSupplier";
 
 
 

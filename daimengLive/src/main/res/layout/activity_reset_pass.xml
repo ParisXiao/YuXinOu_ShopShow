@@ -82,13 +82,13 @@
                 android:textColor="#333333"
                 android:text="+86"
                 android:layout_height="match_parent" />
-            <ImageView
-                android:layout_width="@dimen/x24"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/x40"
-                android:layout_centerVertical="true"
-                android:src="@mipmap/xiala"
-                android:layout_height="wrap_content" />
+            <!--<ImageView-->
+                <!--android:layout_width="@dimen/x24"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_marginRight="@dimen/x40"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:src="@mipmap/xiala"-->
+                <!--android:layout_height="wrap_content" />-->
             <View
                 android:layout_width="match_parent"
                 android:background="#d1d1d1"

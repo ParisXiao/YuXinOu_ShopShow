@@ -1,7 +1,5 @@
 package com.liren.live.ui;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,9 +13,12 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 
-import com.liren.live.adapter.ViewPagerGuideAdapter;
-import com.liren.live.utils.SharedPreUtil;
 import com.liren.live.R;
+import com.liren.live.adapter.ViewPagerGuideAdapter;
+import com.liren.live.ui.logicactivity.NewLoginActivity;
+import com.liren.live.utils.SharedPreUtil;
+
+import java.util.ArrayList;
 
 
 /**
@@ -117,7 +118,7 @@ public class SplashActivity  extends Activity implements OnClickListener,
                    public void run() {
 
                        SharedPreUtil.put(getApplicationContext(), "IS_FIRST_USE", false);
-                       Intent intent = new Intent(SplashActivity.this, SelectLoginActivity.class);
+                       Intent intent = new Intent(SplashActivity.this, NewLoginActivity.class);
                        startActivity(intent);
                        finish();
 
