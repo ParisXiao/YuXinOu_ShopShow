@@ -172,7 +172,7 @@
                 android:layout_height="match_parent"
                 android:background="#4Dffffff"
                 android:textColor="@color/black"
-                android:text="传视频" />
+                android:text="短视频" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 

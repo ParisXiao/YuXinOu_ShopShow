@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import com.liren.live.R;
 import com.liren.live.base.MyBaseFragment;
 import com.liren.live.ui.logicactivity.ChooseSellerActivity;
+import com.liren.live.ui.logicactivity.EducationDirectBroadcastActivity;
 import com.liren.live.utils.UIHelper;
 import com.liren.live.video.shortvideo.choose.TCVideoChooseActivity;
 import com.liren.live.video.videorecord.TCVideoSettingActivity;
@@ -97,6 +98,9 @@ public class KaiBoFragment extends MyBaseFragment {
                 startActivity(intent);
                 break;
             case R.id.jiaoyu:
+                Intent intent2=new Intent(getActivity(), EducationDirectBroadcastActivity.class);
+                intent2.putExtra("LiveType",1);
+                startActivity(intent2);
                 break;
             case R.id.putong:
                 UIHelper.showRtmpPushActivity(getActivity(),0);

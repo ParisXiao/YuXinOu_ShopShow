@@ -120,6 +120,7 @@
     <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\daimengLive\libs\ShareSDK-QZone-2.7.7.jar:unspecified@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="com.android.support.test:exposed-instrumentation-api-publish-0.5" level="project" />
     <orderEntry type="library" name="com.google.code.gson:gson:2.8.0@jar" level="project" />
+    <orderEntry type="library" name="com.anthonycr.grant:permissions-1.1.2" level="project" />
     <orderEntry type="library" name="__local_aars__:D.\MyWork\ZhiBo\YuXinOu_ShopShow\daimengLive\libs\MobTools-2016.0830.1940.jar:unspecified@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="com.squareup:javawriter:2.1.1@jar" level="project" />
     <orderEntry type="library" name="io.reactivex:rxandroid-1.2.1" level="project" />

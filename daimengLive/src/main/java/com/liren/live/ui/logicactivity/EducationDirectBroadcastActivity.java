@@ -58,10 +58,15 @@ public class EducationDirectBroadcastActivity extends MyBaseActivity {
 
     @Override
     public void initView() {
+        toolbarBack.setVisibility(View.GONE);
+
         LiveType = getIntent().getIntExtra("LiveType", 0);
         if (LiveType == 0) {
             passPate.setVisibility(View.GONE);
             className.setHint("请填写直播标题");
+            toolbarTitle.setText("电商直播");
+        }else {
+            toolbarTitle.setText("教育直播");
         }
     }
 

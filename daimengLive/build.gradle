@@ -136,6 +136,6 @@ dependencies {
     //强大的RecyclerAdapter框架
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
     compile project(path: ':superplayerlibrary')
-
+    compile 'com.anthonycr.grant:permissions:latest.integration'
 
 }

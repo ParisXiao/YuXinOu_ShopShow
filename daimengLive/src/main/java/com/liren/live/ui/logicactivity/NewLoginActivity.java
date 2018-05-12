@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.anthonycr.grant.PermissionsManager;
+import com.anthonycr.grant.PermissionsResultAction;
 import com.google.gson.Gson;
 import com.liren.live.AppContext;
 import com.liren.live.R;
@@ -161,7 +164,21 @@ public class NewLoginActivity extends MyBaseActivity {
     };
     @Override
     protected void initData() {
+//Android 6.0及以上并且targetSdkVersion 23及以上,摄像头和麦克风权限需要用代码请求
+        //这里使用第三方的权限管理库来请求
+        PermissionsManager.getInstance().requestAllManifestPermissionsIfNecessary(this,
+                new PermissionsResultAction() {
+                    @Override
+                    public void onGranted() {
+                        Log.e("result", "onGranted===> ");
 
+                    }
+
+                    @Override
+                    public void onDenied(String permission) {
+                        Log.e("result", "onDenied===> " + permission);
+                    }
+                });
     }
 
     @Override

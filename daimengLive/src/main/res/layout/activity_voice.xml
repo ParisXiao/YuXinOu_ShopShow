@@ -79,6 +79,18 @@
             android:id="@+id/stop_exit"
             />
     </RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/video_title"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:layout_marginLeft="20dp"
+        android:layout_above="@+id/bottomTolk"
+        android:text="视频标题"
+        android:maxLines="2"
+        android:layout_marginBottom="@dimen/y20"
+        />
     <LinearLayout
         android:id="@+id/bottomTolk"
         android:layout_width="match_parent"

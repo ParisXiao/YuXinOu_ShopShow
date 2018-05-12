@@ -172,7 +172,7 @@ public class MyMainActivity extends MyBaseActivity implements BackHandledInterfa
                         toolbar.setVisibility(View.VISIBLE);
                         mainDaohang.setVisibility(View.VISIBLE);
                         add(new VideoFragment(), R.id.container_fragment, "VIDEO");
-                        toolbarTitle.setText("小视频");
+                        toolbarTitle.setText("短视频");
                         home.setTextColor(getResources().getColor(R.color.text_gray));
                         live.setTextColor(getResources().getColor(R.color.text_gray));
                         video.setTextColor(getResources().getColor(R.color.tab_red));
