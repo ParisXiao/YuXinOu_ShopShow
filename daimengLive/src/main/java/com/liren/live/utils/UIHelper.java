@@ -44,6 +44,7 @@ import com.liren.live.ui.UserSelectAvatarActivity;
 import com.liren.live.ui.WebViewActivity;
 import com.liren.live.ui.dialog.LiveCommon;
 import com.liren.live.ui.logicactivity.MyMainActivity;
+import com.liren.live.ui.logicactivity.MyVoiceActivity;
 import com.liren.live.ui.logicactivity.NewLoginActivity;
 import com.lzy.okhttputils.callback.StringCallback;
 
@@ -214,6 +215,15 @@ public class UIHelper {
      */
     public static void showSetting(Context context) {
         Intent intent = new Intent(context, SettingActivity.class);
+        context.startActivity(intent);
+    }
+    /**
+     * 设置
+     *
+     * @return
+     */
+    public static void showMyVoice(Context context) {
+        Intent intent = new Intent(context, MyVoiceActivity.class);
         context.startActivity(intent);
     }
     /**

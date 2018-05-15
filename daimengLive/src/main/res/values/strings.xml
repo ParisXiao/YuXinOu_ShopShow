@@ -280,4 +280,5 @@
     <string name="bank_name">支行名字</string>
     <string name="put_bank_name">请输入你的支行名字</string>
     <string name="next">下一步</string>
+    <string name="live_myvoice">我的小视频</string>
 </resources>

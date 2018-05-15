@@ -26,6 +26,8 @@ public class UrlConfig {
     public static String SmallVideoInfoComments=POST+"api/Video/SmallVideoInfoComments";
     //添加评论
     public static String SmallVideoInfomationCommentInsert=POST+"api/Video/SmallVideoInfomationCommentInsert";
+    //我的小视屏的所有列表
+    public static String SmallVideoInfoSelectVideo=POST+"api/Video/SmallVideoInfoSelectVideo";
 
 
 

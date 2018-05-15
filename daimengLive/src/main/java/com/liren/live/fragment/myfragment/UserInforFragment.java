@@ -124,6 +124,7 @@ public class UserInforFragment extends MyBaseFragment  implements View.OnClickLi
         view.findViewById(R.id.ll_number_id).setOnClickListener(this);
         view.findViewById(R.id.ll_vipuser).setOnClickListener(this);
         view.findViewById(R.id.ll_contribute).setOnClickListener(this);
+        view.findViewById(R.id.ll_live_myvoice).setOnClickListener(this);
         ((LineControllerView) view.findViewById(R.id.ll_diamonds)).setName("我的" + "充值");
     }
 
@@ -230,6 +231,10 @@ public class UserInforFragment extends MyBaseFragment  implements View.OnClickLi
             //复制id
             case R.id.ll_number_id:
                 TDevice.copyTextToBoard(mInfo.id);
+                break;
+            //查看我的视频
+            case R.id.ll_live_myvoice:
+                UIHelper.showMyVoice(getContext());
                 break;
 
             default:

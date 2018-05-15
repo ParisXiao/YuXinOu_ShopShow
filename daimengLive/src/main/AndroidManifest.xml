@@ -129,6 +129,9 @@
             android:name=".video.play.LivePlayerActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".ui.logicactivity.MyVoiceActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".video.videorecord.TCVideoRecordActivity"
             android:configChanges="keyboardHidden|orientation|screenSize" />
         <activity

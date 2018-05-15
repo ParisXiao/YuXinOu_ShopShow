@@ -67,6 +67,19 @@
             app:canNav="true"
             app:isBottom="true"
             app:name="@string/live_record" />
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="@color/colorGray3" />
+
+        <com.liren.live.ui.customviews.LineControllerView
+            android:id="@+id/ll_live_myvoice"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/lcv_ui_set"
+            app:canNav="true"
+            app:isBottom="true"
+            app:name="@string/live_myvoice" />
 
         <View
             android:layout_width="1px"
